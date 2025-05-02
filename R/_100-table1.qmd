@@ -1,0 +1,22 @@
+
+
+```{r}
+basil_df <- readRDS(here::here("RData", "045-basil_redcap.rds"))
+n46 <- readRDS(here::here("RData", "030-n46.rds"))
+```
+
+# Table 1
+
+```{r}
+#| tbl-cap: "Descriptive statistics of the RS sample"
+#| label: tbl-table1
+
+basil_df %>%
+  left_join(n46, by = c("studyid" = "studyid")) %>%
+  filter(n46 == 1) %>%
+  select(-studyid, -n46) %>%
+  labelled::to_factor() %>%
+  gtsummary::tbl_summary(by = vdsite,
+                         type = list(c(vdeduc) ~ "continuous")) %>%
+  gtsummary::add_overall()
+```

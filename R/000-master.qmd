@@ -1,0 +1,44 @@
+---
+title: "BASIL Reference Standard (Clinical Assessor)"
+author: "Doug Tommet and Rich Jones for Anna MacKay-Brandt, Tamara G Fong, and the BASIL-II team"
+date: '`r Sys.Date()`'
+format:
+  html:
+    self-contained: true
+    toc: true
+    toc-location: left
+    toc-depth: 3
+    toc-title: "Contents"
+    toc-expand: true
+    toc-floating: true
+execute:
+    echo: false
+    warning: false
+    messages: false
+---
+
+<!--- Describe aims of manuscript, extracted from -->
+<!--- GDoc https://docs.google.com/document/d/1GPIzetmxAJxbsQnpXG5_sj9buN0inlTDNljtyg4V1vE/edit?usp=sharing -->
+
+
+<!--- Run subroutines in R -->
+```{r setup-routines}
+#| eval: true
+
+source(here::here("R", "-010-libraries.R"))
+source(here::here("R", "-020-folder-file-locations.R"))
+source(here::here("R", "-030-pull-rs-data.R"))
+source(here::here("R", "-040-pull-other-data.R"))
+source(here::here("R", "-045-munge-other-data.R"))
+source(here::here("R", "-050-munge-data.R"))
+# source(here::here("R", "-100-table1.R"))
+```
+
+{{< include _001a-Section_01_Aims_of_manuscript.qmd >}}
+
+{{< include _001b-Section_02_Whats_new_today.qmd >}}
+
+{{< include _001c-Section_03_Data_handling_notes.qmd >}}
+
+{{< include _100-table1.qmd >}}
+

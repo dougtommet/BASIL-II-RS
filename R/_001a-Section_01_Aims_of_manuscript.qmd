@@ -1,0 +1,17 @@
+## Aims of manuscript:
+
+1.  Describe clinical assessor inter-rater reliability for *delirium severity* ratings:
+
+    a.  Overall agreement among clinical assessors
+
+        i.  Before consensus meeting *(for generalizability - this is the result that is \[more or less\] generalizable to other research studies using a single clinical rater for delirium)*
+
+        ii. After consensus meeting *(this is the result that describes the reliability of the clinical assessor rating of delirium in the BASIL-II study)*.
+
+    b.  Variability in agreement as a function delirium severity (Bland-Altman plots)
+
+2.  Explore if there are *delirium features* that are associated with delirium severity inter-rater agreement (e.g., features present include Inattention, Disorganized Thinking, Altered Level of Consciousness, Disorientation, Memory Impairment, Perceptual Disturbances, Psychomotor Agitation, Psychomotor Retardation, Altered Sleep-Wake, Inappropriate Behavior, Delusions).
+
+3.  Explore if there are *patient characteristics* that may influence delirium severity inter-rater agreement (e.g., pre-acute cognitive status (NC, MCI, Dementia), three distinct study sites: (1) acute medical inpatients; (2) scheduled surgical inpatients, and (3) long-term and post-acute care residents; informant (family member/friend, nurse, CNA), pre-acute depression)
+
+Note: Aims of manuscript copied from Statistical Analysis Plan ([GDoc](https://docs.google.com/document/d/1GPIzetmxAJxbsQnpXG5_sj9buN0inlTDNljtyg4V1vE/edit?usp=sharing))

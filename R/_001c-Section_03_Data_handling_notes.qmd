@@ -1,0 +1,214 @@
+## Data handling notes
+
+**RS ratings and their updates given consensus**
+
+We assume that when a rating appears with an arrow, e.g, "9 -\> 6", this means that the rating was updated from 9 to 6 after the consensus process.
+
+**Dementia severity ratings**
+
+RS adjudication dementia severity categories were provided as 5 text labels. We have ordered these into 5 numeric categories with the following ordering (see `new_order`):
+
+| Freq. | Numeric | New Order | Labels provided                                         |
+|------:|:-------:|:---------:|:--------------------------------------------------------|
+|    79 |    3    |     0     | no dementia (equivalent to no neurocognitive disorder)  |
+|    81 |    5    |     1     | very mild (equivalent to minor neurocognitive disorder) |
+|    89 |    1    |     2     | mild                                                    |
+|    63 |    2    |     3     | moderate                                                |
+|     8 |    4    |     4     | severe                                                  |
+
+Note: `Freq`-uency is the number of 320 adjudcations among 46 participants. `Numeric` is the oder assigned to the provided text labels in `Labels provided`, and are sorted alphabetically. `New Order` is the order we have assigned to the numeric labels, and is used in the analysis.
+
+**Codebook listing**
+
+```         
+------------------------------------------------------------------------------------
+studyid                                                                  (unlabeled)
+------------------------------------------------------------------------------------
+
+                  Type: String (str7)
+
+         Unique values: 46                        Missing "": 0/320
+
+              Examples: "DB43364"
+                        "TN60081"
+                        "TN60363"
+                        "UF50103"
+
+------------------------------------------------------------------------------------
+rsadjname                                                                Adjudicator
+------------------------------------------------------------------------------------
+
+                  Type: String (str20)
+
+         Unique values: 7                         Missing "": 0/320
+
+            Tabulation: Freq.  Value
+                           46  "Anna MacKay-Brandt"
+                           46  "Benjamin Chapin"
+                           46  "Cate Price"
+                           46  "Juliana Burt"
+                           46  "Kerry Palihnich"
+                           44  "Rebecca Avila-Rieger"
+                           46  "Wingyun Mak"
+
+               Warning: Variable has embedded blanks.
+
+------------------------------------------------------------------------------------
+rsadjdate                                                                       Date
+------------------------------------------------------------------------------------
+
+                  Type: Numeric daily date (int)
+
+                 Range: [23408,23621]                 Units: 1
+       Or equivalently: [02feb2024,02sep2024]         Units: days
+         Unique values: 11                        Missing .: 0/320
+
+                  Mean: 23546.3 = 19jun2024(+ 8 hours)
+             Std. dev.: 65.6891
+           Percentiles:       10%        25%        50%        75%        90%
+                            23436      23499      23576      23604      23621
+                        01mar2024  03may2024  19jul2024  16aug2024  02sep2024
+
+------------------------------------------------------------------------------------
+deliriumpresence_1n                                      Delirium Presence (initial)
+------------------------------------------------------------------------------------
+
+                  Type: Numeric (long)
+                 Label: deliriumpresence_1n
+
+                 Range: [1,2]                         Units: 1
+         Unique values: 2                         Missing .: 0/320
+
+            Tabulation: Freq.   Numeric  Label
+                          179         1  no
+                          141         2  yes
+
+------------------------------------------------------------------------------------
+deliriumpresence_2n                                    Delirium Presence (consensus)
+------------------------------------------------------------------------------------
+
+                  Type: Numeric (long)
+                 Label: deliriumpresence_2n
+
+                 Range: [1,2]                         Units: 1
+         Unique values: 2                         Missing .: 0/320
+
+            Tabulation: Freq.   Numeric  Label
+                          174         1  no
+                          146         2  yes
+
+------------------------------------------------------------------------------------
+deliriumseverity_1n                                      Delirium Severity (initial)
+------------------------------------------------------------------------------------
+
+                  Type: Numeric (long)
+                 Label: deliriumseverity_1n
+
+                 Range: [1,11]                        Units: 1
+         Unique values: 11                        Missing .: 0/320
+
+              Examples: 1     0
+                        2     1
+                        5     4
+                        7     5
+
+------------------------------------------------------------------------------------
+deliriumseverity_2n                                    Delirium Severity (consensus)
+------------------------------------------------------------------------------------
+
+                  Type: Numeric (long)
+                 Label: deliriumseverity_2n
+
+                 Range: [1,13]                        Units: 1
+         Unique values: 13                        Missing .: 0/320
+
+              Examples: 1     0
+                        2     1
+                        5     4
+                        9     6
+```
+
+**Question(s)** Is the 1-13 scale really correct? These are CAM-S scores? CAM-S scores do potentially range from 0-19, with 19 being the most severe.
+
+```         
+
+------------------------------------------------------------------------------------
+ncdpresence_1n                                                NCD Presence (initial)
+------------------------------------------------------------------------------------
+
+                  Type: Numeric (long)
+                 Label: ncd_status
+
+                 Range: [1,3]                         Units: 1
+         Unique values: 3                         Missing .: 0/320
+
+            Tabulation: Freq.   Numeric  Label
+                           80         1  no NCD
+                           84         2  Minor NCD
+                          156         3  Major NCD
+
+------------------------------------------------------------------------------------
+ncdpresence_2n                                              NCD Presence (consensus)
+------------------------------------------------------------------------------------
+
+                  Type: Numeric (long)
+                 Label: ncd_status
+
+                 Range: [1,3]                         Units: 1
+         Unique values: 3                         Missing .: 0/320
+
+            Tabulation: Freq.   Numeric  Label
+                           76         1  no NCD
+                           78         2  Minor NCD
+                          166         3  Major NCD
+
+------------------------------------------------------------------------------------
+dementiaseverity_1n                                      Dementia Severity (initial)
+------------------------------------------------------------------------------------
+
+                  Type: Numeric (long)
+                 Label: cogn_status
+
+                 Range: [0,4]                         Units: 1
+         Unique values: 5                         Missing .: 0/320
+
+            Tabulation: Freq.   Numeric  Label
+                           79         0  no dementia
+                           81         1  very mild (Minor NCD)
+                           89         2  mild
+                           63         3  moderate
+                            8         4  severe
+
+------------------------------------------------------------------------------------
+dementiaseverity_2n                                    Dementia Severity (consensus)
+------------------------------------------------------------------------------------
+
+                  Type: Numeric (long)
+                 Label: cogn_status
+
+                 Range: [0,4]                         Units: 1
+         Unique values: 5                         Missing .: 0/320
+
+            Tabulation: Freq.   Numeric  Label
+                           76         0  no dementia
+                           77         1  very mild (Minor NCD)
+                          100         2  mild
+                           57         3  moderate
+                           10         4  severe
+```
+
+```         
+    Variable        |        Obs       Mean    sd       Min        Max
+--------------------+---------------------------------------------------------
+deliriumpresence_1n |        320       1.44    .50       1          2
+deliriumpresence_2n |        320       1.45    .50       1          2
+--------------------+---------------------------------------------------------
+dementiaseverity_1n |        320       4.09    3.13      1         11
+dementiaseverity_2n |        320       4.44    3.59      1         13
+--------------------+---------------------------------------------------------
+ncdpresence_1n      |        320       2.25    .83       1          3
+ncdpresence_2n      |        320       2.28    .82       1          3
+--------------------+---------------------------------------------------------
+dementiaseverity_1n |        320       1.50    1.14      0          4
+dementiaseverity_2n |        320       1.53    1.13      0          4
+```
