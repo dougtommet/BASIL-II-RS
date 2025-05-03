@@ -1,0 +1,37 @@
+---
+title: "BASIL Reference Standard (Clinical Assessor)"
+author: "Doug Tommet and Rich Jones for Anna MacKay-Brandt, Tamara G Fong, and the BASIL-II team"
+date: '`r Sys.Date()`'
+institute: "Presented on May 2, 2025"
+format:
+  html:
+    self-contained: true
+    toc: true
+    toc-location: left
+    toc-depth: 3
+    toc-title: "Contents"
+    toc-expand: true
+    toc-floating: true
+execute:
+    echo: false
+    warning: false
+    messages: false
+---
+
+<!--- Describe aims of manuscript, extracted from -->
+<!--- GDoc https://docs.google.com/document/d/1GPIzetmxAJxbsQnpXG5_sj9buN0inlTDNljtyg4V1vE/edit?usp=sharing -->
+
+```{r}
+source(here::here("R", "-010-libraries.R"))
+source(here::here("R", "-020-folder-file-locations.R"))
+```
+
+
+{{< include _001a-Section_01_Aims_of_manuscript.qmd >}}
+
+{{< include _001b-Section_02_Whats_new_today_2025-04-28.qmd >}}
+
+{{< include _001c-Section_03_Data_handling_notes.qmd >}}
+
+{{< include _100-table1.qmd >}}
+
