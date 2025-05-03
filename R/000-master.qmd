@@ -36,7 +36,9 @@ source(here::here("R", "-050-munge-data.R"))
 
 {{< include _001a-Section_01_Aims_of_manuscript.qmd >}}
 
-{{< include _001b-Section_02_Whats_new_today.qmd >}}
+{{< include _001b-Section_02_Whats_new_today_2025-04-28.qmd >}}
+
+{{< include _001b-Section_02_Whats_new_today_2025-05-02.qmd >}}
 
 {{< include _001c-Section_03_Data_handling_notes.qmd >}}
 

@@ -1,0 +1,11 @@
+
+## This analysis report (02 May 2025)
+
+   -   Updated handling of delirium severity ratings (0-9), see below
+
+   -   **ACTION**: Need to generate VDSs for ADL and IADL characteristics
+
+   -   **ACTION**: Replace REDCap PHQ, MoCA, and AD-8 summary measures with VDS versions
+
+   -   **ACTION** Aim 2 additionally requires individual CAM-S delirium features (inattention, disorganized thinking, altered level of consciousness, disorientation, memory impairment, perceptual disturbances, psychomotor agitation, psychomotor retardation, altered sleep-wake, inappropriate behavior, delusions), need to modify vds for CAM-S to generate and save individual indicators for the CAM features (0/1)
+

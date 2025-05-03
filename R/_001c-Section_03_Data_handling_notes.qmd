@@ -9,7 +9,7 @@ We assume that when a rating appears with an arrow, e.g, "9 -\> 6", this means t
 RS adjudication dementia severity categories were provided as 5 text labels. We have ordered these into 5 numeric categories with the following ordering (see `new_order`):
 
 | Freq. | Numeric | New Order | Labels provided                                         |
-|------:|:-------:|:---------:|:--------------------------------------------------------|
+|----------:|:---------:|:---------:|:---------------------------------------|
 |    79 |    3    |     0     | no dementia (equivalent to no neurocognitive disorder)  |
 |    81 |    5    |     1     | very mild (equivalent to minor neurocognitive disorder) |
 |    89 |    1    |     2     | mild                                                    |
