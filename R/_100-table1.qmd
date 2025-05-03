@@ -1,4 +1,52 @@
+```{r}
+#   +-------------------------------------------------------------+
+#   | Characteristics                      Setting                |
+#   |                                  -----------------          |
+#   |                              Medical   Surgical  Nursing    |
+#   |                              (N = 10)  (N = 14)  home (N=22)|
+#   +-------------------------------------------------------------+
+#   | Age, M (SD)                  M (SD)    M (SD)    M (SD)     |
+#   |                                                             |
+#   | Sex, N (%)                                                  |
+#   |   Women                    N (%)     N (%)     N (%)        |
+#   |   Men                      N (%)     N (%)     N (%)        |
+#   |                                                             |
+#   | Education (years), M (SD)  M (SD)    M (SD)    M (SD)       |
+#   |                                                             |
+#   | English as 1st language    N (%)     N (%)     N (%)        |
+#   |                                                             |
+#   | Vision impairment          N (%)     N (%)     N (%)        |
+#   |                                                             |
+#   | Hearing impairment         N (%)     N (%)     N (%)        |
+#   |                                                             |
+#   | Depressive symptoms        M (SD)    M (SD)    M (SD)       |
+#   | (PHQ), M (SD)                                               |
+#   |                                                             |
+#   | Cognitive performance      M (SD)    M (SD)    M (SD)       |
+#   | (MoCA), M (SD)                                              |
+#   |                                                             |
+#   | Dementia (ref. std.),      N (%)     N (%)     N (%)        |
+#   | N (%)                                                       |
+#   |                                                             |
+#   | AD-8, median (IQI)         Median    Median    Median       |
+#   |                                                             |
+#   | ADL dependence             Median    Median    Median       |
+#   | (median, IQI)                                               |
+#   |                                                             |
+#   | IADL difficulties          Median    Median    Median       |
+#   | (median, IQI)                                               |
+#   |                                                             |
+#   | Delirium (ref. std.),      N (%)     N (%)     N (%)        |
+#   | N (%)                                                       |
+#   +-------------------------------------------------------------+
+#   
+#   Notes: N’s are unweighted, but %, means, SD, medians and inter-
+#   quartile intervals (IQI) reflect sampling weights.
+#
+#   Note as of 2025-04-30 ADL dependence and IADL difficulties are
+#   not defined. 
 
+```
 
 ```{r}
 basil_df <- readRDS(here::here("RData", "045-basil_redcap.rds"))
@@ -12,11 +60,11 @@ n46 <- readRDS(here::here("RData", "030-n46.rds"))
 #| label: tbl-table1
 
 basil_df %>%
-  left_join(n46, by = c("studyid" = "studyid")) %>%
-  filter(n46 == 1) %>%
-  select(-studyid, -n46) %>%
+  filter(studyid %in% n46[["studyid"]]) %>%
+  select(-studyid) %>%
   labelled::to_factor() %>%
   gtsummary::tbl_summary(by = vdsite,
-                         type = list(c(vdeduc) ~ "continuous")) %>%
+                         type = list(c(vdeduc) ~ "continuous"),
+                         statistic = gtsummary::all_continuous() ~ "{mean} ({sd})") %>%
   gtsummary::add_overall()
 ```
