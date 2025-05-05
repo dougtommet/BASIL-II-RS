@@ -4,7 +4,7 @@ basil_netpath <- fs::path(QSPtools::network_path(), "STUDIES", "DATA_MANAGEMENT"
 
 # Check if the network path exists
 if (fs::dir_exists(basil_netpath)) {
-  print(paste("connected to",basil_netpath))
+  # print(paste("connected to",basil_netpath))
 } else if (Sys.info()["user"] == "rnj") {
   # Fall back to a local or alternative path
   basil_netpath <- fs::path_home("DWork", "DATA_MANAGEMENT", "BASIL")
