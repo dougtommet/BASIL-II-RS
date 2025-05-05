@@ -42,6 +42,14 @@ source(here::here("R", "-050-munge-data.R"))
 
 {{< include _001c-Section_03_Data_handling_notes.qmd >}}
 
+{{< include _030-pull-rs-data.qmd >}}
+
+{{< include _040-pull-other-data.qmd >}}
+
+{{< include _045-munge-other-data.qmd >}}
+
+{{< include _050-munge-data.qmd >}}
+
 {{< include _100-table1.qmd >}}
 
 {{< include _200-heatmap.qmd >}}
