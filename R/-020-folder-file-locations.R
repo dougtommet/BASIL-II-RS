@@ -16,4 +16,6 @@ if (fs::dir_exists(basil_netpath)) {
 basil_derived_folder <- fs::path(basil_netpath, "DATA", "DERIVED")
 basil_project_folder <- fs::path(basil_netpath, "CODE", "RS_Paper")
 
-
+if (fs::dir_exists(here::here("RData"))==FALSE) {
+  fs::dir_create(here::here("RData"))
+}
