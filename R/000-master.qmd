@@ -44,3 +44,5 @@ source(here::here("R", "-050-munge-data.R"))
 
 {{< include _100-table1.qmd >}}
 
+{{< include _200-heatmap.qmd >}}
+
