@@ -25,13 +25,12 @@ execute:
 ```{r setup-routines}
 #| eval: true
 
-source(here::here("R", "-010-libraries.R"))
-source(here::here("R", "-020-folder-file-locations.R"))
-source(here::here("R", "-030-pull-rs-data.R"))
-source(here::here("R", "-040-pull-other-data.R"))
-source(here::here("R", "-045-munge-other-data.R"))
-source(here::here("R", "-050-munge-data.R"))
-# source(here::here("R", "-100-table1.R"))
+source(here::here("R", "010-libraries.R"))
+source(here::here("R", "020-folder-file-locations.R"))
+source(here::here("R", "030-pull-rs-data.R"))
+source(here::here("R", "040-pull-other-data.R"))
+source(here::here("R", "045-munge-other-data.R"))
+source(here::here("R", "050-munge-data.R"))
 ```
 
 {{< include _001a-Section_01_Aims_of_manuscript.qmd >}}

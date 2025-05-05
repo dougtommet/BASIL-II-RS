@@ -22,8 +22,8 @@ execute:
 <!--- GDoc https://docs.google.com/document/d/1GPIzetmxAJxbsQnpXG5_sj9buN0inlTDNljtyg4V1vE/edit?usp=sharing -->
 
 ```{r}
-source(here::here("R", "-010-libraries.R"))
-source(here::here("R", "-020-folder-file-locations.R"))
+source(here::here("R", "010-libraries.R"))
+source(here::here("R", "020-folder-file-locations.R"))
 ```
 
 
