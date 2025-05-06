@@ -1,4 +1,15 @@
-
 # Create all rater pairs
 
+The BASIL RS data was transformed so that all of the unique rater pairs are created. There are seven raters so that results in 21 (6+5+4+3+2+1) unique pairs per participant. With 46 participants, if there were no missing data, this would be 21 \* 46 = 966 pairs. One rater missed two participants so there are only 954 pairs.
 
+In the resulting data file the raters were assigned the following ids.
+
+| Rater                | ID  |
+|----------------------|-----|
+| Anna MacKay-Brandt   | 1   |
+| Benjamin Chapin      | 2   |
+| Cate Price           | 3   |
+| Juliana Burt         | 4   |
+| Kerry Palihnich      | 5   |
+| Rebecca Avila-Rieger | 6   |
+| Wingyun Mak          | 7   |

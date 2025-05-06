@@ -1,3 +1,34 @@
-
 # Read BASIL RS data
+
+The BASIL RS data comes from the spreadsheet `SourceData/FINAL RS IRR Ratings.xlsx`.
+
+## RS ratings
+
+The initial and consesus ratings were stored in a column with values such as "3 -\> 5" indicating the initial rating as a 3 and then after consensus it was updated to a 5. This column was split into two columns for initial rating and consensus rating.
+
+## Dementia severity ratings
+
+The dementia severity rating were one of five unordered text labels. We put them into the following order.
+
+| Label                                                    | Order |
+|----------------------------------------------------------|-------|
+| No dementia (equivalent to no neurocognitive disorder)   | 0     |
+| Very mild (equivalent to minor neurocognitive disorder)  | 1     |
+| Mild                                                     | 2     |
+| Moderate                                                 | 3     |
+| Severe                                                   | 4     |
+
+## NCD presence
+
+The NCD presence ratings were one of three unordered text labels.  We put them into the following order.
+
+| Label                | Order |
+|----------------------|-------|
+| No                   | 0     |
+| Minor                | 1     |
+| Major                | 2     |
+
+## N46 data file
+
+A file of the studyid's of the 46 participants that were part of this rating process was created.
 

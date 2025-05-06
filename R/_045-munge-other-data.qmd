@@ -1,5 +1,5 @@
 
 # Data munging
 
-
+The variables of interest (vdsite,  vdage, vdfemale, vdeduc, vdhisp, vdesl, vdvisionimp, vdhearingimp, vdcharlson, vdmajneurogs, vdminneurogs, vddeliriumgs, vdcamsrs, phq_9_score, moca_score, ad8_total_score) were kept from the main BASIL data.  Missing values were filled in from data collected at other Redcap records.  The data was then filtered to one record per participant (n=488).
 
