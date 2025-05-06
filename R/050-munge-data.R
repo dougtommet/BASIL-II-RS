@@ -119,7 +119,31 @@ create_all_possible_pairs <- function(df, time) {
 all_pairs_df_initial <- create_all_possible_pairs(processed_rs_wide, "initial")
 all_pairs_df_consensus <- create_all_possible_pairs(processed_rs_wide, "consensus")
 
+all_pairs_df_initial <- all_pairs_df_initial %>%
+  labelled::set_variable_labels(delirium_presence_A = "Delirium Presence (Rater A)") %>%
+  labelled::set_variable_labels(delirium_presence_B = "Delirium Presence (Rater B)") %>%
+  labelled::set_variable_labels(delirium_severity_A = "Delirium Severity (Rater A)") %>%
+  labelled::set_variable_labels(delirium_severity_B = "Delirium Severity (Rater B)") %>%
+  labelled::set_variable_labels(ncd_presence_A = "NCD Presence (Rater A)") %>%
+  labelled::set_variable_labels(ncd_presence_B = "NCD Presence (Rater B)") %>%
+  labelled::set_variable_labels(dementia_severity_A = "Dementia Severity (Rater A)") %>%
+  labelled::set_variable_labels(dementia_severity_B = "Dementia Severity (Rater B)")
 
+all_pairs_df_consensus <- all_pairs_df_consensus %>%
+  labelled::set_variable_labels(delirium_presence_A = "Delirium Presence (Rater A)") %>%
+  labelled::set_variable_labels(delirium_presence_B = "Delirium Presence (Rater B)") %>%
+  labelled::set_variable_labels(delirium_severity_A = "Delirium Severity (Rater A)") %>%
+  labelled::set_variable_labels(delirium_severity_B = "Delirium Severity (Rater B)") %>%
+  labelled::set_variable_labels(ncd_presence_A = "NCD Presence (Rater A)") %>%
+  labelled::set_variable_labels(ncd_presence_B = "NCD Presence (Rater B)") %>%
+  labelled::set_variable_labels(dementia_severity_A = "Dementia Severity (Rater A)") %>%
+  labelled::set_variable_labels(dementia_severity_B = "Dementia Severity (Rater B)")
+
+all_pairs_df_initial <- all_pairs_df_initial %>%
+  filter(!is.na(delirium_severity_A) & !is.na(delirium_severity_B))
+
+all_pairs_df_consensus <- all_pairs_df_consensus %>%
+  filter(!is.na(delirium_severity_A) & !is.na(delirium_severity_B))
 
 
 saveRDS(all_pairs_df_initial, here::here("RData", "050-all_pairs_df_initial.rds"))
