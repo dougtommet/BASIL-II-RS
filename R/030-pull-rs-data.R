@@ -73,7 +73,11 @@ basil_rs_irr <- basil_rs_irr %>%
          )
 
 basil_rs_irr <- basil_rs_irr %>%
-  mutate(ncd_presence_1 = case_when(ncd_presence_1 == "no" ~ 0,
+  mutate(delirium_presence_1 = case_when(delirium_presence_1 == "No" ~ 0,
+                                         delirium_presence_1 == "Yes" ~ 1),
+         delirium_presence_2 = case_when(delirium_presence_2 == "No" ~ 0,
+                                         delirium_presence_2 == "Yes" ~ 1),
+         ncd_presence_1 = case_when(ncd_presence_1 == "no" ~ 0,
                                     ncd_presence_1 == "minor" ~ 1,
                                     ncd_presence_1 == "major" ~ 2),
          ncd_presence_2 = case_when(ncd_presence_2 == "no" ~ 0,
@@ -93,7 +97,9 @@ basil_rs_irr <- basil_rs_irr %>%
 
 basil_rs_irr <- basil_rs_irr %>%
   labelled::set_variable_labels(delirium_presence_1 = "Delirium Presence (Initial)") %>%
+  labelled::set_value_labels(delirium_presence_1 = c("No" = 0, "Yes" = 1)) %>%
   labelled::set_variable_labels(delirium_presence_2 = "Delirium Presence (Consensus)") %>%
+  labelled::set_value_labels(delirium_presence_2 = c("No" = 0, "Yes" = 1)) %>%
 
   labelled::set_variable_labels(delirium_severity_1 = "Delirium Severity (Initial)") %>%
   labelled::set_variable_labels(delirium_severity_2 = "Delirium Severity (Consensus)") %>%

@@ -2,11 +2,62 @@
 
 ```{r}
 
-all_pairs_df_initial <- readRDS(here::here("RData", "050-all_pairs_df_initial.rds"))
-all_pairs_df_consensus <- readRDS(here::here("RData", "050-all_pairs_df_consensus.rds"))
+a1 <- readRDS(here::here("RData", "050-all_pairs_df_initial.rds"))
+a2 <- readRDS(here::here("RData", "050-all_pairs_df_consensus.rds"))
 ```
 
 # Rater agreement
+
+```{r}
+#| label: correlation
+# Compute and format correlation coefficient
+corr_delirium_severity_initial <- cor(a1$delirium_severity_A, a1$delirium_severity_B, use = "complete.obs")
+corr_delirium_severity_initial <- formatC(corr_delirium_severity_initial, digits = 2)
+corr_delirium_severity_consensus <- cor(a2$delirium_severity_A, a2$delirium_severity_B, use = "complete.obs")
+corr_delirium_severity_consensus <- formatC(corr_delirium_severity_consensus, digits = 2)
+
+corr_delirium_presence_initial <- cor(a1$delirium_presence_A, a1$delirium_presence_B, use = "complete.obs")
+corr_delirium_presence_initial <- formatC(corr_delirium_presence_initial, digits = 2)
+corr_delirium_presence_consensus <- cor(a2$delirium_presence_A, a2$delirium_presence_B, use = "complete.obs")
+corr_delirium_presence_consensus <- formatC(corr_delirium_presence_consensus, digits = 2)
+
+corr_dementia_severity_initial <- cor(a1$dementia_severity_A, a1$dementia_severity_B, use = "complete.obs")
+corr_dementia_severity_initial <- formatC(corr_dementia_severity_initial, digits = 2)
+corr_dementia_severity_consensus <- cor(a2$dementia_severity_A, a2$dementia_severity_B, use = "complete.obs")
+corr_dementia_severity_consensus <- formatC(corr_dementia_severity_consensus, digits = 2)
+
+corr_ncd_presence_initial <- cor(a1$ncd_presence_A, a1$ncd_presence_B, use = "complete.obs")
+corr_ncd_presence_initial <- formatC(corr_ncd_presence_initial, digits = 2)
+corr_ncd_presence_consensus <- cor(a2$ncd_presence_A, a2$ncd_presence_B, use = "complete.obs")
+corr_ncd_presence_consensus <- formatC(corr_ncd_presence_consensus, digits = 2)
+```
+
+```{r}
+#| label: kappa
+# Compute and format kappa statistic
+my_kappa_fx <- function(df, x1, x2) {
+  x <- df %>%
+    select(all_of(c(x1, x2))) %>%
+    table()
+  y <- psych::cohen.kappa(x)
+  k <- y$weighted.kappa %>% round(2)
+  ci_l <- y$confid[2, 1] %>% round(2)
+  ci_u <- y$confid[2, 3] %>% round(2)
+  str_c(k, " (", ci_l, ", ", ci_u, ")")
+}
+kap_delirium_presence_initial   <- my_kappa_fx(a1, "delirium_presence_A", "delirium_presence_B")
+kap_delirium_presence_consensus <- my_kappa_fx(a2, "delirium_presence_A", "delirium_presence_B")
+
+kap_delirium_severity_initial   <- my_kappa_fx(a1, "delirium_severity_A", "delirium_severity_B")
+kap_delirium_severity_consensus <- my_kappa_fx(a2, "delirium_severity_A", "delirium_severity_B")
+
+kap_ncd_presence_initial   <- my_kappa_fx(a1, "ncd_presence_A", "ncd_presence_B")
+kap_ncd_presence_consensus <- my_kappa_fx(a2, "ncd_presence_A", "ncd_presence_B")
+
+kap_dementia_severity_initial   <- my_kappa_fx(a1, "dementia_severity_A", "dementia_severity_B")
+kap_dementia_severity_consensus <- my_kappa_fx(a2, "dementia_severity_A", "dementia_severity_B")
+
+```
 
 ## Delirium severity
 
@@ -14,7 +65,7 @@ all_pairs_df_consensus <- readRDS(here::here("RData", "050-all_pairs_df_consensu
 #| label: tbl-delseverity-cross-pre
 #| tbl-cap: "Crosstab of paired initial ratings of delirium severity"
 
-all_pairs_df_initial %>%
+a1 %>%
   labelled::to_factor() %>%
   gtsummary::tbl_cross(delirium_severity_B, delirium_severity_A)
 ```
@@ -23,14 +74,14 @@ all_pairs_df_initial %>%
 #| label: fig-delseverity-heatmap-pre
 #| fig-cap: "Heatmap showing agreement of paired initial ratings of delirium severity"
 
-all_pairs_df_initial %>%
+a1 %>%
   filter(!is.na(delirium_severity_A), !is.na(delirium_severity_B)) %>%
   group_by(delirium_severity_A, delirium_severity_B) %>%
   summarize(n = n()) %>%
   ggplot(aes(x = delirium_severity_A, y = delirium_severity_B, fill = n)) +
     geom_tile() +
-    scale_x_continuous("Delirium Severity (Rater A)", breaks = 0:10, minor_breaks = NULL) +
-    scale_y_reverse("Delirium Severity (Rater B)", breaks = 0:10, minor_breaks = NULL) +
+    scale_x_continuous("Delirium Severity (Rater A)", breaks = 0:9, minor_breaks = NULL) +
+    scale_y_reverse("Delirium Severity (Rater B)", breaks = 0:9, minor_breaks = NULL) +
     scale_fill_viridis_c(
       option = "C",
       trans = scales::pseudo_log_trans(sigma = 1),
@@ -41,22 +92,6 @@ all_pairs_df_initial %>%
     hrbrthemes::theme_ipsum()
 
 
-
-# ggplot2::ggplot(rs_pairs, aes(x = deliriumseverity_1nA, y = deliriumseverity_1nB)) +
-#   geom_bin2d(binwidth = 1) +
-#   scale_fill_viridis_c(
-#     option = "C",
-#     trans = scales::pseudo_log_trans(sigma = 1),
-#     breaks = c(1, 3, 10, 30, 100, 200),
-#     name = "Count"
-#   ) +
-#   coord_fixed() +
-#   labs(
-#     x = "Delirium Severity (Rater A)",
-#     y = "Delirium Severity (Rater B)",
-#     fill = "Count"
-#   ) +
-#   theme_minimal()
 ```
 
 
@@ -64,7 +99,7 @@ all_pairs_df_initial %>%
 #| label: tbl-delseverity-cross-post
 #| tbl-cap: "Crosstab of paired consensus ratings of delirium severity"
 
-all_pairs_df_consensus %>%
+a2 %>%
   labelled::to_factor() %>%
   gtsummary::tbl_cross(delirium_severity_B, delirium_severity_A)
 ```
@@ -73,7 +108,7 @@ all_pairs_df_consensus %>%
 #| label: fig-delseverity-heatmap-post
 #| fig-cap: "Heatmap showing agreement of paired ratings of delirium severity after consensus process"
 
-all_pairs_df_consensus %>%
+a2 %>%
   filter(!is.na(delirium_severity_A), !is.na(delirium_severity_B)) %>%
   group_by(delirium_severity_A, delirium_severity_B) %>%
   summarize(n = n()) %>%
@@ -90,22 +125,10 @@ all_pairs_df_consensus %>%
     coord_fixed() +
     hrbrthemes::theme_ipsum()
 
-# ggplot2::ggplot(rs_pairs, aes(x = deliriumseverity_2nA, y = deliriumseverity_2nB)) +
-#   geom_bin2d(binwidth = 1) +
-#   scale_fill_viridis_c(
-#     option = "C",
-#     trans = scales::pseudo_log_trans(sigma = 1),
-#     breaks = c(1, 3, 10, 30, 100, 200),
-#     name = "Count"
-#   ) +
-#   coord_fixed() +
-#   labs(
-#     x = "Delirium Severity (Rater A)",
-#     y = "Delirium Severity (Rater B)",
-#     fill = "Count"
-#   ) +
-#   theme_minimal()
+
 ```
+
+The correlation between rater A and rater B delirium severity ratings (0-9) prior to the consensus process was `r corr_delirium_severity_initial`. After the consensus process, the correlation was `r corr_delirium_severity_consensus`.  The kappa statistic went from `r kap_delirium_severity_initial` to `r kap_delirium_severity_consensus`.
 
 
 ## Delirium presence
@@ -113,7 +136,7 @@ all_pairs_df_consensus %>%
 ```{r}
 #| label: tbl-delpresence-cross-pre
 #| tbl-cap: "Crosstab of paired initial ratings of delirium presence"
-all_pairs_df_initial %>%
+a1 %>%
   labelled::to_factor() %>%
   gtsummary::tbl_cross(delirium_presence_B, delirium_presence_A)
 ```
@@ -123,10 +146,12 @@ all_pairs_df_initial %>%
 #| label: tbl-delpresence-cross-post
 #| tbl-cap: "Crosstab of paired consensus ratings of delirium presence"
 
-all_pairs_df_consensus %>%
+a2 %>%
   labelled::to_factor() %>%
   gtsummary::tbl_cross(delirium_presence_B, delirium_presence_A)
 ```
+
+The correlation between rater A and rater B delirium presence ratings (Yes/No) prior to the consensus process was `r corr_delirium_presence_initial`. After the consensus process, the correlation was `r corr_delirium_presence_consensus`.  The kappa statistic went from `r kap_delirium_presence_initial` to `r kap_delirium_presence_consensus`.
 
 ## Dementia severity
 
@@ -134,7 +159,7 @@ all_pairs_df_consensus %>%
 #| label: tbl-demseverity-cross-pre
 #| tbl-cap: "Crosstab of paired initial ratings of dementia severity"
 
-all_pairs_df_initial %>%
+a1 %>%
   labelled::to_factor() %>%
   gtsummary::tbl_cross(dementia_severity_B, dementia_severity_A)
 ```
@@ -143,7 +168,7 @@ all_pairs_df_initial %>%
 #| label: fig-demseverity-heatmap-pre
 #| fig-cap: "Heatmap showing agreement of paired initial ratings of dementia severity"
 
-all_pairs_df_initial %>%
+a1 %>%
   filter(!is.na(dementia_severity_A), !is.na(dementia_severity_B)) %>%
   group_by(dementia_severity_A, dementia_severity_B) %>%
   summarize(n = n()) %>%
@@ -170,7 +195,7 @@ all_pairs_df_initial %>%
 ```{r}
 #| label: tbl-demseverity-cross-post
 #| tbl-cap: "Crosstab of paired consensus ratings of dementia severity"
-all_pairs_df_consensus %>%
+a2 %>%
   labelled::to_factor() %>%
   gtsummary::tbl_cross( dementia_severity_B, dementia_severity_A)
 ```
@@ -179,7 +204,7 @@ all_pairs_df_consensus %>%
 #| label: fig-demseverity-heatmap-post
 #| fig-cap: "Heatmap showing agreement of paired ratings of dementia severity after consensus process"
 
-all_pairs_df_consensus %>%
+a2 %>%
 filter(!is.na(dementia_severity_A), !is.na(dementia_severity_B)) %>%
   group_by(dementia_severity_A, dementia_severity_B) %>%
   summarize(n = n()) %>%
@@ -202,13 +227,15 @@ filter(!is.na(dementia_severity_A), !is.na(dementia_severity_B)) %>%
 
 ```
 
+The correlation between rater A and rater B dementia severity ratings (No dementia/Very mild/Mild/Moderate/Severe) prior to the consensus process was `r corr_dementia_severity_initial`. After the consensus process, the correlation was `r corr_dementia_severity_consensus`.  The kappa statistic went from `r kap_dementia_severity_initial` to `r kap_dementia_severity_consensus`.
+
 ## NCD presence
 
 ```{r}
 #| label: tbl-ncdpresence-cross-pre
 #| tbl-cap: "Crosstab of paired initial ratings of NCD presence"
 
-all_pairs_df_initial %>%
+a1 %>%
   labelled::to_factor() %>%
   gtsummary::tbl_cross(ncd_presence_B, ncd_presence_A)
 ```
@@ -218,7 +245,12 @@ all_pairs_df_initial %>%
 #| label: tbl-ncdpresence-cross-post
 #| tbl-cap: "Crosstab of paired consensus ratings of NCD presence"
 
-all_pairs_df_consensus %>%
+a2 %>%
   labelled::to_factor() %>%
   gtsummary::tbl_cross(ncd_presence_B, ncd_presence_A)
 ```
+
+The correlation between rater A and rater B NCD presence ratings (No/Minor/Major) prior to the consensus process was `r corr_ncd_presence_initial`. After the consensus process, the correlation was `r corr_ncd_presence_consensus`.  The kappa statistic went from `r kap_ncd_presence_initial` to `r kap_ncd_presence_consensus`.
+
+
+
