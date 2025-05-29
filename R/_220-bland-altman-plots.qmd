@@ -1,0 +1,80 @@
+
+
+
+
+```{r}
+
+a1 <- readRDS(here::here("RData", "050-all_pairs_df_initial.rds"))
+a2 <- readRDS(here::here("RData", "050-all_pairs_df_consensus.rds"))
+```
+
+# Bland Altman plots
+
+## Delirium severity
+
+```{r}
+a1 <- a1 %>%
+  mutate(delirium_severity_diff = delirium_severity_A - delirium_severity_B,
+         delirium_severity_avg  = (delirium_severity_A + delirium_severity_B)/2
+  )
+
+a2 <- a2 %>%
+  mutate(delirium_severity_diff = delirium_severity_A - delirium_severity_B,
+         delirium_severity_avg  = (delirium_severity_A + delirium_severity_B)/2
+  )
+```
+
+```{r}
+#| label: fig-delseverity-blandaltman-pre
+#| fig-cap: "Bland-Altman plot of initial ratings of delirium severity"
+
+a1 %>%
+  group_by(delirium_severity_diff, delirium_severity_avg) %>%
+  summarize(n = n()) %>%
+  ggplot(aes(x = delirium_severity_avg, y = delirium_severity_diff)) +
+    geom_point(aes(size = n, color = n)) +
+    scale_color_viridis_c(
+      option = "C",
+      trans = scales::pseudo_log_trans(sigma = 1),
+      breaks = c(1, 3, 10, 30, 100, 200),
+      name = "Count"
+    ) +
+    scale_size_continuous(
+      breaks = c(1, 3, 10, 30, 100, 200),
+      name = "Count"
+    ) +
+    guides(color=guide_legend(), size = guide_legend()) +
+    scale_x_continuous("Delirium severity (Rater A & Rater B Average)", breaks = seq(0, 10, 2)) +
+    scale_y_continuous("Delirium severity (Rater A & Rater B Difference)", breaks = seq(-6, 6, 2)) +
+    hrbrthemes::theme_ipsum()
+
+
+```
+
+```{r}
+#| label: fig-delseverity-blandaltman-post
+#| fig-cap: "Bland-Altman plot of consensus ratings of delirium severity"
+
+a2 %>%
+  group_by(delirium_severity_diff, delirium_severity_avg) %>%
+  summarize(n = n()) %>%
+  ggplot(aes(x = delirium_severity_avg, y = delirium_severity_diff)) +
+    geom_point(aes(size = n, color = n)) +
+    scale_color_viridis_c(
+      option = "C",
+      trans = scales::pseudo_log_trans(sigma = 1),
+      breaks = c(1, 3, 10, 30, 100, 200),
+      name = "Count"
+    ) +
+    scale_size_continuous(
+      breaks = c(1, 3, 10, 30, 100, 200),
+      name = "Count"
+    ) +
+    guides(color=guide_legend(), size = guide_legend()) +
+    scale_x_continuous("Delirium severity (Rater A & Rater B Average)", breaks = seq(0, 10, 2)) +
+    scale_y_continuous("Delirium severity (Rater A & Rater B Difference)", 
+                       breaks = seq(-6, 6, 2), limits = c(-5, 5)) +
+    hrbrthemes::theme_ipsum()
+
+
+```

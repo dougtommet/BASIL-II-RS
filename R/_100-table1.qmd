@@ -62,6 +62,7 @@ n46 <- readRDS(here::here("RData", "030-n46.rds"))
 basil_df %>%
   filter(studyid %in% n46[["studyid"]]) %>%
   select(-studyid) %>%
+  mutate(vdsite = factor(vdsite, levels = c(1, 2, 3), labels = c("BIDMC", "UF", "TNJH"))) %>%
   labelled::to_factor() %>%
   gtsummary::tbl_summary(by = vdsite,
                          type = list(c(vdeduc) ~ "continuous"),
