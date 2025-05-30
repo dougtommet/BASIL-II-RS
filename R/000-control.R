@@ -13,3 +13,6 @@ fs::file_move(here::here("R", "ABC_presentation_2025-05-02.html"),
 quarto::quarto_render(here::here("R", "ABC_presentation_2025-05-30.qmd"), output_format = "html")
 fs::file_move(here::here("R", "ABC_presentation_2025-05-30.html"),
               here::here("Reports", stringr::str_c("ABC_presentation_2025-05-30_", Sys.Date(),".html")))
+quarto::quarto_render(here::here("R", "ABC_presentation_2025-05-30.qmd"), output_format = "docx")
+fs::file_move(here::here("R", "ABC_presentation_2025-05-30.docx"),
+              here::here("Reports", stringr::str_c("ABC_presentation_2025-05-30_", Sys.Date(),".docx")))
