@@ -1,0 +1,13 @@
+
+## This analysis report (06 June 2025)
+
+   -   This report includes updated heatmaps and Bland-Altman figures for rater agreement. The figures were done in a grayscale color scheme. It also includes scatter plot figures for rater agreement.
+   
+   -    **ACTION**: Need to create IPTW weights for selection into the sample
+
+   -   **ACTION**: Need to generate VDSs for ADL and IADL characteristics
+
+   -   **ACTION**: Replace REDCap PHQ, MoCA, and AD-8 summary measures with VDS versions
+
+   -   **ACTION** Aim 2 additionally requires individual CAM-S delirium features (inattention, disorganized thinking, altered level of consciousness, disorientation, memory impairment, perceptual disturbances, psychomotor agitation, psychomotor retardation, altered sleep-wake, inappropriate behavior, delusions), need to modify vds for CAM-S to generate and save individual indicators for the CAM features (0/1)
+

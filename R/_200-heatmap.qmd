@@ -74,16 +74,19 @@ a1 %>%
 #| label: fig-delseverity-heatmap-pre
 #| fig-cap: "Heatmap showing agreement of paired initial ratings of delirium severity"
 
-a1 %>%
+foo <- a1 %>%
   filter(!is.na(delirium_severity_A), !is.na(delirium_severity_B)) %>%
   group_by(delirium_severity_A, delirium_severity_B) %>%
-  summarize(n = n()) %>%
+  summarize(n = n()) 
+
+foo %>%
   ggplot(aes(x = delirium_severity_A, y = delirium_severity_B, fill = n)) +
     geom_tile() +
     scale_x_continuous("Delirium Severity (Rater A)", breaks = 0:9, minor_breaks = NULL) +
     scale_y_reverse("Delirium Severity (Rater B)", breaks = 0:9, minor_breaks = NULL) +
-    scale_fill_viridis_c(
-      option = "C",
+    scale_fill_gradient(
+      low = "lightgrey",
+      high = "black",
       trans = scales::pseudo_log_trans(sigma = 1),
       breaks = c(1, 3, 10, 30, 100, 200),
       name = "Count"
@@ -91,8 +94,73 @@ a1 %>%
     coord_fixed() +
     hrbrthemes::theme_ipsum()
 
+```
+
+```{r}
+#| label: fig-delseverity-heatmap-pre-highlighting
+#| fig-cap: "Heatmap showing agreement of paired initial ratings of delirium severity (with highlighting)"
+
+goo <- tribble(~x1, ~x2, ~y1, ~y2,
+               -0.5,  0.5, -0.5, -0.5,
+               -0.5,  1.5,  0.5,  0.5,
+                0.5,  2.5,  1.5,  1.5,
+                1.5,  3.5,  2.5,  2.5,
+                2.5,  4.5,  3.5,  3.5,
+                3.5,  5.5,  4.5,  4.5,
+                4.5,  6.5,  5.5,  5.5,
+                5.5,  7.5,  6.5,  6.5,
+                6.5,  8.5,  7.5,  7.5,
+                7.5,  9.5,  8.5,  8.5,
+                8.5,  9.5,  9.5,  9.5,
+               -0.5, -0.5, -0.5,  0.5,
+                0.5,  0.5, -0.5,  1.5,
+                1.5,  1.5,  0.5,  2.5,
+                2.5,  2.5,  1.5,  3.5,
+                3.5,  3.5,  2.5,  4.5,
+                4.5,  4.5,  3.5,  5.5,
+                5.5,  5.5,  4.5,  6.5,
+                6.5,  6.5,  5.5,  7.5,
+                7.5,  7.5,  6.5,  8.5,
+                8.5,  8.5,  7.5,  9.5,
+                9.5,  9.5,  8.5,  9.5
+               )
+
+foo %>%
+  ggplot(aes(x = delirium_severity_A, y = delirium_severity_B, fill = n)) +
+    geom_tile() +
+    geom_segment(aes(x = x1, y = y1, xend = x2, yend = y2), inherit.aes = FALSE, data = goo, 
+                 color = "blue", size = 1.5) +
+    scale_x_continuous("Delirium Severity (Rater A)", breaks = 0:9, minor_breaks = NULL) +
+    scale_y_reverse("Delirium Severity (Rater B)", breaks = 0:9, minor_breaks = NULL) +
+    scale_fill_gradient(
+      low = "lightgrey",
+      high = "black",
+      trans = scales::pseudo_log_trans(sigma = 1),
+      breaks = c(1, 3, 10, 30, 100, 200),
+      name = "Count"
+    ) +
+    coord_fixed() +
+    hrbrthemes::theme_ipsum()
 
 ```
+
+
+```{r}
+#| label: fig-delseverity-scatter-pre
+#| fig-cap: "Scatterplot showing agreement of paired initial ratings of delirium severity"
+
+a1 %>%
+  filter(!is.na(delirium_severity_A), !is.na(delirium_severity_B)) %>%
+  ggplot(aes(x = delirium_severity_A, y = delirium_severity_B)) +
+    geom_abline(slope = -1, intercept = 0, color = "blue") +
+    geom_jitter(alpha=.5) + 
+    scale_x_continuous("Delirium Severity (Rater A)", breaks = 0:9, minor_breaks = NULL) +
+    scale_y_reverse("Delirium Severity (Rater B)", breaks = 0:9, minor_breaks = NULL) +
+    coord_fixed() +
+    hrbrthemes::theme_ipsum()
+
+```
+
 
 
 ```{r}
@@ -108,16 +176,19 @@ a2 %>%
 #| label: fig-delseverity-heatmap-post
 #| fig-cap: "Heatmap showing agreement of paired ratings of delirium severity after consensus process"
 
-a2 %>%
+foo <- a2 %>%
   filter(!is.na(delirium_severity_A), !is.na(delirium_severity_B)) %>%
   group_by(delirium_severity_A, delirium_severity_B) %>%
-  summarize(n = n()) %>%
+  summarize(n = n()) 
+
+foo %>%
   ggplot(aes(x = delirium_severity_A, y = delirium_severity_B, fill = n)) +
     geom_tile() +
     scale_x_continuous("Delirium Severity (Rater A)", breaks = 0:10, minor_breaks = NULL) +
     scale_y_reverse("Delirium Severity (Rater B)", breaks = 0:10, minor_breaks = NULL) +
-    scale_fill_viridis_c(
-      option = "C",
+    scale_fill_gradient(
+      low = "lightgrey",
+      high = "black",
       trans = scales::pseudo_log_trans(sigma = 1),
       breaks = c(1, 3, 10, 30, 100, 200),
       name = "Count"
@@ -125,6 +196,46 @@ a2 %>%
     coord_fixed() +
     hrbrthemes::theme_ipsum()
 
+
+```
+
+```{r}
+#| label: fig-delseverity-heatmap-post-highlighting
+#| fig-cap: "Heatmap showing agreement of paired ratings of delirium severity after consensus process (with highlighting)"
+
+foo %>%
+  ggplot(aes(x = delirium_severity_A, y = delirium_severity_B, fill = n)) +
+    geom_tile() +
+    geom_segment(aes(x = x1, y = y1, xend = x2, yend = y2), inherit.aes = FALSE, data = goo, 
+                 color = "blue", size = 1.5) +
+    scale_x_continuous("Delirium Severity (Rater A)", breaks = 0:10, minor_breaks = NULL) +
+    scale_y_reverse("Delirium Severity (Rater B)", breaks = 0:10, minor_breaks = NULL) +
+    scale_fill_gradient(
+      low = "lightgrey",
+      high = "black",
+      trans = scales::pseudo_log_trans(sigma = 1),
+      breaks = c(1, 3, 10, 30, 100, 200),
+      name = "Count"
+    ) +
+    coord_fixed() +
+    hrbrthemes::theme_ipsum()
+
+
+```
+
+```{r}
+#| label: fig-delseverity-scatter-post
+#| fig-cap: "Scatterplot showing agreement of paired consensus ratings of delirium severity"
+
+a2 %>%
+  filter(!is.na(delirium_severity_A), !is.na(delirium_severity_B)) %>%
+  ggplot(aes(x = delirium_severity_A, y = delirium_severity_B)) +
+    geom_abline(slope = -1, intercept = 0, color = "blue") +
+    geom_jitter(alpha=.5) + 
+    scale_x_continuous("Delirium Severity (Rater A)", breaks = 0:9, minor_breaks = NULL) +
+    scale_y_reverse("Delirium Severity (Rater B)", breaks = 0:9, minor_breaks = NULL) +
+    coord_fixed() +
+    hrbrthemes::theme_ipsum()
 
 ```
 
@@ -168,19 +279,22 @@ a1 %>%
 #| label: fig-demseverity-heatmap-pre
 #| fig-cap: "Heatmap showing agreement of paired initial ratings of dementia severity"
 
-a1 %>%
+foo <- a1 %>%
   filter(!is.na(dementia_severity_A), !is.na(dementia_severity_B)) %>%
   group_by(dementia_severity_A, dementia_severity_B) %>%
   summarize(n = n()) %>%
-  haven::zap_labels() %>%
+  haven::zap_labels() 
+
+foo %>%
   ggplot(aes(x = dementia_severity_A, y = dementia_severity_B, fill = n)) +
     geom_tile() +
     scale_x_continuous("Dementia Severity (Rater A)", breaks = 0:4, minor_breaks = NULL,
                        labels = c("No dementia", "Very mild", "Mild", "Moderate", "Severe")) +
     scale_y_reverse("Dementia Severity (Rater B)", breaks = 0:4, minor_breaks = NULL,
                        labels = c("No dementia", "Very mild", "Mild", "Moderate", "Severe")) +
-    scale_fill_viridis_c(
-      option = "C",
+    scale_fill_gradient(
+      low = "lightgrey",
+      high = "black",
       trans = scales::pseudo_log_trans(sigma = 1),
       breaks = c(1, 3, 10, 30, 100, 200),
       name = "Count"
@@ -191,6 +305,64 @@ a1 %>%
 
 ```
 
+```{r}
+#| label: fig-demseverity-heatmap-pre-highlighting
+#| fig-cap: "Heatmap showing agreement of paired initial ratings of dementia severity (with highlighting)"
+
+goo <- tribble(~x1, ~x2, ~y1, ~y2,
+               -0.5,  0.5, -0.5, -0.5,
+               -0.5,  1.5,  0.5,  0.5,
+                0.5,  2.5,  1.5,  1.5,
+                1.5,  3.5,  2.5,  2.5,
+                2.5,  4.5,  3.5,  3.5,
+                3.5,  4.5,  4.5,  4.5,
+               -0.5, -0.5, -0.5,  0.5,
+                0.5,  0.5, -0.5,  1.5,
+                1.5,  1.5,  0.5,  2.5,
+                2.5,  2.5,  1.5,  3.5,
+                3.5,  3.5,  2.5,  4.5,
+                4.5,  4.5,  3.5,  4.5)
+
+foo %>%
+  ggplot(aes(x = dementia_severity_A, y = dementia_severity_B, fill = n)) +
+    geom_tile() +
+    geom_segment(aes(x = x1, y = y1, xend = x2, yend = y2), inherit.aes = FALSE, data = goo, 
+               color = "blue", size = 1.5) +
+    scale_x_continuous("Dementia Severity (Rater A)", breaks = 0:4, minor_breaks = NULL,
+                       labels = c("No dementia", "Very mild", "Mild", "Moderate", "Severe")) +
+    scale_y_reverse("Dementia Severity (Rater B)", breaks = 0:4, minor_breaks = NULL,
+                       labels = c("No dementia", "Very mild", "Mild", "Moderate", "Severe")) +
+    scale_fill_gradient(
+      low = "lightgrey",
+      high = "black",
+      trans = scales::pseudo_log_trans(sigma = 1),
+      breaks = c(1, 3, 10, 30, 100, 200),
+      name = "Count"
+    ) +
+    coord_fixed() +
+    hrbrthemes::theme_ipsum()
+
+
+```
+
+```{r}
+#| label: fig-demseverity-scatter-pre
+#| fig-cap: "Scatterplot showing agreement of paired initial ratings of dementia severity"
+
+a1 %>%
+  filter(!is.na(dementia_severity_A), !is.na(dementia_severity_B)) %>%
+  haven::zap_labels() %>%
+  ggplot(aes(x = dementia_severity_A, y = dementia_severity_B)) +
+    geom_abline(slope = -1, intercept = 0, color = "blue") +
+    geom_jitter(alpha=.5) + 
+    scale_x_continuous("Dementia Severity (Rater A)", breaks = 0:4, minor_breaks = NULL,
+                       labels = c("No dementia", "Very mild", "Mild", "Moderate", "Severe")) +
+    scale_y_reverse("Dementia Severity (Rater B)", breaks = 0:4, minor_breaks = NULL,
+                       labels = c("No dementia", "Very mild", "Mild", "Moderate", "Severe")) +
+    coord_fixed() +
+    hrbrthemes::theme_ipsum()
+
+```
 
 ```{r}
 #| label: tbl-demseverity-cross-post
@@ -204,19 +376,22 @@ a2 %>%
 #| label: fig-demseverity-heatmap-post
 #| fig-cap: "Heatmap showing agreement of paired ratings of dementia severity after consensus process"
 
-a2 %>%
-filter(!is.na(dementia_severity_A), !is.na(dementia_severity_B)) %>%
+foo <- a2 %>%
+  filter(!is.na(dementia_severity_A), !is.na(dementia_severity_B)) %>%
   group_by(dementia_severity_A, dementia_severity_B) %>%
   summarize(n = n()) %>%
-  haven::zap_labels() %>%
+  haven::zap_labels() 
+
+foo %>%
   ggplot(aes(x = dementia_severity_A, y = dementia_severity_B, fill = n)) +
     geom_tile() +
     scale_x_continuous("Dementia Severity (Rater A)", breaks = 0:4, minor_breaks = NULL,
                        labels = c("No dementia", "Very mild", "Mild", "Moderate", "Severe")) +
     scale_y_reverse("Dementia Severity (Rater B)", breaks = 0:4, minor_breaks = NULL,
                        labels = c("No dementia", "Very mild", "Mild", "Moderate", "Severe")) +
-    scale_fill_viridis_c(
-      option = "C",
+    scale_fill_gradient(
+      low = "lightgrey",
+      high = "black",
       trans = scales::pseudo_log_trans(sigma = 1),
       breaks = c(1, 3, 10, 30, 100, 200),
       name = "Count"
@@ -224,6 +399,52 @@ filter(!is.na(dementia_severity_A), !is.na(dementia_severity_B)) %>%
     coord_fixed() +
     hrbrthemes::theme_ipsum()
 
+
+```
+
+```{r}
+#| label: fig-demseverity-heatmap-post-highlighting
+#| fig-cap: "Heatmap showing agreement of paired ratings of dementia severity after consensus process (with highlighting)"
+
+
+foo %>%
+  ggplot(aes(x = dementia_severity_A, y = dementia_severity_B, fill = n)) +
+    geom_tile() +
+    geom_segment(aes(x = x1, y = y1, xend = x2, yend = y2), inherit.aes = FALSE, data = goo, 
+               color = "blue", size = 1.5) +
+    scale_x_continuous("Dementia Severity (Rater A)", breaks = 0:4, minor_breaks = NULL,
+                       labels = c("No dementia", "Very mild", "Mild", "Moderate", "Severe")) +
+    scale_y_reverse("Dementia Severity (Rater B)", breaks = 0:4, minor_breaks = NULL,
+                       labels = c("No dementia", "Very mild", "Mild", "Moderate", "Severe")) +
+    scale_fill_gradient(
+      low = "lightgrey",
+      high = "black",
+      trans = scales::pseudo_log_trans(sigma = 1),
+      breaks = c(1, 3, 10, 30, 100, 200),
+      name = "Count"
+    ) +
+    coord_fixed() +
+    hrbrthemes::theme_ipsum()
+
+
+```
+
+```{r}
+#| label: fig-demseverity-scatter-post
+#| fig-cap: "Scatterplot showing agreement of paired consensus ratings of dementia severity"
+
+a2 %>%
+  filter(!is.na(dementia_severity_A), !is.na(dementia_severity_B)) %>%
+  haven::zap_labels() %>%
+  ggplot(aes(x = dementia_severity_A, y = dementia_severity_B)) +
+    geom_abline(slope = -1, intercept = 0, color = "blue") +
+    geom_jitter(alpha=.5) + 
+    scale_x_continuous("Dementia Severity (Rater A)", breaks = 0:4, minor_breaks = NULL,
+                       labels = c("No dementia", "Very mild", "Mild", "Moderate", "Severe")) +
+    scale_y_reverse("Dementia Severity (Rater B)", breaks = 0:4, minor_breaks = NULL,
+                       labels = c("No dementia", "Very mild", "Mild", "Moderate", "Severe")) +
+    coord_fixed() +
+    hrbrthemes::theme_ipsum()
 
 ```
 
