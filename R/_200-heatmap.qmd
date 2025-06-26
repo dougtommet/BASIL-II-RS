@@ -1,5 +1,3 @@
-
-
 ```{r}
 
 a1 <- readRDS(here::here("RData", "050-all_pairs_df_initial.rds"))
@@ -33,6 +31,30 @@ corr_ncd_presence_consensus <- formatC(corr_ncd_presence_consensus, digits = 2)
 ```
 
 ```{r}
+#| label: correlation-weighted
+# Compute and format weighted correlation coefficient
+corr_delirium_severity_initial_wt <- cov.wt(a1 %>% select(delirium_severity_A, delirium_severity_B), wt=a1$wt, cor=TRUE)[["cor"]][2,1]
+corr_delirium_severity_initial_wt <- formatC(corr_delirium_severity_initial_wt, digits = 2)
+corr_delirium_severity_consensus_wt <- cov.wt(a2 %>% select(delirium_severity_A, delirium_severity_B), wt=a2$wt, cor=TRUE)[["cor"]][2,1] 
+corr_delirium_severity_consensus_wt <- formatC(corr_delirium_severity_consensus_wt, digits = 2)
+
+corr_delirium_presence_initial_wt <- cov.wt(a1 %>% select(delirium_presence_A, delirium_presence_B), wt=a1$wt, cor=TRUE)[["cor"]][2,1]
+corr_delirium_presence_initial_wt <- formatC(corr_delirium_presence_initial_wt, digits = 2)
+corr_delirium_presence_consensus_wt <- cov.wt(a2 %>% select(delirium_presence_A, delirium_presence_B), wt=a2$wt, cor=TRUE)[["cor"]][2,1]
+corr_delirium_presence_consensus_wt <- formatC(corr_delirium_presence_consensus_wt, digits = 2)
+
+corr_dementia_severity_initial_wt <- cov.wt(a1 %>% select(dementia_severity_A, dementia_severity_B), wt=a1$wt, cor=TRUE)[["cor"]][2,1]
+corr_dementia_severity_initial_wt <- formatC(corr_dementia_severity_initial_wt, digits = 2)
+corr_dementia_severity_consensus_wt <- cov.wt(a2 %>% select(dementia_severity_A, dementia_severity_B), wt=a2$wt, cor=TRUE)[["cor"]][2,1] 
+corr_dementia_severity_consensus_wt <- formatC(corr_dementia_severity_consensus_wt, digits = 2)
+
+corr_ncd_presence_initial_wt <- cov.wt(a1 %>% select(ncd_presence_A, ncd_presence_B), wt=a1$wt, cor=TRUE)[["cor"]][2,1]
+corr_ncd_presence_initial_wt <- formatC(corr_ncd_presence_initial_wt, digits = 2)
+corr_ncd_presence_consensus_wt <- cov.wt(a2 %>% select(ncd_presence_A, ncd_presence_B), wt=a2$wt, cor=TRUE)[["cor"]][2,1]
+corr_ncd_presence_consensus_wt <- formatC(corr_ncd_presence_consensus_wt, digits = 2)
+```
+
+```{r}
 #| label: kappa
 # Compute and format kappa statistic
 my_kappa_fx <- function(df, x1, x2) {
@@ -61,18 +83,35 @@ kap_dementia_severity_consensus <- my_kappa_fx(a2, "dementia_severity_A", "demen
 
 ## Delirium severity
 
+Crosstab of paired initial ratings of delirium severity
+
 ```{r}
 #| label: tbl-delseverity-cross-pre
-#| tbl-cap: "Crosstab of paired initial ratings of delirium severity"
 
 a1 %>%
   labelled::to_factor() %>%
   gtsummary::tbl_cross(delirium_severity_B, delirium_severity_A)
 ```
 
+Crosstab of paired initial ratings of delirium severity (weighted)
+
+```{r}
+#| label: tbl-delseverity-cross-pre-wt
+
+xtabs(wt_scaled ~ delirium_severity_B + delirium_severity_A, data = a1) %>% 
+  as.data.frame.matrix() %>%
+  gt::gt(rownames_to_stub = TRUE) %>%
+  gt::fmt_number(decimals = 1) %>%
+  gt::tab_spanner("Delirium Severity A", columns = 1:11) %>%
+  gt::tab_stubhead("Delirium Severity B")
+  
+  
+```
+
 ```{r}
 #| label: fig-delseverity-heatmap-pre
 #| fig-cap: "Heatmap showing agreement of paired initial ratings of delirium severity"
+#| eval: false
 
 foo <- a1 %>%
   filter(!is.na(delirium_severity_A), !is.na(delirium_severity_B)) %>%
@@ -99,6 +138,7 @@ foo %>%
 ```{r}
 #| label: fig-delseverity-heatmap-pre-highlighting
 #| fig-cap: "Heatmap showing agreement of paired initial ratings of delirium severity (with highlighting)"
+#| eval: false
 
 goo <- tribble(~x1, ~x2, ~y1, ~y2,
                -0.5,  0.5, -0.5, -0.5,
@@ -144,10 +184,10 @@ foo %>%
 
 ```
 
-
 ```{r}
 #| label: fig-delseverity-scatter-pre
 #| fig-cap: "Scatterplot showing agreement of paired initial ratings of delirium severity"
+#| eval: false
 
 a1 %>%
   filter(!is.na(delirium_severity_A), !is.na(delirium_severity_B)) %>%
@@ -161,20 +201,124 @@ a1 %>%
 
 ```
 
+```{r}
+#| eval: false
+a1 %>%
+  filter(!is.na(delirium_severity_A), !is.na(delirium_severity_B)) %>%
+  ggplot(aes(x = delirium_severity_A, y = delirium_severity_B)) +
+    geom_abline(slope = 1, intercept = 0, color = "red") +
+    geom_jitter(alpha=.5) + 
+    scale_x_continuous("Delirium Severity (Rater A)", breaks = 0:9, minor_breaks = NULL) +
+    scale_y_continuous("Delirium Severity (Rater B)", breaks = 0:9, minor_breaks = NULL) +
+    coord_fixed() +
+    hrbrthemes::theme_ipsum()
 
+```
+
+```{r}
+foo <- a1 %>%
+  filter(!is.na(delirium_severity_A), !is.na(delirium_severity_B)) %>%
+  group_by(delirium_severity_A, delirium_severity_B) %>%
+  summarize(n = n()) 
+
+p_initial <- foo %>%
+  filter(!is.na(delirium_severity_A), !is.na(delirium_severity_B)) %>%
+  ggplot(aes(x = delirium_severity_A, y = delirium_severity_B, size = n, color = n)) +
+    geom_abline(slope = 1, intercept = 0, color = "red") +
+    geom_point() + 
+    scale_x_continuous("Delirium Severity (Rater A)", breaks = 0:9, minor_breaks = NULL, 
+                       labels = c("0 \n n = 313", "1 \n n = 115", "2 \n n = 76", "3 \n n = 59", "4 \n n = 80", "5 \n n = 115", 
+                                  "6 \n n = 82", "7 \n n = 62", "8 \n n = 23", "9 \n n = 29")) +
+    scale_y_continuous("Delirium Severity (Rater B)", breaks = 0:9, minor_breaks = NULL,
+                       labels = c("0 \n n = 338", "1 \n n = 141", "2 \n n = 25", "3 \n n = 48", "4 \n n = 96", "5 \n n = 118", 
+                                  "6 \n n = 98", "7 \n n = 58", "8 \n n = 19", "9 \n n = 13")) +
+    scale_color_gradient(
+      low = "lightgrey",
+      high = "black",
+      trans = scales::pseudo_log_trans(sigma = 1),
+      breaks = c(1, 3, 10, 30, 100, 200),
+      name = "Count"
+    ) +
+    scale_size_continuous(
+      breaks = c(1, 3, 10, 30, 100, 200),
+      name = "Count"
+    ) +
+    coord_fixed() +
+    guides(color=guide_legend(), size = guide_legend()) +
+    hrbrthemes::theme_ipsum() +
+    theme(panel.grid.major = element_line(color = "grey100")) +
+    theme(panel.grid.minor = element_line(color = "grey100"))
+```
+
+```{r}
+
+foo_wt <- xtabs(wt_scaled ~ delirium_severity_B + delirium_severity_A, data = a1) %>% 
+  as.data.frame.matrix() %>%
+  rownames_to_column("delirium_severity_B") %>% 
+  pivot_longer(names_to = "delirium_severity_A", values_to = "n", cols = 2:11 ) %>%
+  mutate(delirium_severity_A = as.numeric(delirium_severity_A),
+         delirium_severity_B = as.numeric(delirium_severity_B)) %>%
+  select(delirium_severity_A, delirium_severity_B, n) %>%
+  filter(n!=0)
+    
+p_initial_wt <- foo_wt %>%
+  filter(!is.na(delirium_severity_A), !is.na(delirium_severity_B)) %>%
+  ggplot(aes(x = delirium_severity_A, y = delirium_severity_B, size = n, color = n)) +
+    geom_abline(slope = 1, intercept = 0, color = "red") +
+    geom_point() + 
+    scale_x_continuous("Delirium Severity (Rater A)", breaks = 0:9, minor_breaks = NULL, 
+                       labels = c("0 \n n = 313", "1 \n n = 115", "2 \n n = 76", "3 \n n = 59", "4 \n n = 80", "5 \n n = 115", 
+                                  "6 \n n = 82", "7 \n n = 62", "8 \n n = 23", "9 \n n = 29")) +
+    scale_y_continuous("Delirium Severity (Rater B)", breaks = 0:9, minor_breaks = NULL,
+                       labels = c("0 \n n = 338", "1 \n n = 141", "2 \n n = 25", "3 \n n = 48", "4 \n n = 96", "5 \n n = 118", 
+                                  "6 \n n = 98", "7 \n n = 58", "8 \n n = 19", "9 \n n = 13")) +
+    scale_color_gradient(
+      low = "lightgrey",
+      high = "black",
+      trans = scales::pseudo_log_trans(sigma = 1),
+      breaks = c(1, 3, 10, 30, 100, 200),
+      name = "Count"
+    ) +
+    scale_size_continuous(
+      breaks = c(1, 3, 10, 30, 100, 200),
+      name = "Count"
+    ) +
+    coord_fixed() +
+    guides(color=guide_legend(), size = guide_legend()) +
+    hrbrthemes::theme_ipsum() +
+    theme(panel.grid.major = element_line(color = "grey100")) +
+    theme(panel.grid.minor = element_line(color = "grey100"))
+```
+
+Crosstab of paired consensus ratings of delirium severity
 
 ```{r}
 #| label: tbl-delseverity-cross-post
-#| tbl-cap: "Crosstab of paired consensus ratings of delirium severity"
 
 a2 %>%
   labelled::to_factor() %>%
   gtsummary::tbl_cross(delirium_severity_B, delirium_severity_A)
 ```
 
+Crosstab of paired initial ratings of delirium severity (weighted)
+
+```{r}
+#| label: tbl-delseverity-cross-post-wt
+
+xtabs(wt_scaled ~ delirium_severity_B + delirium_severity_A, data = a2) %>% 
+  as.data.frame.matrix() %>%
+  gt::gt(rownames_to_stub = TRUE) %>%
+  gt::fmt_number(decimals = 1) %>%
+  gt::tab_spanner("Delirium Severity A", columns = 1:11) %>%
+  gt::tab_stubhead("Delirium Severity B")
+  
+  
+```
+
 ```{r}
 #| label: fig-delseverity-heatmap-post
 #| fig-cap: "Heatmap showing agreement of paired ratings of delirium severity after consensus process"
+#| eval: false
 
 foo <- a2 %>%
   filter(!is.na(delirium_severity_A), !is.na(delirium_severity_B)) %>%
@@ -202,6 +346,7 @@ foo %>%
 ```{r}
 #| label: fig-delseverity-heatmap-post-highlighting
 #| fig-cap: "Heatmap showing agreement of paired ratings of delirium severity after consensus process (with highlighting)"
+#| eval: false
 
 foo %>%
   ggplot(aes(x = delirium_severity_A, y = delirium_severity_B, fill = n)) +
@@ -226,6 +371,7 @@ foo %>%
 ```{r}
 #| label: fig-delseverity-scatter-post
 #| fig-cap: "Scatterplot showing agreement of paired consensus ratings of delirium severity"
+#| eval: false
 
 a2 %>%
   filter(!is.na(delirium_severity_A), !is.na(delirium_severity_B)) %>%
@@ -239,8 +385,154 @@ a2 %>%
 
 ```
 
-The correlation between rater A and rater B delirium severity ratings (0-9) prior to the consensus process was `r corr_delirium_severity_initial`. After the consensus process, the correlation was `r corr_delirium_severity_consensus`.  The kappa statistic went from `r kap_delirium_severity_initial` to `r kap_delirium_severity_consensus`.
+```{r}
+foo <- a2 %>%
+  filter(!is.na(delirium_severity_A), !is.na(delirium_severity_B)) %>%
+  group_by(delirium_severity_A, delirium_severity_B) %>%
+  summarize(n = n()) 
 
+p_consensus <- foo %>%
+  filter(!is.na(delirium_severity_A), !is.na(delirium_severity_B)) %>%
+  ggplot(aes(x = delirium_severity_A, y = delirium_severity_B, size = n, color = n)) +
+    geom_abline(slope = 1, intercept = 0, color = "red") +
+    geom_point() + 
+    scale_x_continuous("Delirium Severity (Rater A)", breaks = 0:9, minor_breaks = NULL, 
+                       labels = c("0 \n n = 277", "1 \n n = 136", "2 \n n = 107", "3 \n n = 39", "4 \n n = 70", "5 \n n = 113", 
+                                  "6 \n n = 134", "7 \n n = 40", "8 \n n = 21", "9 \n n = 17")) +
+    scale_y_continuous("Delirium Severity (Rater B)", breaks = 0:9, minor_breaks = NULL,
+                       labels = c("0 \n n = 308", "1 \n n = 150", "2 \n n = 72", "3 \n n = 32", "4 \n n = 64", "5 \n n = 126", 
+                                  "6 \n n = 106", "7 \n n = 62", "8 \n n = 21", "9 \n n = 13")) +
+    scale_color_gradient(
+      low = "lightgrey",
+      high = "black",
+      trans = scales::pseudo_log_trans(sigma = 1),
+      breaks = c(1, 3, 10, 30, 100, 200),
+      name = "Count"
+    ) +
+    scale_size_continuous(
+      breaks = c(1, 3, 10, 30, 100, 200),
+      name = "Count"
+    ) +
+    coord_fixed() +
+    guides(color=guide_legend(), size = guide_legend()) +
+    hrbrthemes::theme_ipsum() +
+    theme(panel.grid.major = element_line(color = "grey100")) +
+    theme(panel.grid.minor = element_line(color = "grey100"))
+```
+
+```{r}
+
+foo_wt <- xtabs(wt_scaled ~ delirium_severity_B + delirium_severity_A, data = a2) %>% 
+  as.data.frame.matrix() %>%
+  rownames_to_column("delirium_severity_B") %>% 
+  pivot_longer(names_to = "delirium_severity_A", values_to = "n", cols = 2:11 ) %>%
+  mutate(delirium_severity_A = as.numeric(delirium_severity_A),
+         delirium_severity_B = as.numeric(delirium_severity_B)) %>%
+  select(delirium_severity_A, delirium_severity_B, n) %>%
+  filter(n!=0)
+    
+p_consensus_wt <- foo_wt %>%
+  filter(!is.na(delirium_severity_A), !is.na(delirium_severity_B)) %>%
+  ggplot(aes(x = delirium_severity_A, y = delirium_severity_B, size = n, color = n)) +
+    geom_abline(slope = 1, intercept = 0, color = "red") +
+    geom_point() + 
+    scale_x_continuous("Delirium Severity (Rater A)", breaks = 0:9, minor_breaks = NULL, 
+                       labels = c("0 \n n = 277", "1 \n n = 136", "2 \n n = 107", "3 \n n = 39", "4 \n n = 70", "5 \n n = 113", 
+                                  "6 \n n = 134", "7 \n n = 40", "8 \n n = 21", "9 \n n = 17")) +
+    scale_y_continuous("Delirium Severity (Rater B)", breaks = 0:9, minor_breaks = NULL,
+                       labels = c("0 \n n = 308", "1 \n n = 150", "2 \n n = 72", "3 \n n = 32", "4 \n n = 64", "5 \n n = 126", 
+                                  "6 \n n = 106", "7 \n n = 62", "8 \n n = 21", "9 \n n = 13")) +
+    scale_color_gradient(
+      low = "lightgrey",
+      high = "black",
+      trans = scales::pseudo_log_trans(sigma = 1),
+      breaks = c(1, 3, 10, 30, 100, 200),
+      name = "Count"
+    ) +
+    scale_size_continuous(
+      breaks = c(1, 3, 10, 30, 100, 200),
+      name = "Count"
+    ) +
+    coord_fixed() +
+    guides(color=guide_legend(), size = guide_legend()) +
+    hrbrthemes::theme_ipsum() +
+    theme(panel.grid.major = element_line(color = "grey100")) +
+    theme(panel.grid.minor = element_line(color = "grey100"))
+```
+
+Unweighted data
+
+Initial rating
+
+```{r}
+ggsave(here::here("Figures", "scatterplot_initial.png"), plot = p_initial, 
+        dpi = 300, bg = "white",
+       units = "in", height = 10)
+```
+
+![](images/scatterplot_initial.png){width="200%"}
+
+Consensus rating
+
+```{r}
+ggsave(here::here("Figures", "scatterplot_consensus.png"), plot = p_consensus, 
+        dpi = 300, bg = "white",
+       units = "in", height = 10)
+```
+
+![](images/scatterplot_consensus.png){width="200%"}
+
+Combined figure
+
+```{r}
+p <- ggpubr::ggarrange(p_initial, p_consensus,
+                  labels = c("Initial", "Consensus"),
+                  common.legend = TRUE, legend = "right")
+ggsave(here::here("Figures", "scatterplot_combined.png"), plot = p,
+        dpi = 300, bg = "white",
+       units = "in", width = 18)
+```
+
+![](images/scatterplot_combined.png){height="200%"}
+
+Weighted data
+
+Initial rating
+
+```{r}
+ggsave(here::here("Figures", "scatterplot_initial_wt.png"), plot = p_initial_wt, 
+        dpi = 300, bg = "white",
+       units = "in", height = 10)
+```
+
+![](images/scatterplot_initial_wt.png){width="200%"}
+
+Consensus rating
+
+```{r}
+ggsave(here::here("Figures", "scatterplot_consensus_wt.png"), plot = p_consensus_wt, 
+        dpi = 300, bg = "white",
+       units = "in", height = 10)
+```
+
+![](images/scatterplot_consensus_wt.png){width="200%"}
+
+Combined figure
+
+```{r}
+p_wt <- ggpubr::ggarrange(p_initial_wt, p_consensus_wt,
+                  labels = c("Initial", "Consensus"),
+                  common.legend = TRUE, legend = "right")
+ggsave(here::here("Figures", "scatterplot_combined_wt.png"), plot = p_wt,
+        dpi = 300, bg = "white",
+       units = "in", width = 18)
+```
+
+![](images/scatterplot_combined_wt.png)
+
+The unweighted correlation between rater A and rater B delirium severity ratings (0-9) prior to the consensus process was `r corr_delirium_severity_initial`. After the consensus process, the correlation was `r corr_delirium_severity_consensus`. The kappa statistic went from `r kap_delirium_severity_initial` to `r kap_delirium_severity_consensus`.
+
+The weighted correlation between rater A and rater B delirium severity ratings (0-9) prior to the consensus process was `r corr_delirium_severity_initial_wt`. After the consensus process, the correlation was `r corr_delirium_severity_consensus_wt`.
 
 ## Delirium presence
 
@@ -252,7 +544,6 @@ a1 %>%
   gtsummary::tbl_cross(delirium_presence_B, delirium_presence_A)
 ```
 
-
 ```{r}
 #| label: tbl-delpresence-cross-post
 #| tbl-cap: "Crosstab of paired consensus ratings of delirium presence"
@@ -262,7 +553,4 @@ a2 %>%
   gtsummary::tbl_cross(delirium_presence_B, delirium_presence_A)
 ```
 
-The correlation between rater A and rater B delirium presence ratings (Yes/No) prior to the consensus process was `r corr_delirium_presence_initial`. After the consensus process, the correlation was `r corr_delirium_presence_consensus`.  The kappa statistic went from `r kap_delirium_presence_initial` to `r kap_delirium_presence_consensus`.
-
-
-
+The correlation between rater A and rater B delirium presence ratings (Yes/No) prior to the consensus process was `r corr_delirium_presence_initial`. After the consensus process, the correlation was `r corr_delirium_presence_consensus`. The kappa statistic went from `r kap_delirium_presence_initial` to `r kap_delirium_presence_consensus`.

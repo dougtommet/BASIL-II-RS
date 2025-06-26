@@ -1,0 +1,91 @@
+
+# IPTW
+
+```{r}
+basil_df <- readRDS(here::here("RData", "046-basil_df.rds"))
+```
+
+## Comparison of clinical assessor sample
+
+```{r}
+gtsummary::tbl_cross(basil_df, row = vddelseveritygs, col = vd_clinical_assessor, percent = "column")
+
+```
+
+```{r}
+basil_df %>%
+  ggplot(aes(x = vddelseveritygs)) +
+    geom_histogram() +
+    facet_grid(rows = vars(vd_clinical_assessor)) +
+    hrbrthemes::theme_ipsum()
+
+```
+
+## Calculating the weights
+
+We considered two methods to calculate the weights.  The first was using logistic regression.  The second was called entropy balancing.  Both models controlled for delirium severity (GS) and site.  We are going with the entropy balancing weights.
+
+
+```{r}
+basil_df %>%  
+  ggplot(aes(x = w_eb, y = w_lr)) +
+    geom_abline(slope = 1, intercept = 0, color = "gray") +
+    geom_point() +
+    scale_x_continuous("Weights: Entropy balancing") +
+    scale_y_continuous("Weights: Logistic regression") +
+    coord_fixed() +
+    hrbrthemes::theme_ipsum()
+```
+
+## Comparison of weighted and unweighted sample
+
+Mean of delirium severity, stratified by clinical assessor sample.
+
+```{r}
+# unweighted means in and out of the clinical assessor sample 
+# basil_df %>%
+#   group_by(vd_clinical_assessor) %>%
+#   summarize(
+#     m = mean(vddelseveritygs)
+#     ) %>%
+#   gt::gt() %>%
+#   gt::fmt_number()
+
+basil_df %>%
+  select(vddelseveritygs, vd_clinical_assessor) %>%
+  mutate(vd_clinical_assessor = factor(vd_clinical_assessor, levels = c("TRUE", "FALSE"), labels = c("TRUE", "FALSE"))) %>%
+  gtsummary::tbl_summary(by = vd_clinical_assessor,
+                         type = c(vddelseveritygs) ~ "continuous",
+                         statistic = gtsummary::all_continuous() ~ "{mean} ({sd})") %>%
+  gtsummary::add_overall()
+
+```
+
+Weighted mean of delirium severity in the clinical assessor sample.
+
+```{r}
+# weighted and unweighted means in the clinical assessor sample
+# basil_df %>%
+#   filter(vd_clinical_assessor==1) %>%
+#   mutate(w = eb_out$w,
+#          w488 = w * (488/sum(w))) %>%
+#   group_by(vd_clinical_assessor) %>%
+#   summarize(
+#     # sum_wt = sum(w),
+#     # sum_wt488 = sum(w488),
+#     m = mean(vddelseveritygs),
+#     m_wt = weighted.mean(vddelseveritygs, w)
+#     )
+
+basil_foo <- haven::zap_labels(basil_df) %>%
+  filter(vd_clinical_assessor==TRUE)
+
+survey::svydesign(~1, data = basil_foo, weights = ~w_eb) %>%
+  gtsummary::tbl_svysummary(
+    # by = vd_clinical_assessor,  
+                            include = c(vddelseveritygs),
+                            type = c(vddelseveritygs) ~ "continuous",
+                            statistic = gtsummary::all_continuous() ~ "{mean} ({sd})")
+
+```
+

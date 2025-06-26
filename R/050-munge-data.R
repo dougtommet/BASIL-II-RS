@@ -17,6 +17,16 @@
 
 
 processed_rs <- readRDS(here::here("RData", "030-processed_rs.rds"))
+
+basil_df <- readRDS(here::here("RData", "046-basil_df.rds"))
+basil_wts <- basil_df %>%
+  mutate(wt = w_eb) %>%
+  select(studyid, wt)
+
+
+processed_rs <- processed_rs %>%
+  left_join(basil_wts, by = c("studyid" = "studyid"))
+
 # Renaming variables and transforming to wide format to match the data structure from GS analysis
 processed_rs <- processed_rs %>%
   mutate(rater = case_when(rsadjname=="Anna MacKay-Brandt" ~ 1,
@@ -26,7 +36,7 @@ processed_rs <- processed_rs %>%
                            rsadjname=="Kerry Palihnich" ~ 5,
                            rsadjname=="Rebecca Avila-Rieger" ~ 6,
                            rsadjname=="Wingyun Mak" ~ 7)) %>%
-  select(studyid, rater,
+  select(studyid, wt, rater,
          delirium_presence_1, delirium_presence_2,
          delirium_severity_1, delirium_severity_2,
          ncd_presence_1, ncd_presence_2,
@@ -42,7 +52,7 @@ processed_rs <- processed_rs %>%
 
 processed_rs_wide <- processed_rs %>%
   arrange(studyid, rater) %>%
-  pivot_wider(id_cols = studyid, names_from = rater, values_from = c(delirium_presence_initial, delirium_presence_consensus,
+  pivot_wider(id_cols = c(studyid, wt), names_from = rater, values_from = c(delirium_presence_initial, delirium_presence_consensus,
                                                               delirium_severity_initial, delirium_severity_consensus,
                                                               ncd_presence_initial, ncd_presence_consensus,
                                                               dementia_severity_initial, dementia_severity_consensus))
@@ -88,7 +98,7 @@ create_all_possible_pairs <- function(df, time) {
       mutate(pair = i,
              raterA = rater_a,
              raterB = rater_b) %>%
-      select(studyid, pair,  raterA, raterB, all_of(instrument_list_a), all_of(instrument_list_b)) %>%
+      select(studyid, wt, pair,  raterA, raterB, all_of(instrument_list_a), all_of(instrument_list_b)) %>%
       # rename the variables so they line up when we append the data frame
       rename_with(~ gsub(rater_a, "A", .x)) %>%
       rename_with(~ gsub(rater_b, "B", .x))
@@ -107,7 +117,7 @@ create_all_possible_pairs <- function(df, time) {
   }
 
   goo <- goo %>%
-    select(studyid,
+    select(studyid, wt,
            pair, raterA, raterB,
            delirium_presence_A, delirium_presence_B,
            delirium_severity_A, delirium_severity_B,
@@ -145,6 +155,13 @@ all_pairs_df_initial <- all_pairs_df_initial %>%
 all_pairs_df_consensus <- all_pairs_df_consensus %>%
   filter(!is.na(delirium_severity_A) & !is.na(delirium_severity_B))
 
+all_pairs_df_initial <- all_pairs_df_initial %>%
+  mutate(wt_scaled = wt * n()/sum(wt)) %>%
+  select(studyid, wt, wt_scaled, everything())
+
+all_pairs_df_consensus <- all_pairs_df_consensus %>%
+  mutate(wt_scaled = wt * n()/sum(wt)) %>%
+  select(studyid, wt, wt_scaled, everything())
 
 saveRDS(all_pairs_df_initial, here::here("RData", "050-all_pairs_df_initial.rds"))
 saveRDS(all_pairs_df_consensus, here::here("RData", "050-all_pairs_df_consensus.rds"))
