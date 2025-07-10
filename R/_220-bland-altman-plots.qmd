@@ -24,14 +24,37 @@ a2 <- a2 %>%
   )
 ```
 
-```{r}
-#| label: fig-delseverity-blandaltman-pre
-#| fig-cap: "Bland-Altman plot of initial ratings of delirium severity"
 
-a1 %>%
-  group_by(delirium_severity_diff, delirium_severity_avg) %>%
-  summarize(n = n()) %>%
-  ggplot(aes(x = delirium_severity_avg, y = delirium_severity_diff)) +
+
+```{r}
+ba_a1_weighted <- xtabs(wt_scaled ~ delirium_severity_diff + delirium_severity_avg, data = a1) %>% 
+  as.data.frame.matrix() %>%
+  rownames_to_column("delirium_severity_diff") %>% 
+  pivot_longer(cols = c("0", "0.5", "1", "1.5", "2", "2.5", "3", "3.5", "4", "4.5", 
+                        "5", "5.5", "6", "6.5", "7", "7.5", "8", "8.5", "9"), 
+               names_to = "delirium_severity_avg", values_to = "n") %>%
+    mutate(delirium_severity_diff = as.numeric(delirium_severity_diff),
+           delirium_severity_avg = as.numeric(delirium_severity_avg)) %>%
+  filter(n>0)
+
+ba_a2_weighted <- xtabs(wt_scaled ~ delirium_severity_diff + delirium_severity_avg, data = a2) %>% 
+  as.data.frame.matrix() %>%
+  rownames_to_column("delirium_severity_diff") %>% 
+  pivot_longer(cols = c("0", "0.5", "1", "1.5", "2", "2.5", "3", "3.5", "4", "4.5", 
+                        "5", "5.5", "6", "6.5", "7", "7.5", "8", "8.5", "9"), 
+               names_to = "delirium_severity_avg", values_to = "n") %>%
+    mutate(delirium_severity_diff = as.numeric(delirium_severity_diff),
+           delirium_severity_avg = as.numeric(delirium_severity_avg)) %>%
+  filter(n>0)
+
+```
+
+Weighted Bland Altman plot - Initial rating
+
+```{r}
+
+ba_initial_wt <- ba_a1_weighted %>%
+    ggplot(aes(x = delirium_severity_avg, y = delirium_severity_diff)) +
     geom_point(aes(size = n, color = n)) +
     geom_smooth(method='lm', formula= y~x, se=FALSE) +
     scale_color_gradient(
@@ -47,20 +70,36 @@ a1 %>%
     ) +
     guides(color=guide_legend(), size = guide_legend()) +
     scale_x_continuous("Delirium severity (Rater A & Rater B Average)", breaks = seq(0, 10, 2)) +
-    scale_y_continuous("Delirium severity (Rater A & Rater B Difference)", breaks = seq(-6, 6, 2)) +
+    scale_y_continuous("Delirium severity (Rater A & Rater B Difference)", breaks = seq(-6, 6, 2), limits = c(-5, 5)) +
     hrbrthemes::theme_ipsum()
-
-
 ```
 
 ```{r}
-#| label: fig-delseverity-blandaltman-post
-#| fig-cap: "Bland-Altman plot of consensus ratings of delirium severity"
+ggsave(here::here("Figures", "blandaltman_inital_wt.png"), plot = ba_initial_wt, 
+        dpi = 300, bg = "white",
+       units = "in", height = 10)
 
-a2 %>%
-  group_by(delirium_severity_diff, delirium_severity_avg) %>%
-  summarize(n = n()) %>%
-  ggplot(aes(x = delirium_severity_avg, y = delirium_severity_diff)) +
+fs::file_copy(here::here("Figures", "blandaltman_inital_wt.png"), 
+              here::here("R", "images", "blandaltman_inital_wt.png"),
+              overwrite = TRUE)
+```
+
+![](images/blandaltman_inital_wt.png)
+
+
+```{r}
+lm(delirium_severity_diff ~ delirium_severity_avg, weights = n, data = ba_a1_weighted) %>% 
+  gtsummary::tbl_regression()
+# lm(delirium_severity_diff ~ delirium_severity_avg, weights = wt_scaled, data = a1)
+
+```
+
+Weighted Bland Altman plot - consensus rating
+
+```{r}
+
+ba_iconsensus_wt <- ba_a2_weighted %>%
+    ggplot(aes(x = delirium_severity_avg, y = delirium_severity_diff)) +
     geom_point(aes(size = n, color = n)) +
     geom_smooth(method='lm', formula= y~x, se=FALSE) +
     scale_color_gradient(
@@ -76,9 +115,27 @@ a2 %>%
     ) +
     guides(color=guide_legend(), size = guide_legend()) +
     scale_x_continuous("Delirium severity (Rater A & Rater B Average)", breaks = seq(0, 10, 2)) +
-    scale_y_continuous("Delirium severity (Rater A & Rater B Difference)", 
-                       breaks = seq(-6, 6, 2), limits = c(-5, 5)) +
+    scale_y_continuous("Delirium severity (Rater A & Rater B Difference)", breaks = seq(-6, 6, 2), limits = c(-5, 5)) +
     hrbrthemes::theme_ipsum()
+```
 
+```{r}
+ggsave(here::here("Figures", "blandaltman_consensus_wt.png"), plot = ba_iconsensus_wt, 
+        dpi = 300, bg = "white",
+       units = "in", height = 10)
+
+fs::file_copy(here::here("Figures", "blandaltman_consensus_wt.png"), 
+              here::here("R", "images", "blandaltman_consensus_wt.png"),
+              overwrite = TRUE)
+```
+
+![](images/blandaltman_consensus_wt.png)
+
+```{r}  
+lm(delirium_severity_diff ~ delirium_severity_avg, weights = n, data = ba_a2_weighted) %>% 
+  gtsummary::tbl_regression()
+# lm(delirium_severity_diff ~ delirium_severity_avg, weights = wt_scaled, data = a2)
 
 ```
+
+

@@ -62,7 +62,24 @@ n46 <- readRDS(here::here("RData", "030-n46.rds"))
 basil_foo <- basil_df %>%
   filter(studyid %in% n46[["studyid"]]) %>%
   select(-studyid) %>%
-  mutate(vdsite = factor(vdsite, levels = c(1, 2, 3), labels = c("BIDMC", "UF", "TNJH"))) 
+  mutate(vdsite = factor(vdsite, levels = c(1, 2, 3), labels = c("BIDMC", "UF", "TNJH")),
+         vdcci3 = car::recode(vdcharlson, "0 = 0; 1 = 1; 2:hi = 2"),
+         vdcci3 = factor(vdcci3, levels = c(0, 1, 2), labels = c("0", "1", "2+"))
+         ) %>%
+  select(-vd_clinical_assessor, -vdsite2, -vdsite3, -w_eb, -w_lr, -vdcharlson) %>%
+  select(
+     vdsite,          vdage,           vdfemale,       vdnonwhite,     vdhisp,         vdesl,          vdeduc,         vdlivesalone,  
+     vdmarried,       vdlivesinnh,     vdvisionimp,    vdhearingimp,   vdcci3,         vdmajneurogs,   vdminneurogs,   vddeliriumgs,   
+     vddelseveritygs, vddemseveritygs, vdcamsrs,       phq_9_score,    moca_score,     ad8_total_score
+  )
+
+
+
+
+
+labelled::var_label(basil_foo$vdsite) <- "Site"
+labelled::var_label(basil_foo$vdcci3) <- "Charlson Comorbidity Index"
+
 
 basil_foo %>%
   labelled::to_factor() %>%

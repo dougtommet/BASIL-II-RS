@@ -26,3 +26,8 @@ fs::file_move(here::here("R", "ABC_presentation_2025-06-06.html"),
 quarto::quarto_render(here::here("R", "ABC_presentation_2025-06-27.qmd"), output_format = "html")
 fs::file_move(here::here("R", "ABC_presentation_2025-06-27.html"),
               here::here("Reports", stringr::str_c("ABC_presentation_2025-06-27_", Sys.Date(),".html")))
+
+# Run the 2025-07-11 presentation
+quarto::quarto_render(here::here("R", "ABC_presentation_2025-07-11.qmd"), output_format = "html")
+fs::file_move(here::here("R", "ABC_presentation_2025-07-11.html"),
+              here::here("Reports", stringr::str_c("ABC_presentation_2025-07-11_", Sys.Date(),".html")))

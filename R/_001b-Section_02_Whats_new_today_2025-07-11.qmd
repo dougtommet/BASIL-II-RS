@@ -1,0 +1,14 @@
+
+## This analysis report (11 July 2025)
+
+  -  All the tables and figures were updated using the IPTW weights.
+  
+  -   The scatter plot figures were updated with a different axis label formatting.
+   
+
+   -   **ACTION**: Need to generate VDSs for ADL and IADL characteristics
+
+   -   **ACTION**: Replace REDCap PHQ, MoCA, and AD-8 summary measures with VDS versions
+
+   -   **ACTION** Aim 2 additionally requires individual CAM-S delirium features (inattention, disorganized thinking, altered level of consciousness, disorientation, memory impairment, perceptual disturbances, psychomotor agitation, psychomotor retardation, altered sleep-wake, inappropriate behavior, delusions), need to modify vds for CAM-S to generate and save individual indicators for the CAM features (0/1)
+

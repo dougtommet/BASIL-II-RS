@@ -86,7 +86,6 @@ kap_dementia_severity_consensus <- my_kappa_fx(a2, "dementia_severity_A", "demen
 Crosstab of paired initial ratings of delirium severity
 
 ```{r}
-#| label: tbl-delseverity-cross-pre
 
 a1 %>%
   labelled::to_factor() %>%
@@ -96,7 +95,6 @@ a1 %>%
 Crosstab of paired initial ratings of delirium severity (weighted)
 
 ```{r}
-#| label: tbl-delseverity-cross-pre-wt
 
 xtabs(wt_scaled ~ delirium_severity_B + delirium_severity_A, data = a1) %>% 
   as.data.frame.matrix() %>%
@@ -227,11 +225,18 @@ p_initial <- foo %>%
     geom_abline(slope = 1, intercept = 0, color = "red") +
     geom_point() + 
     scale_x_continuous("Delirium Severity (Rater A)", breaks = 0:9, minor_breaks = NULL, 
-                       labels = c("0 \n n = 313", "1 \n n = 115", "2 \n n = 76", "3 \n n = 59", "4 \n n = 80", "5 \n n = 115", 
-                                  "6 \n n = 82", "7 \n n = 62", "8 \n n = 23", "9 \n n = 29")) +
+                       labels = paste(c("**0** <br> (313)", "**1** <br> (115)", "**2** <br> (76)", "**3** <br> (59)", 
+                                        "**4** <br> (80)", "**5** <br> (115)", "**6** <br> (82)", "**7** <br> (62)", 
+                                        "**8** <br> (23)", "**9** <br> (29)")) ) +
     scale_y_continuous("Delirium Severity (Rater B)", breaks = 0:9, minor_breaks = NULL,
-                       labels = c("0 \n n = 338", "1 \n n = 141", "2 \n n = 25", "3 \n n = 48", "4 \n n = 96", "5 \n n = 118", 
-                                  "6 \n n = 98", "7 \n n = 58", "8 \n n = 19", "9 \n n = 13")) +
+                       labels = paste(c("(338) **0**", "(141) **1**", " (25) **2**", " (48) **3**", " (96) **4**", " (118) **5**", 
+                                  " (98) **6**", " (58) **7**", " (19) **8**", " (13) **9**")) )+
+    # scale_x_continuous("Delirium Severity (Rater A)", breaks = 0:9, minor_breaks = NULL, 
+    #                    labels = c("0 \n (313)", "1 \n (115)", "2 \n (76)", "3 \n (59)", "4 \n (80)", "5 \n (115)", 
+    #                               "6 \n (82)", "7 \n (62)", "8 \n (23)", "9 \n (29)")) +
+    # scale_y_continuous("Delirium Severity (Rater B)", breaks = 0:9, minor_breaks = NULL,
+    #                    labels = c("(338) 0", "(141) 1", " (25) 2", " (48) 3", " (96) 4", " (118) 5", 
+    #                               " (98) 6", " (58) 7", " (19) 8", " (13) 9")) +
     scale_color_gradient(
       low = "lightgrey",
       high = "black",
@@ -246,8 +251,13 @@ p_initial <- foo %>%
     coord_fixed() +
     guides(color=guide_legend(), size = guide_legend()) +
     hrbrthemes::theme_ipsum() +
-    theme(panel.grid.major = element_line(color = "grey100")) +
-    theme(panel.grid.minor = element_line(color = "grey100"))
+    theme(panel.grid.major = element_line(color = "grey100"),
+          panel.grid.minor = element_line(color = "grey100"),
+          axis.text.x = ggtext::element_markdown(),
+          axis.text.y = ggtext::element_markdown()
+          )
+
+
 ```
 
 ```{r}
@@ -267,11 +277,18 @@ p_initial_wt <- foo_wt %>%
     geom_abline(slope = 1, intercept = 0, color = "red") +
     geom_point() + 
     scale_x_continuous("Delirium Severity (Rater A)", breaks = 0:9, minor_breaks = NULL, 
-                       labels = c("0 \n n = 313", "1 \n n = 115", "2 \n n = 76", "3 \n n = 59", "4 \n n = 80", "5 \n n = 115", 
-                                  "6 \n n = 82", "7 \n n = 62", "8 \n n = 23", "9 \n n = 29")) +
+                       labels = paste(c("**0** <br> (313)", "**1** <br> (115)", "**2** <br> (76)", "**3** <br> (59)", 
+                                        "**4** <br> (80)", "**5** <br> (115)", "**6** <br> (82)", "**7** <br> (62)", 
+                                        "**8** <br> (23)", "**9** <br> (29)")) ) +
     scale_y_continuous("Delirium Severity (Rater B)", breaks = 0:9, minor_breaks = NULL,
-                       labels = c("0 \n n = 338", "1 \n n = 141", "2 \n n = 25", "3 \n n = 48", "4 \n n = 96", "5 \n n = 118", 
-                                  "6 \n n = 98", "7 \n n = 58", "8 \n n = 19", "9 \n n = 13")) +
+                       labels = paste(c("(338) **0**", "(141) **1**", " (25) **2**", " (48) **3**", " (96) **4**", " (118) **5**", 
+                                  " (98) **6**", " (58) **7**", " (19) **8**", " (13) **9**")) )+
+    # scale_x_continuous("Delirium Severity (Rater A)", breaks = 0:9, minor_breaks = NULL, 
+    #                    labels = c("0 \n n = 313", "1 \n n = 115", "2 \n n = 76", "3 \n n = 59", "4 \n n = 80", "5 \n n = 115", 
+    #                               "6 \n n = 82", "7 \n n = 62", "8 \n n = 23", "9 \n n = 29")) +
+    # scale_y_continuous("Delirium Severity (Rater B)", breaks = 0:9, minor_breaks = NULL,
+    #                    labels = c("0 \n n = 338", "1 \n n = 141", "2 \n n = 25", "3 \n n = 48", "4 \n n = 96", "5 \n n = 118", 
+    #                               "6 \n n = 98", "7 \n n = 58", "8 \n n = 19", "9 \n n = 13")) +
     scale_color_gradient(
       low = "lightgrey",
       high = "black",
@@ -286,14 +303,17 @@ p_initial_wt <- foo_wt %>%
     coord_fixed() +
     guides(color=guide_legend(), size = guide_legend()) +
     hrbrthemes::theme_ipsum() +
-    theme(panel.grid.major = element_line(color = "grey100")) +
-    theme(panel.grid.minor = element_line(color = "grey100"))
+    theme(panel.grid.major = element_line(color = "grey100"),
+          panel.grid.minor = element_line(color = "grey100"),
+          axis.text.x = ggtext::element_markdown(),
+          axis.text.y = ggtext::element_markdown()
+          )
 ```
 
 Crosstab of paired consensus ratings of delirium severity
 
 ```{r}
-#| label: tbl-delseverity-cross-post
+
 
 a2 %>%
   labelled::to_factor() %>%
@@ -303,7 +323,7 @@ a2 %>%
 Crosstab of paired initial ratings of delirium severity (weighted)
 
 ```{r}
-#| label: tbl-delseverity-cross-post-wt
+
 
 xtabs(wt_scaled ~ delirium_severity_B + delirium_severity_A, data = a2) %>% 
   as.data.frame.matrix() %>%
@@ -397,11 +417,18 @@ p_consensus <- foo %>%
     geom_abline(slope = 1, intercept = 0, color = "red") +
     geom_point() + 
     scale_x_continuous("Delirium Severity (Rater A)", breaks = 0:9, minor_breaks = NULL, 
-                       labels = c("0 \n n = 277", "1 \n n = 136", "2 \n n = 107", "3 \n n = 39", "4 \n n = 70", "5 \n n = 113", 
-                                  "6 \n n = 134", "7 \n n = 40", "8 \n n = 21", "9 \n n = 17")) +
+                       labels = paste(c("**0** <br> (277)", "**1** <br> (136)", "**2** <br> (107)", "**3** <br> (39)", 
+                                        "**4** <br> (70)", "**5** <br> (113)", "**6** <br> (134)", "**7** <br> (40)", 
+                                        "**8** <br> (21)", "**9** <br> (17)")) ) +
     scale_y_continuous("Delirium Severity (Rater B)", breaks = 0:9, minor_breaks = NULL,
-                       labels = c("0 \n n = 308", "1 \n n = 150", "2 \n n = 72", "3 \n n = 32", "4 \n n = 64", "5 \n n = 126", 
-                                  "6 \n n = 106", "7 \n n = 62", "8 \n n = 21", "9 \n n = 13")) +
+                       labels = paste(c("(308) **0**", "(150) **1**", " (72) **2**", " (32) **3**", " (64) **4**", " (126) **5**", 
+                                  " (106) **6**", " (62) **7**", " (21) **8**", " (13) **9**")) )+
+    # scale_x_continuous("Delirium Severity (Rater A)", breaks = 0:9, minor_breaks = NULL, 
+    #                    labels = c("0 \n n = 277", "1 \n n = 136", "2 \n n = 107", "3 \n n = 39", "4 \n n = 70", "5 \n n = 113", 
+    #                               "6 \n n = 134", "7 \n n = 40", "8 \n n = 21", "9 \n n = 17")) +
+    # scale_y_continuous("Delirium Severity (Rater B)", breaks = 0:9, minor_breaks = NULL,
+    #                    labels = c("0 \n n = 308", "1 \n n = 150", "2 \n n = 72", "3 \n n = 32", "4 \n n = 64", "5 \n n = 126", 
+    #                               "6 \n n = 106", "7 \n n = 62", "8 \n n = 21", "9 \n n = 13")) +
     scale_color_gradient(
       low = "lightgrey",
       high = "black",
@@ -416,8 +443,11 @@ p_consensus <- foo %>%
     coord_fixed() +
     guides(color=guide_legend(), size = guide_legend()) +
     hrbrthemes::theme_ipsum() +
-    theme(panel.grid.major = element_line(color = "grey100")) +
-    theme(panel.grid.minor = element_line(color = "grey100"))
+    theme(panel.grid.major = element_line(color = "grey100"),
+          panel.grid.minor = element_line(color = "grey100"),
+          axis.text.x = ggtext::element_markdown(),
+          axis.text.y = ggtext::element_markdown()
+          )
 ```
 
 ```{r}
@@ -437,11 +467,18 @@ p_consensus_wt <- foo_wt %>%
     geom_abline(slope = 1, intercept = 0, color = "red") +
     geom_point() + 
     scale_x_continuous("Delirium Severity (Rater A)", breaks = 0:9, minor_breaks = NULL, 
-                       labels = c("0 \n n = 277", "1 \n n = 136", "2 \n n = 107", "3 \n n = 39", "4 \n n = 70", "5 \n n = 113", 
-                                  "6 \n n = 134", "7 \n n = 40", "8 \n n = 21", "9 \n n = 17")) +
+                       labels = paste(c("**0** <br> (277)", "**1** <br> (136)", "**2** <br> (107)", "**3** <br> (39)", 
+                                        "**4** <br> (70)", "**5** <br> (113)", "**6** <br> (134)", "**7** <br> (40)", 
+                                        "**8** <br> (21)", "**9** <br> (17)")) ) +
     scale_y_continuous("Delirium Severity (Rater B)", breaks = 0:9, minor_breaks = NULL,
-                       labels = c("0 \n n = 308", "1 \n n = 150", "2 \n n = 72", "3 \n n = 32", "4 \n n = 64", "5 \n n = 126", 
-                                  "6 \n n = 106", "7 \n n = 62", "8 \n n = 21", "9 \n n = 13")) +
+                       labels = paste(c("(308) **0**", "(150) **1**", " (72) **2**", " (32) **3**", " (64) **4**", " (126) **5**", 
+                                  " (106) **6**", " (62) **7**", " (21) **8**", " (13) **9**")) )+
+    # scale_x_continuous("Delirium Severity (Rater A)", breaks = 0:9, minor_breaks = NULL, 
+    #                    labels = c("0 \n n = 277", "1 \n n = 136", "2 \n n = 107", "3 \n n = 39", "4 \n n = 70", "5 \n n = 113", 
+    #                               "6 \n n = 134", "7 \n n = 40", "8 \n n = 21", "9 \n n = 17")) +
+    # scale_y_continuous("Delirium Severity (Rater B)", breaks = 0:9, minor_breaks = NULL,
+    #                    labels = c("0 \n n = 308", "1 \n n = 150", "2 \n n = 72", "3 \n n = 32", "4 \n n = 64", "5 \n n = 126", 
+    #                               "6 \n n = 106", "7 \n n = 62", "8 \n n = 21", "9 \n n = 13")) +
     scale_color_gradient(
       low = "lightgrey",
       high = "black",
@@ -456,8 +493,11 @@ p_consensus_wt <- foo_wt %>%
     coord_fixed() +
     guides(color=guide_legend(), size = guide_legend()) +
     hrbrthemes::theme_ipsum() +
-    theme(panel.grid.major = element_line(color = "grey100")) +
-    theme(panel.grid.minor = element_line(color = "grey100"))
+    theme(panel.grid.major = element_line(color = "grey100"),
+          panel.grid.minor = element_line(color = "grey100"),
+          axis.text.x = ggtext::element_markdown(),
+          axis.text.y = ggtext::element_markdown()
+          )
 ```
 
 Unweighted data
@@ -468,9 +508,15 @@ Initial rating
 ggsave(here::here("Figures", "scatterplot_initial.png"), plot = p_initial, 
         dpi = 300, bg = "white",
        units = "in", height = 10)
+
+fs::file_copy(here::here("Figures", "scatterplot_initial.png"), 
+              here::here("R", "images", "scatterplot_initial.png"),
+              overwrite = TRUE)
+
 ```
 
 ![](images/scatterplot_initial.png){width="200%"}
+
 
 Consensus rating
 
@@ -478,6 +524,10 @@ Consensus rating
 ggsave(here::here("Figures", "scatterplot_consensus.png"), plot = p_consensus, 
         dpi = 300, bg = "white",
        units = "in", height = 10)
+
+fs::file_copy(here::here("Figures", "scatterplot_consensus.png"), 
+              here::here("R", "images", "scatterplot_consensus.png"),
+              overwrite = TRUE)
 ```
 
 ![](images/scatterplot_consensus.png){width="200%"}
@@ -491,6 +541,10 @@ p <- ggpubr::ggarrange(p_initial, p_consensus,
 ggsave(here::here("Figures", "scatterplot_combined.png"), plot = p,
         dpi = 300, bg = "white",
        units = "in", width = 18)
+
+fs::file_copy(here::here("Figures", "scatterplot_combined.png"), 
+              here::here("R", "images", "scatterplot_combined.png"),
+              overwrite = TRUE)
 ```
 
 ![](images/scatterplot_combined.png){height="200%"}
@@ -503,6 +557,10 @@ Initial rating
 ggsave(here::here("Figures", "scatterplot_initial_wt.png"), plot = p_initial_wt, 
         dpi = 300, bg = "white",
        units = "in", height = 10)
+
+fs::file_copy(here::here("Figures", "scatterplot_initial_wt.png"), 
+              here::here("R", "images", "scatterplot_initial_wt.png"),
+              overwrite = TRUE)
 ```
 
 ![](images/scatterplot_initial_wt.png){width="200%"}
@@ -513,6 +571,10 @@ Consensus rating
 ggsave(here::here("Figures", "scatterplot_consensus_wt.png"), plot = p_consensus_wt, 
         dpi = 300, bg = "white",
        units = "in", height = 10)
+
+fs::file_copy(here::here("Figures", "scatterplot_consensus_wt.png"), 
+              here::here("R", "images", "scatterplot_consensus_wt.png"),
+              overwrite = TRUE)
 ```
 
 ![](images/scatterplot_consensus_wt.png){width="200%"}
@@ -526,9 +588,13 @@ p_wt <- ggpubr::ggarrange(p_initial_wt, p_consensus_wt,
 ggsave(here::here("Figures", "scatterplot_combined_wt.png"), plot = p_wt,
         dpi = 300, bg = "white",
        units = "in", width = 18)
+
+fs::file_copy(here::here("Figures", "scatterplot_combined_wt.png"), 
+              here::here("R", "images", "scatterplot_combined_wt.png"),
+              overwrite = TRUE)
 ```
 
-![](images/scatterplot_combined_wt.png)
+![](images/scatterplot_combined_wt.png){height="200%"}
 
 The unweighted correlation between rater A and rater B delirium severity ratings (0-9) prior to the consensus process was `r corr_delirium_severity_initial`. After the consensus process, the correlation was `r corr_delirium_severity_consensus`. The kappa statistic went from `r kap_delirium_severity_initial` to `r kap_delirium_severity_consensus`.
 
@@ -538,19 +604,36 @@ The weighted correlation between rater A and rater B delirium severity ratings (
 
 ```{r}
 #| label: tbl-delpresence-cross-pre
-#| tbl-cap: "Crosstab of paired initial ratings of delirium presence"
-a1 %>%
-  labelled::to_factor() %>%
-  gtsummary::tbl_cross(delirium_presence_B, delirium_presence_A)
+#| tbl-cap: "Crosstab of paired initial ratings of delirium presence (weighted)"
+
+# a1 %>%
+#   labelled::to_factor() %>%
+#   gtsummary::tbl_cross(delirium_presence_B, delirium_presence_A)
+
+
+xtabs(wt_scaled ~ delirium_presence_B + delirium_presence_A, data = a1) %>% 
+  as.data.frame.matrix() %>%
+  gt::gt(rownames_to_stub = TRUE) %>%
+  gt::fmt_number(decimals = 1) %>%
+  gt::tab_spanner("Delirium Presence A", columns = 1:3) %>%
+  gt::tab_stubhead("Delirium Presence B")
+
 ```
 
 ```{r}
 #| label: tbl-delpresence-cross-post
-#| tbl-cap: "Crosstab of paired consensus ratings of delirium presence"
+#| tbl-cap: "Crosstab of paired consensus ratings of delirium presence (weighted)"
 
-a2 %>%
-  labelled::to_factor() %>%
-  gtsummary::tbl_cross(delirium_presence_B, delirium_presence_A)
+# a2 %>%
+#   labelled::to_factor() %>%
+#   gtsummary::tbl_cross(delirium_presence_B, delirium_presence_A)
+
+xtabs(wt_scaled ~ delirium_presence_B + delirium_presence_A, data = a2) %>% 
+  as.data.frame.matrix() %>%
+  gt::gt(rownames_to_stub = TRUE) %>%
+  gt::fmt_number(decimals = 1) %>%
+  gt::tab_spanner("Delirium Presence A", columns = 1:3) %>%
+  gt::tab_stubhead("Delirium Presence B")
 ```
 
 The correlation between rater A and rater B delirium presence ratings (Yes/No) prior to the consensus process was `r corr_delirium_presence_initial`. After the consensus process, the correlation was `r corr_delirium_presence_consensus`. The kappa statistic went from `r kap_delirium_presence_initial` to `r kap_delirium_presence_consensus`.
