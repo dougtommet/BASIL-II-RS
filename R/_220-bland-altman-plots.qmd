@@ -1,3 +1,8 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
 
 
 
@@ -69,15 +74,19 @@ ba_initial_wt <- ba_a1_weighted %>%
       name = "Count"
     ) +
     guides(color=guide_legend(), size = guide_legend()) +
-    scale_x_continuous("Delirium severity (Rater A & Rater B Average)", breaks = seq(0, 10, 2)) +
-    scale_y_continuous("Delirium severity (Rater A & Rater B Difference)", breaks = seq(-6, 6, 2), limits = c(-5, 5)) +
+    scale_x_continuous("Delirium severity: Rater A & Rater B Average", breaks = seq(0, 10, 2)) +
+    scale_y_continuous("Delirium severity: Rater A & Rater B Difference", breaks = seq(-6, 6, 2), limits = c(-5, 5)) +
     hrbrthemes::theme_ipsum()
 ```
 
 ```{r}
+ggsave(here::here("Figures", "blandaltman_inital_wt.pdf"), plot = ba_initial_wt, 
+       device = cairo_pdf, dpi = 300, 
+       units = "in", height = 4, width = 6)
+
 ggsave(here::here("Figures", "blandaltman_inital_wt.png"), plot = ba_initial_wt, 
-        dpi = 300, bg = "white",
-       units = "in", height = 10)
+       device = ragg::agg_png, res = 300, bg = "white",
+       units = "in", height = 4, width = 6)
 
 fs::file_copy(here::here("Figures", "blandaltman_inital_wt.png"), 
               here::here("R", "images", "blandaltman_inital_wt.png"),
@@ -114,15 +123,19 @@ ba_iconsensus_wt <- ba_a2_weighted %>%
       name = "Count"
     ) +
     guides(color=guide_legend(), size = guide_legend()) +
-    scale_x_continuous("Delirium severity (Rater A & Rater B Average)", breaks = seq(0, 10, 2)) +
-    scale_y_continuous("Delirium severity (Rater A & Rater B Difference)", breaks = seq(-6, 6, 2), limits = c(-5, 5)) +
+    scale_x_continuous("Delirium severity: Rater A & Rater B Average", breaks = seq(0, 10, 2)) +
+    scale_y_continuous("Delirium severity: Rater A & Rater B Difference", breaks = seq(-6, 6, 2), limits = c(-5, 5)) +
     hrbrthemes::theme_ipsum()
 ```
 
 ```{r}
+ggsave(here::here("Figures", "blandaltman_consensus_wt.pdf"), plot = ba_iconsensus_wt, 
+       device = cairo_pdf, dpi = 300,
+       units = "in", height = 4, width = 6)
+
 ggsave(here::here("Figures", "blandaltman_consensus_wt.png"), plot = ba_iconsensus_wt, 
-        dpi = 300, bg = "white",
-       units = "in", height = 10)
+       device = ragg::agg_png, res = 300, bg = "white",
+       units = "in", height = 4, width = 6)
 
 fs::file_copy(here::here("Figures", "blandaltman_consensus_wt.png"), 
               here::here("R", "images", "blandaltman_consensus_wt.png"),

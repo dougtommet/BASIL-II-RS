@@ -1,3 +1,8 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
 ```{r}
 #   +-------------------------------------------------------------+
 #   | Characteristics                      Setting                |
@@ -66,10 +71,10 @@ basil_foo <- basil_df %>%
          vdcci3 = car::recode(vdcharlson, "0 = 0; 1 = 1; 2:hi = 2"),
          vdcci3 = factor(vdcci3, levels = c(0, 1, 2), labels = c("0", "1", "2+"))
          ) %>%
-  select(-vd_clinical_assessor, -vdsite2, -vdsite3, -w_eb, -w_lr, -vdcharlson) %>%
+  select(-vd_clinical_assessor, -vdsite2, -vdsite3, -w_eb, -w_lr) %>%
   select(
-     vdsite,          vdage,           vdfemale,       vdnonwhite,     vdhisp,         vdesl,          vdeduc,         vdlivesalone,  
-     vdmarried,       vdlivesinnh,     vdvisionimp,    vdhearingimp,   vdcci3,         vdmajneurogs,   vdminneurogs,   vddeliriumgs,   
+     vdsite,          vdage,           vdfemale,       vdnonwhite,     vdblack,  vdrace,      vdhisp,         vdesl,          vdeduc,         vdlivesalone,  
+     vdmarried,       vdlivesinnh,     vdvisionimp,    vdhearingimp,   vdcharlson,     vdcci3,         vdmajneurogs,   vdminneurogs,   vddeliriumgs,   
      vddelseveritygs, vddemseveritygs, vdcamsrs,       phq_9_score,    moca_score,     ad8_total_score
   )
 
@@ -84,7 +89,8 @@ labelled::var_label(basil_foo$vdcci3) <- "Charlson Comorbidity Index"
 basil_foo %>%
   labelled::to_factor() %>%
   gtsummary::tbl_summary(by = vdsite,
-                         type = list(c(vdeduc) ~ "continuous"),
+                         type = list(c(vdeduc) ~ "continuous",
+                                     gtsummary::all_dichotomous() ~ "categorical"),
                          statistic = gtsummary::all_continuous() ~ "{mean} ({sd})") %>%
   gtsummary::add_overall()
 ```
@@ -93,12 +99,29 @@ basil_foo %>%
 #| tbl-cap: "Descriptive statistics of the RS sample (weighted)"
 #| label: tbl-table1-wt
 
+basil_foo <- basil_df %>%
+  filter(studyid %in% n46[["studyid"]]) %>%
+  select(-studyid) %>%
+  mutate(vdsite = factor(vdsite, levels = c(1, 2, 3), labels = c("BIDMC", "UF", "TNJH")),
+         vdcci3 = car::recode(vdcharlson, "0 = 0; 1 = 1; 2:hi = 2"),
+         vdcci3 = factor(vdcci3, levels = c(0, 1, 2), labels = c("0", "1", "2+"))
+         ) %>%
+  select(-vd_clinical_assessor, -vdsite2, -vdsite3, -w_lr) %>%
+  select(
+     vdsite,          vdage,           vdfemale,       vdnonwhite,     vdblack,   vdrace,     vdhisp,         vdesl,          vdeduc,         vdlivesalone,  
+     vdmarried,       vdlivesinnh,     vdvisionimp,    vdhearingimp,   vdcharlson,     vdcci3,         vdmajneurogs,   vdminneurogs,   vddeliriumgs,   
+     vddelseveritygs, vddemseveritygs, vdcamsrs,       phq_9_score,    moca_score,     ad8_total_score, w_eb
+  )
+
+labelled::var_label(basil_foo$vdsite) <- "Site"
+labelled::var_label(basil_foo$vdcci3) <- "Charlson Comorbidity Index"
 
 basil_foo <- haven::zap_labels(basil_foo) 
 
 survey::svydesign(~1, data = basil_foo, weights = ~w_eb) %>%
   gtsummary::tbl_svysummary(by = vdsite,
-                            type = list(c(vdeduc) ~ "continuous"),
+                            type = list(c(vdeduc) ~ "continuous", 
+                                        gtsummary::all_dichotomous() ~ "categorical"),
                             statistic = gtsummary::all_continuous() ~ "{mean} ({sd})") %>%
   gtsummary::add_overall()
 

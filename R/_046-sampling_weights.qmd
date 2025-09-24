@@ -1,3 +1,8 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
 
 # IPTW
 
@@ -8,7 +13,9 @@ basil_df <- readRDS(here::here("RData", "046-basil_df.rds"))
 ## Comparison of clinical assessor sample
 
 ```{r}
-gtsummary::tbl_cross(basil_df, row = vddelseveritygs, col = vd_clinical_assessor, percent = "column")
+basil_df %>%
+  labelled::to_factor() %>%
+gtsummary::tbl_cross(row = vddelseveritygs, col = vd_clinical_assessor, percent = "column")
 
 ```
 

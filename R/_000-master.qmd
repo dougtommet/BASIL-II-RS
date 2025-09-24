@@ -28,7 +28,7 @@ source(here::here("R", "020-folder-file-locations.R"))
 ```
 
 ```{r setup-routines}
-#| eval: true
+#| eval: false
 
 source(here::here("R", "030-pull-rs-data.R"))
 source(here::here("R", "040-pull-other-data.R"))
