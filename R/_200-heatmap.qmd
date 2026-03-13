@@ -229,13 +229,15 @@ p_initial <- foo %>%
   ggplot(aes(x = delirium_severity_A, y = delirium_severity_B, size = n, color = n)) +
     geom_abline(slope = 1, intercept = 0, color = "red") +
     geom_point() + 
-    scale_x_continuous("Delirium Severity: Rater A (n = 954)", breaks = 0:9, minor_breaks = NULL, 
+    scale_x_continuous("Delirium Severity: Rater A (n = 954)", 
+                       limits = c(0, 10), breaks = 0:10, minor_breaks = NULL, 
                        labels = paste(c("**0** <br> (313)", "**1** <br> (115)", "**2** <br> (76)", "**3** <br> (59)", 
                                         "**4** <br> (80)", "**5** <br> (115)", "**6** <br> (82)", "**7** <br> (62)", 
-                                        "**8** <br> (23)", "**9** <br> (29)")) ) +
-    scale_y_continuous("Delirium Severity: Rater B (n = 954)", breaks = 0:9, minor_breaks = NULL,
+                                        "**8** <br> (23)", "**9** <br> (29)", "**10** <br> (0)")) ) +
+    scale_y_continuous("Delirium Severity: Rater B (n = 954)", 
+                       limits = c(0, 10), breaks = 0:10, minor_breaks = NULL,
                        labels = paste(c("(338) **0**", "(141) **1**", " (25) **2**", " (48) **3**", " (96) **4**", " (118) **5**", 
-                                  " (98) **6**", " (58) **7**", " (19) **8**", " (13) **9**")) )+
+                                  " (98) **6**", " (58) **7**", " (19) **8**", " (13) **9**", " (0) **10**")) )+
     scale_color_gradient(
       low = "lightgrey",
       high = "black",
@@ -277,13 +279,15 @@ p_initial_wt <- foo_wt %>%
   ggplot(aes(x = delirium_severity_A, y = delirium_severity_B, size = n, color = n)) +
     geom_abline(slope = 1, intercept = 0, color = "red") +
     geom_point() + 
-    scale_x_continuous("Delirium Severity: Rater A (n = 954)", breaks = 0:9, minor_breaks = NULL, 
+    scale_x_continuous("Delirium Severity: Rater A (n = 954)", 
+                       limits = c(0, 10), breaks = 0:10, minor_breaks = NULL, 
                        labels = paste(c("**0** <br> (313)", "**1** <br> (115)", "**2** <br> (76)", "**3** <br> (59)", 
                                         "**4** <br> (80)", "**5** <br> (115)", "**6** <br> (82)", "**7** <br> (62)", 
-                                        "**8** <br> (23)", "**9** <br> (29)")) ) +
-    scale_y_continuous("Delirium Severity: Rater B (n = 954)", breaks = 0:9, minor_breaks = NULL,
+                                        "**8** <br> (23)", "**9** <br> (29)", "**10** <br> (0)")) ) +
+    scale_y_continuous("Delirium Severity: Rater B (n = 954)", 
+                       limits = c(0, 10), breaks = 0:10, minor_breaks = NULL,
                        labels = paste(c("(338) **0**", "(141) **1**", " (25) **2**", " (48) **3**", " (96) **4**", " (118) **5**", 
-                                  " (98) **6**", " (58) **7**", " (19) **8**", " (13) **9**")) )+
+                                  " (98) **6**", " (58) **7**", " (19) **8**", " (13) **9**", " (0) **10**")) )+
     scale_color_gradient(
       low = "lightgrey",
       high = "black",
@@ -413,13 +417,15 @@ p_consensus <- foo %>%
   ggplot(aes(x = delirium_severity_A, y = delirium_severity_B, size = n, color = n)) +
     geom_abline(slope = 1, intercept = 0, color = "red") +
     geom_point() + 
-    scale_x_continuous("Delirium Severity: Rater A (n = 954)", breaks = 0:9, minor_breaks = NULL, 
+    scale_x_continuous("Delirium Severity: Rater A (n = 954)", 
+                       limits = c(0, 10), breaks = 0:10, minor_breaks = NULL, 
                        labels = paste(c("**0** <br> (277)", "**1** <br> (136)", "**2** <br> (107)", "**3** <br> (39)", 
                                         "**4** <br> (70)", "**5** <br> (113)", "**6** <br> (134)", "**7** <br> (40)", 
-                                        "**8** <br> (21)", "**9** <br> (17)")) ) +
-    scale_y_continuous("Delirium Severity: Rater B (n = 954)", breaks = 0:9, minor_breaks = NULL,
+                                        "**8** <br> (21)", "**9** <br> (17)", "**10** <br> (0)")) ) +
+    scale_y_continuous("Delirium Severity: Rater B (n = 954)", 
+                       limits = c(0, 10), breaks = 0:10, minor_breaks = NULL,
                        labels = paste(c("(308) **0**", "(150) **1**", " (72) **2**", " (32) **3**", " (64) **4**", " (126) **5**", 
-                                  " (106) **6**", " (62) **7**", " (21) **8**", " (13) **9**")) )+
+                                  " (106) **6**", " (62) **7**", " (21) **8**", " (13) **9**", " (0) **10**")) )+
     scale_color_gradient(
       low = "lightgrey",
       high = "black",
@@ -459,13 +465,15 @@ p_consensus_wt <- foo_wt %>%
   ggplot(aes(x = delirium_severity_A, y = delirium_severity_B, size = n, color = n)) +
     geom_abline(slope = 1, intercept = 0, color = "red") +
     geom_point() + 
-    scale_x_continuous("Delirium Severity: Rater A (n = 954)", breaks = 0:9, minor_breaks = NULL, 
+    scale_x_continuous("Delirium Severity: Rater A (n = 954)", 
+                       limits = c(0, 10), breaks = 0:10, minor_breaks = NULL, 
                        labels = paste(c("**0** <br> (277)", "**1** <br> (136)", "**2** <br> (107)", "**3** <br> (39)", 
                                         "**4** <br> (70)", "**5** <br> (113)", "**6** <br> (134)", "**7** <br> (40)", 
-                                        "**8** <br> (21)", "**9** <br> (17)")) ) +
-    scale_y_continuous("Delirium Severity: Rater B (n = 954)", breaks = 0:9, minor_breaks = NULL,
+                                        "**8** <br> (21)", "**9** <br> (17)", "**10** <br> (0)")) ) +
+    scale_y_continuous("Delirium Severity: Rater B (n = 954)", 
+                       limits = c(0, 10), breaks = 0:10, minor_breaks = NULL,
                        labels = paste(c("(308) **0**", "(150) **1**", " (72) **2**", " (32) **3**", " (64) **4**", " (126) **5**", 
-                                  " (106) **6**", " (62) **7**", " (21) **8**", " (13) **9**")) )+
+                                  " (106) **6**", " (62) **7**", " (21) **8**", " (13) **9**", " (0) **10**")) )+
     scale_color_gradient(
       low = "lightgrey",
       high = "black",
