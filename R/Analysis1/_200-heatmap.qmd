@@ -5,8 +5,8 @@ editor_options:
 ---
 ```{r}
 
-a1 <- readRDS(here::here("RData", "050-all_pairs_df_initial.rds"))
-a2 <- readRDS(here::here("RData", "050-all_pairs_df_consensus.rds"))
+a1 <- readRDS(here::here("R", "RDATA", "050-all_pairs_df_initial.rds"))
+a2 <- readRDS(here::here("R", "RDATA", "050-all_pairs_df_consensus.rds"))
 ```
 
 # Rater agreement

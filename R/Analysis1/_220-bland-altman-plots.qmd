@@ -9,8 +9,8 @@ editor_options:
 
 ```{r}
 
-a1 <- readRDS(here::here("RData", "050-all_pairs_df_initial.rds"))
-a2 <- readRDS(here::here("RData", "050-all_pairs_df_consensus.rds"))
+a1 <- readRDS(here::here("R", "RDATA", "050-all_pairs_df_initial.rds"))
+a2 <- readRDS(here::here("R", "RDATA", "050-all_pairs_df_consensus.rds"))
 ```
 
 # Bland Altman plots
@@ -154,5 +154,4 @@ lm(delirium_severity_diff ~ delirium_severity_avg, weights = n, data = ba_a2_wei
 # lm(delirium_severity_diff ~ delirium_severity_avg, weights = wt_scaled, data = a2)
 
 ```
-
 

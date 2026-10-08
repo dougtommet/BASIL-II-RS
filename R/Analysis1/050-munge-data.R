@@ -16,9 +16,9 @@
 #
 
 
-processed_rs <- readRDS(here::here("RData", "030-processed_rs.rds"))
+processed_rs <- readRDS(here::here("R", "RDATA", "030-processed_rs.rds"))
 
-basil_df <- readRDS(here::here("RData", "046-basil_df.rds"))
+basil_df <- readRDS(here::here("R", "RDATA", "046-basil_df.rds"))
 basil_wts <- basil_df %>%
   mutate(wt = w_eb) %>%
   select(studyid, wt)
@@ -163,6 +163,5 @@ all_pairs_df_consensus <- all_pairs_df_consensus %>%
   mutate(wt_scaled = wt * n()/sum(wt)) %>%
   select(studyid, wt, wt_scaled, everything())
 
-saveRDS(all_pairs_df_initial, here::here("RData", "050-all_pairs_df_initial.rds"))
-saveRDS(all_pairs_df_consensus, here::here("RData", "050-all_pairs_df_consensus.rds"))
-
+saveRDS(all_pairs_df_initial, here::here("R", "RDATA", "050-all_pairs_df_initial.rds"))
+saveRDS(all_pairs_df_consensus, here::here("R", "RDATA", "050-all_pairs_df_consensus.rds"))

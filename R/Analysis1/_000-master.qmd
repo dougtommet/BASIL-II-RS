@@ -23,18 +23,21 @@ execute:
 
 <!--- Run subroutines in R -->
 ```{r}
-source(here::here("R", "010-libraries.R"))
-source(here::here("R", "020-folder-file-locations.R"))
+analysis <- "Analysis1"
+source(here::here("R", analysis, "000-Libraries.R"))
+source(here::here("R", analysis, "001-Environment-settings.R"))
+source(here::here("R", analysis, "010-libraries.R"))
+source(here::here("R", analysis, "020-folder-file-locations.R"))
 ```
 
 ```{r setup-routines}
-#| eval: false
+#| eval: true
 
-source(here::here("R", "030-pull-rs-data.R"))
-source(here::here("R", "040-pull-other-data.R"))
-source(here::here("R", "045-munge-other-data.R"))
-source(here::here("R", "046-sampling_weights.R"))
-source(here::here("R", "050-munge-data.R"))
+source(here::here("R", analysis, "030-pull-rs-data.R"))
+source(here::here("R", analysis, "040-pull-other-data.R"))
+source(here::here("R", analysis, "045-munge-other-data.R"))
+source(here::here("R", analysis, "046-sampling_weights.R"))
+source(here::here("R", analysis, "050-munge-data.R"))
 ```
 
 {{< include _001a-Section_01_Aims_of_manuscript.qmd >}}
@@ -64,4 +67,3 @@ source(here::here("R", "050-munge-data.R"))
 {{< include _200-heatmap.qmd >}}
 
 {{< include _220-bland-altman-plots.qmd >}}
-

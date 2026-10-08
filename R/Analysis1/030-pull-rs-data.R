@@ -133,5 +133,5 @@ n46 <- basil_rs_irr %>%
 
 
 
-saveRDS(n46, here::here("RData", "030-n46.rds"))
-saveRDS(basil_rs_irr, here::here("RData", "030-processed_rs.rds"))
+saveRDS(n46, here::here("R", "RDATA", "030-n46.rds"))
+saveRDS(basil_rs_irr, here::here("R", "RDATA", "030-processed_rs.rds"))

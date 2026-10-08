@@ -1,7 +1,7 @@
 
 
-basil_df <- readRDS(here::here("RData", "045-basil_redcap.rds"))
-n46 <- readRDS(here::here("RData", "030-n46.rds"))
+basil_df <- readRDS(here::here("R", "RDATA", "045-basil_redcap.rds"))
+n46 <- readRDS(here::here("R", "RDATA", "030-n46.rds"))
 
 basil_df <- basil_df %>%
   mutate(vd_clinical_assessor = studyid %in% (n46[["studyid"]]),
@@ -59,4 +59,4 @@ basil_df <- basil_df %>%
   mutate(w_eb = case_when(is.na(w_eb) ~ 0,
                           !is.na(w_eb) ~ w_eb))
 
-saveRDS(basil_df, here::here("RData", "046-basil_df.rds"))
+saveRDS(basil_df, here::here("R", "RDATA", "046-basil_df.rds"))

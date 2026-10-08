@@ -54,8 +54,8 @@ editor_options:
 ```
 
 ```{r}
-basil_df <- readRDS(here::here("RData", "046-basil_df.rds"))
-n46 <- readRDS(here::here("RData", "030-n46.rds"))
+basil_df <- readRDS(here::here("R", "RDATA", "046-basil_df.rds"))
+n46 <- readRDS(here::here("R", "RDATA", "030-n46.rds"))
 ```
 
 # Table 1
@@ -73,7 +73,7 @@ basil_foo <- basil_df %>%
          ) %>%
   select(-vd_clinical_assessor, -vdsite2, -vdsite3, -w_eb, -w_lr) %>%
   select(
-     vdsite,          vdage,           vdfemale,       vdnonwhite,     vdblack,  vdrace,      vdhisp,         vdesl,          vdeduc,         vdlivesalone,  
+     vdsite,          vdage,           vdfemale,       vdnonwhite,     vdrace,      vdhisp,         vdesl,          vdeduc,         vdlivesalone,  
      vdmarried,       vdlivesinnh,     vdvisionimp,    vdhearingimp,   vdcharlson,     vdcci3,         vdmajneurogs,   vdminneurogs,   vddeliriumgs,   
      vddelseveritygs, vddemseveritygs, vdcamsrs,       phq_9_score,    moca_score,     ad8_total_score
   )
@@ -114,7 +114,7 @@ basil_foo <- basil_df %>%
          ) %>%
   select(-vd_clinical_assessor, -vdsite2, -vdsite3, -w_lr) %>%
   select(
-     vdsite,          vdage,           vdfemale,       vdnonwhite,     vdblack,   vdrace,     vdhisp,         vdesl,          vdeduc,         vdlivesalone,  
+     vdsite,          vdage,           vdfemale,       vdnonwhite,     vdrace,     vdhisp,         vdesl,          vdeduc,         vdlivesalone,  
      vdmarried,       vdlivesinnh,     vdvisionimp,    vdhearingimp,   vdcharlson,     vdcci3,         vdmajneurogs,   vdminneurogs,   vddeliriumgs,   
      vddelseveritygs, vddemseveritygs, vdcamsrs,       phq_9_score,    moca_score,     ad8_total_score, w_eb
   )

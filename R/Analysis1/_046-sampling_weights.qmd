@@ -7,7 +7,7 @@ editor_options:
 # IPTW
 
 ```{r}
-basil_df <- readRDS(here::here("RData", "046-basil_df.rds"))
+basil_df <- readRDS(here::here("R", "RDATA", "046-basil_df.rds"))
 ```
 
 ## Comparison of clinical assessor sample
@@ -95,4 +95,3 @@ survey::svydesign(~1, data = basil_foo, weights = ~w_eb) %>%
                             statistic = gtsummary::all_continuous() ~ "{mean} ({sd})")
 
 ```
-

@@ -1,6 +1,6 @@
 
-n488 <- readRDS(here::here("RData", "040-n488.rds"))
-basil_redcap <- readRDS(here::here("RData", "040-basil_redcap.rds"))
+n488 <- readRDS(here::here("R", "RDATA", "040-n488.rds"))
+basil_redcap <- readRDS(here::here("R", "RDATA", "040-basil_redcap.rds"))
 
 basil_redcap <- basil_redcap %>%
   mutate(vddelseveritygs = dels_6_consensus,
@@ -8,13 +8,13 @@ basil_redcap <- basil_redcap %>%
   )
 
 basil_df <- basil_redcap %>%
-  filter(studyid %in% n488[["studyid"]]) %>%
-  select(studyid, vdsite,  vdage, vdfemale, vdnonwhite, vdhisp, vdesl, vdeduc,
+  filter(studyid %in% .env$n488[["studyid"]]) %>%
+  select(studyid, vdsite, vdage, vdfemale, vdnonwhite, vdrace, vdhisp, vdesl, vdeduc,
          vdlivesalone, vdmarried, vdlivesinnh, vdvisionimp, vdhearingimp,
          vdcharlson, vdmajneurogs, vdminneurogs, vddeliriumgs, vddelseveritygs, vddemseveritygs,
          vdcamsrs, phq_9_score, moca_score, ad8_total_score) %>%
   group_by(studyid) %>%
-  fill(vdsite, vdage, vdfemale, vdnonwhite, vdhisp, vdesl, vdeduc,
+  fill(vdsite, vdage, vdfemale, vdnonwhite, vdrace, vdhisp, vdesl, vdeduc,
        vdlivesalone, vdmarried, vdlivesinnh, vdhearingimp, vdvisionimp,
        vdcharlson, vdmajneurogs, vdminneurogs, vddeliriumgs, vddelseveritygs, vddemseveritygs,
        vdcamsrs, phq_9_score, moca_score, ad8_total_score,
@@ -44,5 +44,4 @@ labelled::var_label(basil_df$phq_9_score) <- "PHQ-9 score"
 labelled::var_label(basil_df$moca_score) <- "MOCA score"
 labelled::var_label(basil_df$ad8_total_score) <- "AD8 total score"
 
-saveRDS(basil_df, here::here("RData", "045-basil_redcap.rds"))
-
+saveRDS(basil_df, here::here("R", "RDATA", "045-basil_redcap.rds"))

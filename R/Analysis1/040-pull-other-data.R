@@ -34,8 +34,7 @@ basil_redcap <- haven::read_dta(fs::path(basil_derived_folder, "BASILIIMainStudy
 n488 <- haven::read_dta(fs::path(basil_derived_folder, "n488.dta"))
 
 
-saveRDS(n488, here::here("RData", "040-n488.rds"))
-saveRDS(basil_redcap, here::here("RData", "040-basil_redcap.rds"))
-
+saveRDS(n488, here::here("R", "RDATA", "040-n488.rds"))
+saveRDS(basil_redcap, here::here("R", "RDATA", "040-basil_redcap.rds"))
 
 
