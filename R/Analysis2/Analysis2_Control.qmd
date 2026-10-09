@@ -64,7 +64,8 @@ interval_notes <- c(
   attempted = "Total number of bootstrap replicates attempted."
 )
 agreement_notes <- c(
-  group = "Overall sample or stratum defined by reference-standard dementia status; missing dementia status is retained only in Overall.",
+  group = paste0("Overall sample or stratum defined by reference-standard dementia status.",
+                 if (anyNA(participants$dementia)) " Missing dementia status is retained only in Overall." else ""),
   participants = "Number of participants contributing ratings to the group.",
   metric = "Kappa: Conger's generalized kappa (quadratic category weights for severity, identity weights for presence); exact: proportion of reviewer pairs with identical ratings; within2: proportion differing by at most 2 severity points; MAD: mean absolute severity difference in points. Descriptive measures are first calculated within participant, then averaged across participants.",
   estimate = "Point estimate of the measure named in metric; exact and within2 are on a 0-1 scale.",
@@ -111,36 +112,44 @@ table_specs <- list(
       denominator = "Total number of nonmissing ratings at that stage."
     )),
   "primary-agreement" = list(
-    title = "Unweighted agreement",
+    title = "Primary agreement with entropy-balanced participant weights",
     columns = agreement_notes,
-    note = "Participants receive equal weight. Intervals condition on the fixed reviewer panel."
+    note = "Entropy-balanced participant weights enter observed agreement and reviewer category proportions. Severity uses quadratic agreement weights; presence gives credit only to identical ratings. Bootstrap intervals hold participant weights fixed, omit weight-estimation uncertainty, and condition on the fixed reviewer panel."
   ),
   "paired-change" = list(
-    title = "Paired change in overall unweighted kappa following discussion",
+    title = "Paired change in overall kappa following discussion",
     columns = c(
       outcome = "Delirium severity or delirium presence.",
+      weighting = "Entropy balanced: primary analysis; Equal participant weights: technical comparison.",
       estimate = "Post-discussion kappa minus initial kappa; positive values indicate higher post-discussion agreement.",
       interval_notes
     ),
-    note = "Each bootstrap draw uses the same participants for both rating stages; the change is descriptive and does not identify a causal effect of discussion."
+    note = "Each bootstrap draw uses the same participants and their fixed weights for both rating stages. Entropy-balanced intervals omit weight-estimation uncertainty. The change is descriptive and does not identify a causal effect of discussion."
   ),
   "complete-participant-sensitivity" = list(
-    title = "Unweighted kappa among participants with complete reviewer ratings",
+    title = "Technical sensitivity analysis among participants with complete reviewer ratings",
     columns = c(
-      outcome_stage = "Outcome and rating stage; consensus denotes post-discussion ratings.",
       group = agreement_notes[["group"]],
+      weighting = "Entropy balanced: original full-cohort participant weights retained; Equal participant weights: no entropy weights.",
       n = "Number of participants with all 7 reviewer ratings for the outcome and stage.",
-      kappa = "Conger's generalized kappa, using quadratic category weights for severity and identity weights for presence."
+      kappa = "Participant-weighted extension of Conger's kappa, using quadratic agreement weights for severity and identity weights for presence."
     )
   ),
   "balance" = list(
     title = "Covariate balance before and after entropy weighting",
+    headers = c(
+      variable = "Characteristic",
+      target = sprintf("Full cohort (n = %d): target", nrow(cohort)),
+      sample = sprintf("Reliability sample (n = %d): before weighting", nrow(participants)),
+      weighted = sprintf("Reliability sample (n = %d): after entropy weighting", nrow(participants))
+    ),
     columns = c(
-      variable = "severity: reference-standard delirium severity (0-10); site2 and site3: indicators for enrollment at sites 2 and 3.",
-      target = "Mean in the full enrolled cohort, including reliability participants; site means are proportions.",
-      sample = "Unweighted mean in the reliability sample.",
-      weighted = "Entropy-weighted mean in the reliability sample."
-    )
+      variable = "Mean reference-standard delirium severity score (0-10) or proportion enrolled at the named site (0-1).",
+      target = "Desired mean or proportion in the full enrolled cohort, including reliability participants.",
+      sample = "Observed mean or proportion in the reliability sample, with each participant contributing equally.",
+      weighted = "Achieved mean or proportion in the reliability sample after applying entropy-balanced participant weights."
+    ),
+    note = "A site proportion of 0.25 means 25% of participants. Site 1 (BIDMC) is the remaining proportion after subtracting sites 2 and 3 from 1. Matching these covariate means does not establish generalizability."
   ),
   "weight-diagnostics" = list(
     title = "Distribution of entropy weights and effective sample size",
@@ -152,13 +161,47 @@ table_specs <- list(
     ),
     note = "Weights are normalized to sum to the number of reliability participants."
   ),
-  "weighted-sensitivity" = list(
-    title = "Entropy-weighted agreement sensitivity analysis",
+  "equal-weight-comparison" = list(
+    title = "Technical comparison with equal participant weights",
     columns = agreement_notes,
-    note = "Participant weights target full-cohort covariate means and remain fixed during bootstrap resampling. Intervals omit weight-estimation uncertainty and condition on the fixed reviewer panel."
+    note = "Participants contribute equally; no entropy-balancing weights are applied. This analysis is retained for technical comparison, not manuscript presentation. Intervals condition on the fixed reviewer panel."
+  ),
+  "weight-comparison" = list(
+    title = "Technical comparison of entropy-balanced and equal-participant-weight estimates",
+    columns = c(
+      group = agreement_notes[["group"]],
+      participants = agreement_notes[["participants"]],
+      metric = agreement_notes[["metric"]],
+      equal_estimate = "Estimate with equal participant weights.",
+      entropy_estimate = "Primary estimate with entropy-balanced participant weights.",
+      difference = "Entropy-balanced estimate minus equal-participant-weight estimate, on the metric's original scale."
+    ),
+    note = "Differences are descriptive, not tests of equivalence. These comparisons remain in the technical report; the manuscript presents only entropy-balanced agreement estimates."
+  ),
+  "package-validation" = list(
+    title = "Validation against irrCAC with every participant weight set to 1",
+    columns = c(
+      group = agreement_notes[["group"]],
+      matrix_kappa = "Kappa from our participant-weighted implementation with every participant weight set to 1.",
+      package_kappa = "Kappa returned by irrCAC::conger.kappa.raw using identical agreement weights and categories.",
+      absolute_difference = "Absolute difference between the implementations; irrCAC rounds its returned estimate to 5 decimal places.",
+      tolerance = "Maximum permitted absolute difference; the analysis stops if it is exceeded."
+    ),
+    note = "Agreement weights remain quadratic for severity and identity for presence. This check validates the equal-participant-weight special case, not the weighted extension's generalizability."
   )
 )
-table_number <- 0L
+technical_table_id <- function(index) {
+  if (!is.numeric(index) || length(index) != 1L || !is.finite(index) ||
+      index < 1 || index != floor(index))
+    stop("Technical table index must be a positive integer.")
+  label <- character()
+  while (index > 0) {
+    label <- c(LETTERS[(index - 1) %% 26 + 1], label)
+    index <- (index - 1) %/% 26
+  }
+  paste0("T", paste0(label, collapse = ""))
+}
+technical_table_number <- 0L
 report_table <- function(x, name, digits = 3, page_by = NULL) {
   spec <- table_specs[[name]]
   if (is.null(spec)) stop("Missing table specification: ", name)
@@ -173,7 +216,7 @@ report_table <- function(x, name, digits = 3, page_by = NULL) {
         stop("Missing outcome label for table: ", name)
       title <- paste(title, outcome_labels[[key]], sep = ": ")
       table[[page_by]] <- NULL
-      if ("weighting" %in% names(table)) {
+      if ("weighting" %in% names(table) && !"weighting" %in% names(spec$columns)) {
         if (length(unique(table$weighting)) != 1L)
           stop("Mixed weighting schemes in table: ", name)
         table$weighting <- NULL
@@ -181,19 +224,22 @@ report_table <- function(x, name, digits = 3, page_by = NULL) {
     }
     if (!setequal(names(table), names(spec$columns)))
       stop("Column definitions do not match displayed columns in table: ", name)
-    table_number <<- table_number + 1L
-    caption <- sprintf("Table %d. %s", table_number, title)
+    if (!is.null(spec$headers) && !setequal(names(table), names(spec$headers)))
+      stop("Column headers do not match displayed columns in table: ", name)
+    headers <- if (is.null(spec$headers)) names(table) else unname(spec$headers[names(table)])
+    technical_table_number <<- technical_table_number + 1L
+    caption <- sprintf("Table %s. %s", technical_table_id(technical_table_number), title)
     notes <- paste(
       "NOTES.",
-      paste(paste0(names(table), ": ", spec$columns[names(table)]), collapse = " "),
+      paste(paste0(headers, ": ", spec$columns[names(table)]), collapse = " "),
       spec$note
     )
     markdown <- c(markdown, caption, "",
                   as.character(knitr::kable(table, format = "pipe", digits = digits,
-                                           row.names = FALSE)), "", notes, "")
+                                           row.names = FALSE, col.names = headers)), "", notes, "")
     if (!is.null(page_by)) cat("\n\n::: {.page}\n::: {.small}\n\n")
     print(kableExtra::kbl(table, digits = digits, escape = TRUE, row.names = FALSE,
-                         caption = caption) |>
+                         caption = caption, col.names = headers) |>
             kableExtra::kable_styling(full_width = FALSE, font_size = 12))
     cat("\n\n", notes, "\n\n")
     if (!is.null(page_by)) cat("\n\n:::\n:::\n\n")
@@ -202,7 +248,8 @@ report_table <- function(x, name, digits = 3, page_by = NULL) {
 }
 format_estimate <- function(key, metric = "Kappa") {
   a <- agreement[agreement$outcome_stage == key & agreement$group == "Overall" &
-                   agreement$weighting == "Unweighted" & agreement$metric == metric, ]
+                   agreement$weighting == primary_weighting & agreement$metric == metric, ]
+  if (nrow(a) != 1L) stop("Expected one primary manuscript estimate: ", key, "; ", metric)
   if (!is.finite(a$estimate)) return("undefined because the category margins yield no estimable coefficient")
   if (!is.finite(a$lower)) return(sprintf("%.3f (95%% CI unavailable; inspect bootstrap diagnostics)", a$estimate))
   sprintf("%.3f (95%% CI %.3f to %.3f)", a$estimate, a$lower, a$upper)
@@ -213,21 +260,36 @@ format_estimate <- function(key, metric = "Kappa") {
 
 ## Purpose and design
 
-Agreement is evaluated among the same 7 independent reviewers who assigned ratings from identical clinical information packets. The primary analysis uses one participant per row and one reviewer per column. It estimates agreement conditional on the information supplied; shared omissions or errors in the packets may coexist with high agreement. Initial ratings measure independent packet interpretation. Ratings following discussion measure agreement under the consensus procedure, which creates dependence between reviewers and limits interpretation as independent reliability.
+This is a re-analysis of agreement of delirium severity among 7 BASIL reference standard clinical raters as described in the draft manuscript **_Inter-rater reliability of delirium severity ratings using a standardized clinical assessment of delirium in at-risk patients_** (AMGP-26-510). The main analytic criticism was lack of clarity among statistical methods and failure to use standard methods for multiple rater reliability assessment, and reporting Pearson's correlations when kappa statistics are more standard. The new analysis extends Conger's kappa to incorporate entropy-balanced participant weights. These estimates are the primary results. We retain the all-pairs data structure only for preparing graphical displays of agreement. We no longer report correlation coefficients, only kappas and absolute deviations (differences).
 
-The reviewer response specifies Conger's generalized κ for this fixed reviewer panel (Internal: REFERENCES/AMGP-26-510-reviews-RESPONSES.md, Reviewer 1, comments 1–3). Its chance-agreement component retains each reviewer's category distribution. Quadratic category weights for severity are 1 minus the squared score difference divided by 100, with all 11 categories (0–10) retained in every subgroup. Binary presence uses identity weights for categories 0 and 1. Category weights describe the cost of rating disagreement; participant sampling weights describe the target participant distribution.
+Conger's kappa is a chance-corrected agreement statistic that accommodates category weights (providing partial credit for close severity ratings). Category weights and participant weights serve different purposes. The primary analysis uses entropy balancing to match the reliability sample to the full BASIL cohort on mean reference-standard delirium severity and site proportions. Equal-participant-weight results are retained only in the technical report for comparison and implementation validation. Conger's kappa and pooled all-pairs Cohen's kappa may be numerically similar, but they are not algebraically equivalent.
 
-The unweighted overall estimate is primary. Kendall's W summarizes concordance in ranking, and an ICC depends on a variance-components model and a choice of absolute agreement or consistency; these alternatives would require separate analytic specifications. Pearson correlations are excluded from this report.
+A potential point of confusion is that weights enter the reliability assessment in the agreement cells. Weights also enter the analysis at the individual participant level to account for differences in the sampled persons from the overall basal sample. This has to be described carefully.
+
+This analysis report does four main things:
+
+1. We describe the new analyses in technical and computational detail, and high-level statistical results that are not ready for manuscript presentation.
+2. We describe the statistical results.
+3. We identify text in the submitted manuscript, reprint it as struck out text, and replace it with new text that reflects the new analyses.
+4. We present a new set of tables and figures to replace the original tables and figures in the submitted manuscript.
+
+Technical tables are labelled Table TA, Table TB, and so on: "T" denotes "Technical output," and the letters index tables in report order. After Table TZ, the sequence continues with Table TAA, Table TAB, and so on. Tables prepared for the revised manuscript retain their manuscript labels (Table 1, Supplemental Table 1, and Supplemental Table 2), so they can be distinguished from the technical output.
+
+References to original manuscript passages use page numbers in the current PDF, counting from its title page as page 1. These refer to pages in the source manuscript, not pages in this analysis report.
+
+This analysis report is not a point-by-point response of reviewer critiques, and it is not a comprehensive revision of the submitted manuscript. Nevertheless, it is informative of those end products. In this report, we refer to "analysis1" that is the analysis done for the submitted manuscript. This analysis is referred to as "analysis2."
+
+:::
+
+::: {.page}
 
 ## Inputs and missing ratings
 
 The import and participant-level harmonization were adapted from Analysis1's 030, 040, and 045 scripts. The local workbook is `SourceData/FINAL RS IRR Ratings.xlsx`; the parent-cohort inputs are `BASILIIMainStudy_Derived.dta` and `n488.dta` in the relative folder specified in this control file. As in Analysis1, Tamara's rows are excluded, participant identifiers are trimmed before joining, and a rating without an arrow is carried forward as its post-discussion rating. Those carried-forward ratings do not establish that a case was discussed.
 
-Available ratings are used without imputing absent reviewer scores. Each outcome is checked separately. Participants with fewer than 2 ratings or a reviewer with no ratings cause the run to stop. A complete-participant sensitivity estimate drops participants missing any of the 7 ratings for that outcome and stage. Missing dementia status is excluded only from dementia strata and is retained in the overall analysis.
+Available ratings are used without imputing absent reviewer scores. Each outcome is checked separately. Participants with fewer than 2 ratings or a reviewer with no ratings cause the run to stop. A complete-participant sensitivity estimate drops participants missing any of the 7 ratings for that outcome and stage.
 
-:::
 
-::: {.page}
 ::: {.small}
 
 ```{r}
@@ -254,7 +316,9 @@ report_table(reviewer_audit, "reviewer-audit", digits = 0)
 
 ```{r}
 #| results: asis
-report_table(participant_summary, "participant-summary", digits = 0)
+report_table(participant_summary[participant_summary$measure != "Dementia status missing" |
+                                   participant_summary$count > 0, ],
+             "participant-summary", digits = 0)
 ```
 
 :::
@@ -284,25 +348,59 @@ report_table(score_distribution, "reviewer-score-distribution", digits = 0)
 
 ::: {.page}
 
-The manuscript describes 46 × 7 = 322 possible reviewer ratings. Two absent reviewer ratings remove 2 × 6 = 12 graphical comparisons, leaving 46 × 21 − 12 = 954 (Internal: REFERENCES/BASIL_CA_combined.pdf, p. 12). The audit above reports the counts obtained locally; it determines the captions rather than imposing 954 as an analysis sample size.
+## Agreement and uncertainty
+
+The primary estimate is calculated with our participant-weighted extension of Conger's kappa. We adapted the [irrCAC implementation](https://github.com/cran/irrCAC/blob/master/R/agree.coeff3.raw.r) so that entropy-balanced participant weights enter both observed agreement and each reviewer's category proportions. This is our extension, rather than a participant-weighting option in the package. With every participant weight set to 1, our code is checked against `irrCAC::conger.kappa.raw` for each estimable outcome, stage, and dementia group; the technical tables report the differences, and the run stops if any exceed 0.00001. Installed irrCAC version: `r as.character(packageVersion("irrCAC"))`; R version: `r as.character(getRversion())`.
+
+Cohen's kappa summarizes agreement between 2 reviewers, whereas Conger's kappa extends the calculation to a panel of reviewers. Both compare observed agreement ($P_o$) with the agreement expected from reviewers' separate use of the rating categories ($P_e$):
+
+$$
+\kappa = \frac{P_o-P_e}{1-P_e}.
+$$
+
+A value of 1 indicates perfect agreement; 0 indicates agreement equal to that expected under this chance model; negative values indicate less agreement than expected. This chance model assumes independent ratings with each reviewer's observed category proportions.
+
+For Cohen's kappa, expected agreement is calculated from the category proportions of the 2 reviewers:
+
+$$
+P_e^{\mathrm{Cohen}} = \sum_a \sum_b w_{ab}\,p_{1a}\,p_{2b}.
+$$
+
+Here, $p_{ja}$ is the proportion of reviewer $j$'s available ratings in category $a$, and $w_{ab}$ is the agreement credit for ratings $a$ and $b$. Traditional, unweighted Cohen's kappa gives credit only to identical ratings ($w_{ab}=1$ if $a=b$, and 0 otherwise). Weighted kappa also gives partial credit to close ratings.
+
+Conger's kappa averages expected agreement across all distinct reviewer pairs, retaining each reviewer's own category proportions. For our 7 reviewers, there are 21 pairs:
+
+$$
+P_e^{\mathrm{Conger}} =
+\frac{1}{21}\sum_{j<k}\sum_a\sum_b w_{ab}\,p_{ja}\,p_{kb}.
+$$
+
+For standard Conger's kappa, observed agreement is calculated by averaging agreement credit across available reviewer pairs within each participant, then across participants. Conger's kappa combines observed and expected agreement into a single panel estimate, rather than averaging 21 separately calculated kappas. With only 2 reviewers, it reduces to Cohen's kappa using the same agreement weights. For severity scores on our 0-10 scale, $w_{ab}=1-(a-b)^2/100$; for delirium presence, only identical ratings receive credit.
 
 :::
 
 ::: {.page}
 
-## Agreement and uncertainty
+### Participant-weighted extension
 
-The primary estimate is computed with `irrCAC::conger.kappa.raw`. Installed irrCAC version: `r as.character(packageVersion("irrCAC"))`; R version: `r as.character(getRversion())`. The package's category-weight matrix is supplied explicitly. A direct matrix implementation is checked against its point estimate on each estimable unweighted analysis, then used for bootstrap calculations and participant-weighted sensitivity analyses. The implementation follows the [irrCAC source](https://github.com/cran/irrCAC/blob/master/R/agree.coeff3.raw.r), with weighted participant means and reviewer category margins added for sensitivity analyses.
+Our extension retains the same kappa formula and distinct-reviewer-pair calculation of expected agreement. We replace equal-participant averages with entropy-weighted averages. If $v_i$ is participant $i$'s entropy weight, $R_{ij}$ is reviewer $j$'s rating, and $A_i$ is the average agreement credit across available reviewer pairs for that participant, then
 
-Uncertainty is summarized by percentile 95% confidence intervals from `r B` bootstrap samples of participants. All reviewer columns and the observed missingness pattern travel together. The same participant sample is used for initial and post-discussion κ when estimating their paired change. Reviewers are treated as a fixed panel, so these intervals describe uncertainty across participants conditional on the 7 reviewers; they do not quantify variation over a population of reviewers. No finite-population correction is applied because this was a selected reliability sample rather than a probability sample.
+$$
+P_o = \frac{\sum_i v_i A_i}{\sum_i v_i},
+\qquad
+p_{ja} =
+\frac{\sum_{i:\,R_{ij}\ \mathrm{observed}} v_i\,\mathbf{1}(R_{ij}=a)}
+{\sum_{i:\,R_{ij}\ \mathrm{observed}} v_i}.
+$$
 
-A bootstrap replicate with a missing reviewer margin or expected agreement of 1 has undefined κ. The number of finite replicates is reported, and an interval is withheld if fewer than 95% are finite. A coefficient is undefined when expected agreement equals 1. Perfect agreement across participants in multiple categories can yield κ = 1.
+The indicator $\mathbf{1}(R_{ij}=a)$ is 1 when the rating equals category $a$ and 0 otherwise. These weighted category proportions are substituted into $P_e^{\mathrm{Conger}}$. Setting every $v_i=1$ recovers the standard equal-participant-weight calculation. The primary estimates use the entropy weights; the equal-weight special case is used for validation and technical comparison.
 
+Uncertainty is summarized by percentile 95% confidence intervals from `r B` bootstrap samples of participants. All reviewer columns and the observed missingness pattern travel together. The same participant sample is used for initial and post-discussion κ when estimating their paired change. Reviewers are treated as a fixed panel, so these intervals describe uncertainty across participants conditional on the 7 reviewers; they do not quantify variation over a population of reviewers.
 :::
 
 ```{r}
 #| results: asis
-report_table(agreement[agreement$weighting == "Unweighted", ], "primary-agreement",
+report_table(agreement[agreement$weighting == primary_weighting, ], "primary-agreement",
              page_by = "outcome_stage")
 ```
 
@@ -317,30 +415,26 @@ report_table(changes, "paired-change")
 :::
 :::
 
-::: {.page}
-::: {.small}
-
 ```{r}
 #| results: asis
-report_table(complete_case, "complete-participant-sensitivity")
+report_table(complete_case, "complete-participant-sensitivity", page_by = "outcome_stage")
 ```
 
-:::
-:::
-
 ::: {.page}
 
-Severity exact agreement, agreement within 2 points, and mean absolute difference (MAD) are calculated from category counts within each participant, then averaged across participants. A participant with 6 ratings contributes the same overall case weight as a participant with 7 ratings. This calculation preserves the original within-2-point definition without using a pooled all-pairs dataset for statistics. Binary exact agreement is summarized in the same manner. Proportions are shown on a 0–1 scale.
+Severity exact agreement, agreement within 2 points, and mean absolute difference (MAD) are calculated from category counts within each participant, then averaged using the entropy-balanced participant weights. A participant's overall contribution depends on the entropy weight, rather than the number of available reviewer pairs. This calculation preserves the original within-2-point definition without using a pooled all-pairs dataset for statistics. Binary exact agreement is summarized in the same manner. Proportions are shown on a 0–1 scale.
 
-The dementia-stratified estimates are exploratory. They retain the full severity scale, but the observed category distribution may differ between strata and influence κ. Differences between subgroup coefficients cannot establish differences in reviewer performance, and similar estimates do not establish equivalence. The paired change describes the difference between stages; without a control group it cannot identify the causal effect of discussion.
+Agreement is estimated separately for participants with and without reference-standard dementia. These estimates describe agreement within each group. Comparisons of kappa require caution because the distribution of rating categories influences the coefficient; differences do not by themselves establish differences in reviewer performance, and similar estimates do not establish equivalent agreement. The paired change describes the difference between stages; without a control group it cannot identify the causal effect of discussion.
 
 :::
 
 ::: {.page}
 
-## Participant weighting sensitivity
+## Participant weighting
 
-Entropy balancing matches the reliability sample to the full enrolled cohort on mean reference-standard delirium severity and the proportions at sites 2 and 3. The full cohort, including reliability participants, supplies the target means. Analysis1's Treatment coding instead targeted participants outside the reliability sample (Internal: R/Analysis1/046-sampling_weights.R, lines 20–39). Analysis2 makes the intended full-cohort target explicit and checks the achieved balance before estimating weighted agreement.
+The primary analysis uses entropy balancing to match the reliability sample to the full enrolled cohort on mean reference-standard delirium severity and the proportions of participants included at sites 2 and 3. These weights balance the specified covariate means; extending agreement estimates to the full cohort still requires assumptions about rating behavior beyond the selected sample.
+
+**_Difference from Analysis1:_** Analysis2 uses the full enrolled cohort of 488 participants as the entropy-balancing target, consistent with the manuscript's stated aim of matching the reliability sample to the full BASIL II sample. Analysis1's code instead matched the 46 reliability participants to the 442 participants outside that sample. This change aligns the weighting target with the stated aim; it is separate from the change to Conger's kappa. Weighting balances mean reference-standard delirium severity and site proportions, but does not establish that agreement in the selected reliability sample generalizes to the full cohort.
 
 :::
 
@@ -349,7 +443,15 @@ Entropy balancing matches the reliability sample to the full enrolled cohort on 
 
 ```{r}
 #| results: asis
-report_table(balance, "balance")
+balance_display <- balance
+balance_labels <- c(
+  severity = "Reference-standard delirium severity, mean (0-10)",
+  site2 = "Enrollment at UF (site 2), proportion (0-1)",
+  site3 = "Enrollment at TNJH (site 3), proportion (0-1)"
+)
+balance_display$variable <- unname(balance_labels[balance_display$variable])
+if (anyNA(balance_display$variable)) stop("Missing descriptive label for a balancing covariate.")
+report_table(balance_display, "balance")
 ```
 
 :::
@@ -368,13 +470,23 @@ report_table(weight_summary, "weight-diagnostics")
 
 ```{r}
 #| results: asis
-report_table(agreement[agreement$weighting != "Unweighted", ], "weighted-sensitivity",
+report_table(agreement[agreement$weighting == comparison_weighting, ], "equal-weight-comparison",
              page_by = "outcome_stage")
+```
+
+```{r}
+#| results: asis
+report_table(weight_comparison, "weight-comparison", page_by = "outcome_stage")
+```
+
+```{r}
+#| results: asis
+report_table(package_validation, "package-validation", digits = 7, page_by = "outcome_stage")
 ```
 
 ::: {.page}
 
-The `weights` argument of `conger.kappa.raw` specifies category agreement weights, not participant sampling weights. Participant-weighted κ is therefore a separate matrix extension, labelled as sensitivity analysis, rather than a claim that irrCAC supports case weights. Participant weights enter both observed agreement and each reviewer's category margins. They are held fixed within bootstrap samples; those intervals condition on the estimated weights and target moments and omit weight-estimation uncertainty. The full-cohort interpretation requires that the selected cases adequately represent rating behavior after balancing the measured covariates. Balancing cannot establish that assumption.
+The `weights` argument of `conger.kappa.raw` specifies category agreement weights, not participant sampling weights. Our primary procedure is a participant-weighted extension of that implementation. Participant weights enter both observed agreement and each reviewer's category margins. They are held fixed within bootstrap samples; those intervals condition on the estimated weights and target moments and omit weight-estimation uncertainty. The full-cohort interpretation requires that the selected cases adequately represent rating behavior after balancing the measured covariates. Balancing cannot establish that assumption.
 
 The effective sample size (ESS) is the squared sum of participant weights divided by their sum of squares. Its relation to the number of reliability participants helps identify concentration of weights. Weighted subgroup estimates inherit the overall weights; no separate dementia target is imposed.
 
@@ -430,9 +542,15 @@ These Bland–Altman-style displays show signed differences. Positive and negati
 
 ## Items requiring author input
 
-The reviewer-response outline leaves the rating rubric, rationale for the severity measure, possible CAM-S comparison, and several clinical design questions unresolved (Internal: REFERENCES/AMGP-26-510-reviews-RESPONSES.md, Reviewer 2, comments 2–4; Reviewer 3; Reviewer 4). The analysis implements the specified agreement revision. It does not invent rating anchors, equate packet-rating agreement with instrument validity, or add diagnostic sensitivity and specificity without an agreed reference-standard comparison plan. The manuscript describes broad severity anchors on p. 13; a complete rubric and its instructions still require author confirmation.
+The reviewer-response outline leaves the rating rubric, rationale for the severity measure, possible CAM-S comparison, and several clinical design questions unresolved (Internal: REFERENCES/AMGP-26-510-reviews-RESPONSES.md, Reviewer 2, comments 2–4; Reviewer 3; Reviewer 4). The analysis implements the specified agreement revision. It does not invent rating anchors, equate packet-rating agreement with instrument validity, or add diagnostic sensitivity and specificity without an agreed reference-standard comparison plan. The manuscript describes broad severity anchors on PDF p. 7; a complete rubric and its instructions still require author confirmation.
 
 The retained participant data include reference-standard dementia severity and CAM-S for later author-directed descriptive work. Initial and post-discussion score distributions, missingness, and dementia composition should be checked against the manuscript before submission. Existing numerical claims are replaced only when this report is executed locally.
+
+:::
+
+{{< include manuscript-tables.qmd >}}
+
+::: {.page}
 
 ## Execution record
 

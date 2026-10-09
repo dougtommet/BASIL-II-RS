@@ -1,0 +1,297 @@
+```{r}
+#| label: manuscript-table-setup
+#| include: false
+manuscript_table_css <- function() {
+  "
+  .manuscript-table {
+    max-width: 6.5in; color: #000; font-family: Arial, Helvetica, sans-serif;
+  }
+  .manuscript-table table {
+    width: 100%; border-collapse: collapse; font-size: 9pt; line-height: 1.15;
+  }
+  .manuscript-table caption {
+    caption-side: top; text-align: left; color: #000; font-size: 10pt;
+    line-height: 1.2; padding: 0 0 10px;
+  }
+  .manuscript-table th, .manuscript-table td {
+    border: none; padding: 4px 5px; vertical-align: top;
+    background: transparent; overflow-wrap: normal;
+  }
+  .manuscript-table thead th { border-top: 1.5px solid #000; border-bottom: 1px solid #000; }
+  .manuscript-table tbody tr:last-child td { border-bottom: 1.5px solid #000; }
+  .manuscript-table tr[grouplength] td {
+    border-top: 0.5px solid #000; padding-top: 8px; font-style: italic;
+  }
+  .manuscript-table tfoot td {
+    padding-top: 10px; font-size: 9pt; line-height: 1.2; text-align: left;
+  }
+  "
+}
+manuscript_result <- function(agreement, key, group, mode, metric) {
+  row <- agreement[agreement$outcome_stage == key & agreement$group == group &
+                     agreement$weighting == mode & agreement$metric == metric, ]
+  if (nrow(row) != 1L)
+    stop("Expected one manuscript result: ", paste(key, group, mode, metric, collapse = "; "))
+  row
+}
+manuscript_interval <- function(row) {
+  if (!is.finite(row$estimate)) {
+    warning("Non-estimable manuscript result: ", row$outcome_stage, "; ", row$group)
+    return("Not estimable")
+  }
+  scale <- if (row$metric %in% c("exact", "within2")) 100 else 1
+  digits <- if (row$metric == "Kappa") 3L else if (row$metric == "MAD") 2L else 1L
+  value <- function(x) sprintf(paste0("%.", digits, "f"), scale * x)
+  if (row$metric %in% c("Kappa", "exact", "within2") &&
+      any(c(row$estimate, row$upper) > 1 + 1e-8, na.rm = TRUE))
+    stop("Manuscript agreement estimate or upper confidence limit exceeds 1.")
+  if (!all(is.finite(c(row$lower, row$upper)))) {
+    warning("Unavailable manuscript confidence interval: ", row$outcome_stage, "; ",
+            row$group, "; ", row$valid_bootstrap, "/", row$attempted, " valid bootstrap draws.")
+    return(paste0(value(row$estimate), " (CI unavailable)"))
+  }
+  if (row$lower > row$upper) stop("Reversed manuscript confidence limits.")
+  paste0(value(row$estimate), " (", value(row$lower), ", ", value(row$upper), ")")
+}
+manuscript_characteristics <- function(p) {
+  binary <- c("vdfemale", "vdhisp", "vdesl", "vdmarried", "vdlivesalone", "vdlivesinnh",
+              "vdhearingimp", "vdvisionimp", "vdmajneurogs", "vdminneurogs", "vddeliriumgs")
+  for (v in binary) {
+    if (any(!is.na(p[[v]]) & !p[[v]] %in% 0:1))
+      stop("Unexpected binary coding in manuscript characteristics: ", v)
+  }
+  if (any(!is.na(p$vdrace) & !p$vdrace %in% 1:5))
+    stop("Unexpected race coding in manuscript characteristics.")
+  mean_sd <- function(v) {
+    x <- as.numeric(p[[v]])
+    x <- x[!is.na(x)]
+    if (any(!is.finite(x))) stop("Nonfinite manuscript characteristic: ", v)
+    if (!length(x)) return("Not available")
+    if (length(x) < 2L) return(sprintf("%.1f (SD not estimable)", mean(x)))
+    sprintf("%.1f (%.1f)", mean(x), stats::sd(x))
+  }
+  count_percent <- function(x) {
+    denominator <- sum(!is.na(x))
+    if (!denominator) return("Not available")
+    n <- sum(x, na.rm = TRUE)
+    sprintf("%d (%.1f)", n, 100 * n / denominator)
+  }
+  c(
+    "Age, years, mean (SD)" = mean_sd("vdage"),
+    "Female, n (%)" = count_percent(p$vdfemale == 1),
+    "White, n (%)" = count_percent(!is.na(p$vdrace) & p$vdrace == 1),
+    "Black or African-American, n (%)" = count_percent(!is.na(p$vdrace) & p$vdrace == 2),
+    "Asian, n (%)" = count_percent(!is.na(p$vdrace) & p$vdrace == 3),
+    "Other racial groups, n (%)" = count_percent(!is.na(p$vdrace) & p$vdrace == 4),
+    "Race uncertain or not reported, n (%)" = count_percent(is.na(p$vdrace) | p$vdrace == 5),
+    "Hispanic ethnicity, n (%)" = count_percent(p$vdhisp == 1),
+    "Education, years, mean (SD)" = mean_sd("vdeduc"),
+    "English as a second language, n (%)" = count_percent(p$vdesl == 1),
+    "Married, n (%)" = count_percent(p$vdmarried == 1),
+    "Lives alone, n (%)" = count_percent(p$vdlivesalone == 1),
+    "Lives in a nursing home, n (%)" = count_percent(p$vdlivesinnh == 1),
+    "Charlson Comorbidity Index, mean (SD)" = mean_sd("vdcharlson"),
+    "Charlson Comorbidity Index: 0, n (%)" = count_percent(p$vdcharlson == 0),
+    "Charlson Comorbidity Index: 1, n (%)" = count_percent(p$vdcharlson == 1),
+    "Charlson Comorbidity Index: 2 or more, n (%)" = count_percent(p$vdcharlson >= 2),
+    "Hearing impairment, n (%)" = count_percent(p$vdhearingimp == 1),
+    "Vision impairment, n (%)" = count_percent(p$vdvisionimp == 1),
+    "Reference-standard dementia, n (%)" = count_percent(p$vdmajneurogs == 1),
+    "Reference-standard mild cognitive impairment, n (%)" = count_percent(p$vdminneurogs == 1),
+    "Reference-standard delirium, n (%)" = count_percent(p$vddeliriumgs == 1),
+    "Reference-standard delirium severity (0-10), mean (SD)" = mean_sd("vddelseveritygs")
+  )
+}
+build_manuscript_tables <- function(agreement, participants, matrices, cohort_n, B) {
+  if (anyNA(participants$vdsite) || any(!participants$vdsite %in% 1:3))
+    stop("Missing or unexpected site in manuscript characteristics.")
+  if (anyDuplicated(participants$studyid)) stop("Duplicate participant in manuscript characteristics.")
+  primary <- "Entropy balanced"
+  stages <- c("initial", "consensus")
+  measures <- c(Kappa = "Conger's kappa (95% CI)", exact = "Exact agreement, % (95% CI)",
+                within2 = "Agreement within 2 points, % (95% CI)",
+                MAD = "Mean absolute difference, points (95% CI)")
+  outcome_metrics <- list(severity = names(measures), presence = c("Kappa", "exact"))
+  common_note <- paste0(
+    "Kappa is our participant-weighted extension of Conger's generalized kappa for the fixed panel of ", ncol(matrices[[1]]),
+    " reviewers. Severity uses quadratic agreement weights on the 0-10 scale; presence gives ",
+    "credit only to identical ratings. Exact agreement, agreement within 2 points, and mean ",
+    "absolute difference are calculated within participant, then averaged using entropy-balanced participant weights. ",
+    "Entropy balancing targets mean reference-standard delirium severity and site proportions in the full cohort (n = ", cohort_n, "). ",
+    "Participant and rating counts are observed counts, not sums of weights. ",
+    "Parentheses contain 95% percentile confidence intervals from ", B,
+    " participant-bootstrap samples. Participant weights remain fixed during resampling; intervals omit weight-estimation uncertainty. CI, confidence interval."
+  )
+  overall <- list()
+  for (outcome in names(outcome_metrics)) {
+    rows <- lapply(stages, function(stage) {
+      key <- paste(outcome, stage, sep = "_")
+      x <- matrices[[key]]
+      if (is.null(x) || nrow(x) != nrow(participants)) stop("Manuscript rating matrix does not match participants.")
+      c(as.character(nrow(x)), as.character(sum(!is.na(x))),
+        vapply(outcome_metrics[[outcome]], function(metric) {
+          manuscript_interval(manuscript_result(agreement, key, "Overall", primary, metric))
+        }, character(1)))
+    })
+    overall[[outcome]] <- data.frame(
+      Measure = c("Participants, n", "Available reviewer ratings, n", measures[outcome_metrics[[outcome]]]),
+      Initial = rows[[1]], `Post-discussion` = rows[[2]], check.names = FALSE
+    )
+  }
+  main <- list(
+    title = "Table 1. Entropy-balanced agreement among reviewers on delirium severity and presence",
+    data = do.call(rbind, overall),
+    groups = c("Delirium severity" = nrow(overall$severity), "Delirium presence" = nrow(overall$presence)),
+    notes = paste(common_note,
+                  "Available ratings are used without imputing missing scores. Post-discussion agreement is descriptive, not an estimate of a causal effect of discussion.")
+  )
+  sites <- c("BIDMC", "UF", "TNJH")
+  populations <- c(list(Overall = participants),
+                   setNames(lapply(1:3, function(site) participants[participants$vdsite == site, ]), sites))
+  if (any(vapply(populations, nrow, integer(1)) == 0L)) stop("An enrollment site has no manuscript participants.")
+  characteristics <- lapply(populations, manuscript_characteristics)
+  descriptive <- data.frame(Characteristic = names(characteristics[[1]]), check.names = FALSE)
+  for (i in seq_along(populations)) {
+    header <- sprintf("%s (n = %d)", names(populations)[i], nrow(populations[[i]]))
+    descriptive[[header]] <- unname(characteristics[[i]])
+  }
+  variables <- c(vdage = "Age", vdfemale = "Female", vdhisp = "Hispanic ethnicity",
+                 vdeduc = "Education", vdesl = "English as a second language", vdmarried = "Married",
+                 vdlivesalone = "Lives alone", vdlivesinnh = "Nursing home residence",
+                 vdcharlson = "Charlson Comorbidity Index", vdhearingimp = "Hearing impairment",
+                 vdvisionimp = "Vision impairment", vdmajneurogs = "Dementia",
+                 vdminneurogs = "Mild cognitive impairment", vddeliriumgs = "Delirium",
+                 vddelseveritygs = "Delirium severity")
+  missing <- vapply(names(variables), function(v) {
+    counts <- vapply(populations, function(p) sum(is.na(p[[v]])), integer(1))
+    if (!any(counts)) return("")
+    paste0(variables[[v]], ": ", paste(counts, collapse = "/"))
+  }, character(1))
+  missing_note <- if (any(nzchar(missing)))
+    paste0("Missing observations (Overall/BIDMC/UF/TNJH): ",
+           paste(missing[nzchar(missing)], collapse = "; "), ".") else
+    "No observations are missing for the displayed characteristics."
+  s1 <- list(
+    title = "Supplemental Table 1. Characteristics of the reliability sample by enrollment site",
+    data = descriptive, groups = NULL,
+    notes = paste(
+      "Values are mean (SD) or n (%), describing the observed reliability sample without reweighting.",
+      "Percentages use the number with nonmissing data for each characteristic; race percentages use all participants, with uncertain or unreported race shown separately.",
+      "SD, standard deviation. BIDMC, Beth Israel Deaconess Medical Center; UF, University of Florida; TNJH, The New Jewish Home.",
+      missing_note
+    )
+  )
+  strata <- c("Overall", "No dementia", "Dementia")
+  stratified <- list()
+  stratum_labels <- character()
+  for (group in strata) {
+    n <- vapply(stages, function(stage) {
+      manuscript_result(agreement, paste0("severity_", stage), group, primary, "Kappa")$participants
+    }, numeric(1))
+    if (length(unique(n)) != 1L) stop("Stage-specific stratum sizes differ; revise manuscript table headers.")
+    label <- sprintf("%s (n = %d)", group, n[1])
+    stratum_labels <- c(stratum_labels, label)
+    rows <- list()
+    for (outcome in names(outcome_metrics)) {
+      for (metric in outcome_metrics[[outcome]]) {
+        values <- vapply(stages, function(stage) {
+          manuscript_interval(manuscript_result(agreement, paste(outcome, stage, sep = "_"),
+                                               group, primary, metric))
+        }, character(1))
+        rows[[length(rows) + 1L]] <- data.frame(
+          Measure = paste(if (outcome == "severity") "Severity:" else "Presence:", measures[[metric]]),
+          Initial = values[1], `Post-discussion` = values[2], check.names = FALSE
+        )
+      }
+    }
+    stratified[[group]] <- do.call(rbind, rows)
+  }
+  s2 <- list(
+    title = "Supplemental Table 2. Entropy-balanced reviewer agreement by reference-standard dementia status",
+    data = do.call(rbind, stratified),
+    groups = setNames(vapply(stratified, nrow, integer(1)), stratum_labels),
+    notes = paste(c(common_note,
+                    if (anyNA(participants$dementia))
+                      sprintf("Participants with missing dementia status (n = %d) are included only in Overall.",
+                              sum(is.na(participants$dementia))),
+                    "Strata retain the overall entropy weights; no separate dementia target is imposed. Estimates describe agreement within each dementia group. Category distributions influence kappa; differences do not by themselves establish differences in reviewer performance, and similar estimates do not establish equivalent agreement."),
+                  collapse = " ")
+  )
+  list(main = main, s1 = s1, s2 = s2)
+}
+manuscript_table_html <- function(spec) {
+  table <- kableExtra::kbl(spec$data, format = "html", escape = TRUE, row.names = FALSE,
+                          align = c("l", rep("r", ncol(spec$data) - 1L)), caption = spec$title)
+  if (!is.null(spec$groups)) {
+    table <- kableExtra::pack_rows(table, index = spec$groups, bold = FALSE, italic = TRUE)
+  }
+  table <- kableExtra::footnote(table, general = spec$notes, general_title = "Notes: ",
+                               footnote_as_chunk = TRUE, escape = TRUE)
+  paste0("<div class=\"manuscript-table\">\n", table, "\n</div>")
+}
+write_manuscript_table <- function(spec, stem) {
+  html <- manuscript_table_html(spec)
+  directory <- here::here("MD")
+  writeLines(c("<!DOCTYPE html>", "<html lang=\"en\"><head><meta charset=\"utf-8\">",
+               paste0("<title>", spec$title, "</title><style>", manuscript_table_css(), "</style>"),
+               "</head><body>", html, "</body></html>"),
+             file.path(directory, paste0(stem, ".html")))
+  markdown <- spec$data
+  if (!is.null(spec$groups)) {
+    markdown <- cbind(Group = rep(names(spec$groups), spec$groups), markdown)
+  }
+  writeLines(c(spec$title, "", as.character(knitr::kable(markdown, format = "pipe", row.names = FALSE)),
+               "", paste("Notes:", spec$notes)),
+             file.path(directory, paste0(stem, ".md")))
+  cat(html, "\n")
+}
+manuscript_tables <- build_manuscript_tables(agreement, participants, matrices, nrow(cohort), B)
+```
+
+::: {.page}
+
+## Tables for the revised manuscript
+
+The original main table, "Table 1. Cross-tab of paired ratings of delirium presence" (Internal: REFERENCES/BASIL_CA_combined.pdf, p. 20), is replaced by an entropy-balanced panel-agreement table covering severity and presence. "Supplemental Table 1. Descriptive Statistics" (p. 22) describes the observed reliability participants, and "Supplemental Table 2. Agreement statistics by dementia status" (p. 23) is replaced by entropy-balanced stratified estimates.
+
+The manuscript presents only entropy-balanced agreement results. Equal-participant-weight comparisons, package validation, and complete-reviewer sensitivity analyses remain in the technical report. No comparison supplement is included; the technical output allows the authors to reconsider that decision if weighting changes the scientific interpretation.
+
+These tables retain manuscript numbering (Table 1, Supplemental Table 1, and Supplemental Table 2); technical tables elsewhere in the report use T-prefixed letter labels (Table TA, Table TB, and so on). Every value is calculated from the current Analysis2 objects during rendering. No estimate or confidence interval is copied from the submitted manuscript. Individually formatted HTML tables (for copying into a manuscript) and markdown versions are written to `MD/` with the prefix `Analysis2_manuscript-`.
+
+```{r}
+#| label: manuscript-table-style
+#| results: asis
+cat("<style>", manuscript_table_css(), "</style>")
+```
+
+:::
+
+::: {.page}
+
+```{r}
+#| label: manuscript-table-1
+#| results: asis
+write_manuscript_table(manuscript_tables$main, "Analysis2_manuscript-table-1")
+```
+
+:::
+
+::: {.page}
+
+```{r}
+#| label: manuscript-table-s1
+#| results: asis
+write_manuscript_table(manuscript_tables$s1, "Analysis2_manuscript-table-s1")
+```
+
+:::
+
+::: {.page}
+
+```{r}
+#| label: manuscript-table-s2
+#| results: asis
+write_manuscript_table(manuscript_tables$s2, "Analysis2_manuscript-table-s2")
+```
+
+:::
