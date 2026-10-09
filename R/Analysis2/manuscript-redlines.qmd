@@ -1,0 +1,239 @@
+::: {.page}
+
+## Abstract: analysis unit
+
+Original (Internal: REFERENCES/BASIL_CA_combined.pdf, p. 9; authoritative REFERENCES/LLM_OUT/BASIL_CA_combined.jsonl):
+
+~~Participants: Subsample (n=46) of participant cases for a reliability analysis conducted on 954 paired ratings by 7 clinical assessors across sites.~~
+
+Revised:
+
+Participants: A subsample of 46 participants was reviewed by 7 independent reviewers using identical standardized clinical information packets. The participant was the analysis unit for multiple-reviewer agreement.
+
+:::
+
+::: {.page}
+
+## Abstract: statistical results
+
+Original (Internal: REFERENCES/BASIL_CA_combined.pdf, p. 9; authoritative REFERENCES/LLM_OUT/BASIL_CA_combined.jsonl):
+
+~~Results: Clinical assessors demonstrated high inter-rater agreement in delirium severity ratings (weighted kappa, κ=0.84), which improved following consensus discussions (κ=0.93). Bland- Altman analysis showed no evidence of systematic disagreement across the full range of severity scores (linear trend for differences over average of two rater scores, b=0.03, 95% confidence interval, -0.13, 0.20).~~
+
+Revised:
+
+Results: Initial severity agreement was estimated by quadratic-weighted Conger's κ, `r format_estimate("severity_initial")`; after discussion, κ was `r format_estimate("severity_consensus")`. Binary delirium-presence agreement was `r format_estimate("presence_initial")` initially and `r format_estimate("presence_consensus")` after discussion. The sample composition and score distributions are reported in the participant summary.
+
+Revision note: The old numerical values are preserved only in the struck-out quotation. Revised values are inserted by local execution; no result is inferred from the earlier coefficients.
+
+:::
+
+::: {.page}
+
+## Abstract: conclusion, first portion
+
+Original (Internal: REFERENCES/BASIL_CA_combined.pdf, p. 9; authoritative REFERENCES/LLM_OUT/BASIL_CA_combined.jsonl):
+
+~~Conclusions: Trained clinical assessors demonstrated high inter-rater reliability in delirium severity ratings across a reliability sample that included patients with dementia and a wide range of delirium severity. These findings support feasibility of structured clinical assessment~~
+
+Revised:
+
+Conclusions: Agreement among independent reviewers was evaluated for severity ratings assigned from standardized clinical information packets. The estimates characterize reproducibility under the study's review procedures, conditional on the information supplied.
+
+:::
+
+::: {.page}
+
+## Abstract: conclusion, continuation
+
+Original (Internal: REFERENCES/BASIL_CA_combined.pdf, p. 10; authoritative REFERENCES/LLM_OUT/BASIL_CA_combined.jsonl):
+
+~~approaches for generating reproducible delirium severity measurements in multisite research studies.~~
+
+Revised:
+
+The findings concern interpretation of shared information; bedside data collection, rating accuracy, and feasibility were not evaluated.
+
+Revision note: This continuation belongs to the preceding abstract conclusion (PDF pp. 9–10).
+
+:::
+
+::: {.page}
+
+## Study purpose
+
+Original (Internal: REFERENCES/BASIL_CA_combined.pdf, p. 12; authoritative REFERENCES/LLM_OUT/BASIL_CA_combined.jsonl):
+
+~~The present analysis was conducted to evaluate the reliability of data collection by the clinical assessors, which was essential to assure the validity of the overall BASIL II study.~~
+
+Revised:
+
+The present analysis evaluated agreement among independent reviewers who assigned delirium severity ratings from identical packets of previously collected clinical information. The reliability and fidelity of the original bedside assessments were assumed and were not independently evaluated in this substudy.
+
+:::
+
+::: {.page}
+
+## Participant count and missingness
+
+Original (Internal: REFERENCES/BASIL_CA_combined.pdf, p. 12; authoritative REFERENCES/LLM_OUT/BASIL_CA_combined.jsonl):
+
+~~Each of the 46 cases were rated by 7 clinical assessors resulting in 21 unique pairwise comparisons; this resulted in 966 paired ratings across 46 participants (Supplemental Figure 1). Missing ratings from one clinical assessor (for two participants) resulted in loss of 12 pairwise comparisons, yielding a final reliability sample of 954 paired ratings. Gold standard assessment of delirium for the full BASIL II sample employed an expert panel adjudication process, described previously.9,12 The gold standard diagnoses were used in the present study.~~
+
+Revised:
+
+The same 7 reviewers rated each of the 46 participant packets, with 2 reviewer ratings missing. Agreement analyses used participant-by-reviewer matrices, retaining the observed ratings for each participant. Descriptive graphics included the 954 observed unique reviewer-pair comparisons (966 possible comparisons minus 12 involving the missing ratings). Expert panel adjudication supplied the study reference-standard diagnoses.
+
+Revision note: Replace gold standard with reference standard elsewhere in manuscript text and legends; preserve the published title in the reference list.
+
+:::
+
+::: {.page}
+
+## Statistical analysis: estimators and subgroups
+
+Original (Internal: REFERENCES/BASIL_CA_combined.pdf, p. 14; authoritative REFERENCES/LLM_OUT/BASIL_CA_combined.jsonl):
+
+~~We evaluated inter-rater reliability for delirium severity scores (0-10 scale) using all possible paired combinations of the 7 clinical assessors (n = 954 unique pairs). We examined both Pearson correlation coefficients and weighted kappa coefficients (with quadratic weights) to summarize the agreement among pairs and confirmed that both approaches yielded identical results. We report these statistics as weighted kappa coefficients. These agreement statistics were calculated before and after the structured consensus discussion to assess its effect on reliability. For the binary classification of delirium (present/absent), we also calculated kappa (κ) before and after consensus to assess diagnostic agreement. To address whether reliability differed by the presence of dementia, we repeated weighted κ and percent agreement analyses stratified by dementia status (present vs. absent, per gold-standard adjudication). We also computed mean absolute differences between paired rater scores as a complementary continuous index of disagreement on the 0-10 severity scale.~~
+
+Revised:
+
+Agreement on delirium severity (0–10) was summarized with quadratic-weighted Conger's generalized κ for the fixed panel of 7 reviewers; delirium presence (0/1) was summarized with unweighted Conger's κ. Calculations used irrCAC::conger.kappa.raw with the complete category sets retained, and available ratings were used without imputing missing scores. Initial and post-discussion estimates were reported separately. The overall unweighted analysis was primary. Dementia-stratified estimates, based on the reference-standard diagnosis, were exploratory and accompanied by participant counts, confidence intervals, exact agreement, agreement within 2 severity points, and mean absolute severity difference. Descriptive agreement measures were calculated within participant and averaged across participants. Percentile 95% confidence intervals were obtained by resampling participants with their reviewer columns intact; the same resampled participants were used to estimate the paired change between stages. The intervals condition on this reviewer panel. Installed package and R versions and the number of bootstrap samples are given in the execution record.
+
+Revision note: Subgroup κ differences depend on subgroup category distributions and cannot alone establish differences in reviewer performance. The revised plan was developed in response to review; remove the earlier claim that this revised plan was prespecified.
+
+:::
+
+::: {.page}
+
+## Statistical analysis: plots and participant weights
+
+Original (Internal: REFERENCES/BASIL_CA_combined.pdf, p. 14; authoritative REFERENCES/LLM_OUT/BASIL_CA_combined.jsonl):
+
+~~We used Bland-Altman analysis20 to examine agreement between rater pairs across the full range of severity (0-10). For each plot, we regressed the difference in scores (Rater A – Rater B) on the pairwise mean score to test whether disagreement varied by severity level. A slope that is approximately 0 indicates no systematic bias in agreement across the severity spectrum. To reduce potential sampling bias and improve representativeness, we applied analytic weights using entropy balancing21 to more closely match the subsample distribution to the full BASIL II sample on site and delirium severity rating.~~
+
+Revised:
+
+Pooled reviewer-pair scatterplots and signed-difference-versus-mean plots were retained as descriptive displays. Each participant contributed multiple dependent comparisons; no pooled-pair κ, correlation, independent-pair confidence interval, regression test, or conventional limits of agreement were reported. A participant-weighted sensitivity analysis used entropy balancing to match the full enrolled BASIL II cohort on mean reference-standard delirium severity and site proportions. Participant weights entered observed agreement and reviewer-specific category margins in a separate matrix implementation; category agreement weights remained quadratic for severity and unweighted for delirium presence. Sensitivity intervals were obtained by participant bootstrap with the estimated weights held fixed, and thus omit uncertainty from estimating those weights.
+
+:::
+
+::: {.page}
+
+## Results: overall agreement
+
+Original (Internal: REFERENCES/BASIL_CA_combined.pdf, p. 15; authoritative REFERENCES/LLM_OUT/BASIL_CA_combined.jsonl):
+
+~~Figure 1 illustrates the high inter-rater agreement in delirium severity rating prior to and following the consensus process. The weighted kappa was κ=0.84 (95% confidence interval, CI 0.82, 0.86) indicating strong consistency across assessors. Following the consensus meeting, the weighted kappa increased to κ=0.93 (95% CI 0.92, 0.94). Table 1 shows a crosstab of paired delirium presence (clinical assessor diagnosis) before (κ=0.77, 95% CI 0.73, 0.81) and after consensus (κ=0.81, 95% CI 0.77, 0.85), both indicating excellent agreement.22~~
+
+Revised:
+
+Initial severity agreement among the 7 reviewers was `r format_estimate("severity_initial")` by quadratic-weighted Conger's κ. Following discussion, κ was `r format_estimate("severity_consensus")`. For delirium presence, unweighted Conger's κ was `r format_estimate("presence_initial")` initially and `r format_estimate("presence_consensus")` following discussion. Figure 1 shows the observed pooled reviewer-pair comparisons; the agreement table summarizes the participant-level multiple-reviewer analysis.
+
+:::
+
+::: {.page}
+
+## Results: dementia strata
+
+Original (Internal: REFERENCES/BASIL_CA_combined.pdf, p. 15; authoritative REFERENCES/LLM_OUT/BASIL_CA_combined.jsonl):
+
+~~Reliability was also examined separately for patients with and without dementia (Supplemental Table 2). Inter-rater agreement was high and comparable across both strata. The weighted kappa was κ=0.85 (95% CI 0.82, 0.88) in cases without dementia and κ= 0.84 (95% CI 0.81, 0.86) in cases with dementia prior to consensus, improving to κ=0.94 and κ=0.93 after consensus. Percent agreement reached 100 in both strata following consensus. Mean absolute differences between paired rater scores were higher in dementia cases (1.20 pre, 0.77 post) than non-dementia cases (0.84 pre, 0.52 post) but remained within the prespecified 2- point rater agreement window.~~
+
+Revised:
+
+Exploratory estimates for participants with and without reference-standard dementia are shown in the agreement table, with subgroup participant counts and bootstrap confidence intervals. Exact agreement and agreement within 2 points are reported separately. The within-2-point percentage describes a tolerance criterion, while mean absolute difference summarizes the average discrepancy; a mean below 2 does not establish that every comparison met the tolerance. The subgroup coefficients were not used to establish equivalent reliability.
+
+Revision note: Subgroup estimates and descriptive percentages should be taken from the locally executed table. The legacy 100% claim must be checked against the revised participant-weighted estimand.
+
+:::
+
+::: {.page}
+
+## Results: severity-dependent discrepancies
+
+Original (Internal: REFERENCES/BASIL_CA_combined.pdf, p. 15; authoritative REFERENCES/LLM_OUT/BASIL_CA_combined.jsonl):
+
+~~To evaluate whether rating discrepancies varied as a function of delirium severity, Bland- Altman analysis was conducted. There was no significant association between the mean severity score and absolute disagreement across rater pairs before (linear regression coefficient, b=0.03, 95% CI -0.13, 0.20) and after consensus (b=-0.01, 95% CI -0.13, 0.12) suggesting that disagreement was not systematically greater at lower or higher ends of the severity spectrum (Figure 2).~~
+
+Revised:
+
+Figure 2 shows signed differences between reviewers as a function of their mean severity rating. The direction of a difference follows the fixed reviewer ordering. The display describes the observed discrepancies; it does not establish constant absolute disagreement across severity levels, because positive and negative differences may cancel.
+
+:::
+
+::: {.page}
+
+## Discussion: scope
+
+Original (Internal: REFERENCES/BASIL_CA_combined.pdf, p. 16; authoritative REFERENCES/LLM_OUT/BASIL_CA_combined.jsonl):
+
+~~This reliability study embedded in the larger BASIL II cohort shows that trained clinical assessors can follow standardized protocols to produce highly reliable delirium severity ratings across diverse care settings. Inter-rater agreement was strong prior to consensus discussion and improved further after the structured consensus process. Importantly, agreement did not vary across levels of delirium severity, supporting the consistency of this approach across the full clinical spectrum. Agreement was also similarly high in cases with and without dementia, supporting reliability of this approach in the population for whom delirium severity measurement is most clinically needed and most challenging.~~
+
+Revised:
+
+This substudy evaluated agreement when independent reviewers interpreted identical standardized clinical information packets. Initial and post-discussion estimates characterize 2 stages of that procedure. The design permits a description of agreement conditional on shared information, but does not identify a causal effect of consensus discussion or establish reliability of bedside assessment across sites. Dementia-stratified estimates are exploratory; their precision and dependence on the severity distribution limit conclusions about differences or equivalence between clinical subgroups.
+
+:::
+
+::: {.page}
+
+## Discussion: limitations
+
+Original (Internal: REFERENCES/BASIL_CA_combined.pdf, p. 17; authoritative REFERENCES/LLM_OUT/BASIL_CA_combined.jsonl):
+
+~~A few limitations should be noted. First, the reliability study was conducted on standardized summaries, which were condensed in-person assessments. A bedside clinical impression was incorporated into the standardized materials for review but remained constant across each rater. While this approach minimizes contextual biases, it may not fully reflect clinical variation that may be appreciated at the bedside.24 Second, this relatively small reliability sample (n=46 cases) is sufficient for inter-rater reliability estimation but not well-suited for comparisons across study sites. For site and other levels of analysis, see Boockvar et al.’s report of expert panel ratings using the full BASILII cohort. Third, assessors were part of a research team with dedicated training and time, limiting generalizability to routine clinical care. However, the high reliability achieved across independent raters from multiple disciplines highlights the feasibility of this approach for research studies requiring graded measurement of delirium severity.~~
+
+Revised:
+
+Agreement was evaluated conditional on standardized packets, which incorporated a single bedside clinical impression shared by all reviewers. Shared errors or omissions may coexist with high reviewer agreement. The substudy therefore did not independently establish the reliability or accuracy of the original assessments. The selected sample and fixed reviewer panel limit generalization beyond comparable cases and review procedures; entropy balancing addresses measured differences in site and reference-standard severity only. Post-discussion ratings share information from the consensus process, and their agreement should be interpreted within that procedure. Feasibility was not measured. Replication requires comparable rigor in both the original clinical assessments and subsequent packet review.
+
+:::
+
+::: {.page}
+
+## Figure 1 legend
+
+Original (Internal: REFERENCES/BASIL_CA_combined.pdf, p. 23; authoritative REFERENCES/LLM_OUT/BASIL_CA_combined.jsonl):
+
+~~Figure 1. Agreement of delirium severity rating before (left panel) and after (right panel) consensus. Scatterplot of delirium severity rating agreement between rater A (horizontal axis) and rater B (vertical axis), shown before (left) and after (right) consensus process. Axis tick labels indicate delirium severity (0-10) and the number of ratings is noted in parentheses. The weighted kappa (κ) between rater A and rater B delirium severity ratings (0-10) prior to the consensus process was 0.84 (95% CI: 0.82, 0.86). After the consensus process, the κ was 0.93 (95% CI 0.92, 0.94).~~
+
+Revised:
+
+Figure 1. Descriptive pooled reviewer-pair severity ratings before and after discussion. Each point combines observed comparisons at the same 2 severity scores, and point size represents the comparison count. First and second reviewer denote positions within each of the 21 possible unique pairs among 7 reviewers. Participants contribute multiple dependent comparisons; these are not independent observations or ratings from 2 particular reviewers. Multiple-reviewer Conger's κ estimates are reported in the agreement table.
+
+Revision note: Apply this replacement to the duplicate caption on PDF p. 24 as well. The generated caption reports the locally observed participant and comparison counts.
+
+:::
+
+::: {.page}
+
+## Figure 2 legend
+
+Original (Internal: REFERENCES/BASIL_CA_combined.pdf, p. 23; authoritative REFERENCES/LLM_OUT/BASIL_CA_combined.jsonl):
+
+~~Figure 2. Bland Altman plot of variability in agreement as a function of delirium severity before (left panel), and after (right panel) consensus process. Differences in agreement (y- axis) are shown as a function of average severity ratings, comparing pairs of raters, before (left) and after (right) consensus process The linear trend lines show systematic differences in agreement. Regression coefficients are not importantly different from 0 in both panels b (95% confidence interval) = 0.03 (-0.13, 0.20) before and b = -0.01(-0.13, 0.12) after consensus process. This suggests there were no systematic differences in level of agreement across the spectrum of delirium severity.~~
+
+Revised:
+
+Figure 2. Descriptive signed severity differences versus mean severity for pooled reviewer-pair comparisons, before and after discussion. Difference is first reviewer minus second reviewer under a fixed ordering; reversing the ordering reverses its sign. Point size represents the comparison count. Lines at ±2 mark the tolerance criterion. The displays do not estimate independent-pair regression uncertainty or conventional limits of agreement, and a flat signed pattern would not establish constant absolute disagreement.
+
+Revision note: Apply this replacement to the duplicate caption on PDF p. 25 as well.
+
+:::
+
+::: {.page}
+
+## Supplemental analysis-unit legend
+
+Original (Internal: REFERENCES/BASIL_CA_combined.pdf, p. 27; authoritative REFERENCES/LLM_OUT/BASIL_CA_combined.jsonl):
+
+~~Supplemental Figure 1. Derivation of 954 Paired Ratings for Inter-Rater Reliability Analysis. The BASIL II study enrolled n=488 participants into the full cohort. From the full cohort, a sample of n=46 participants were selected to create a reliability sample. Cases were selected sequentially to ensure representation of both delirium positive and negative cases across all study sites, with an intended sample size of 25-50 to assure statistical stability. Seven clinical assessors rated delirium severity in each of the participants in the reliability sample. For the analysis, this resulted in 21 unique rater pairs [(7 assessors x 6 pairs)/2], with a total number of possible pairs 21 rater pairs x 46 participants = 966 paired ratings. Because one assessor had missing ratings for two participants, there was a total of 12 missing paired ratings. Thus, the analysis sample was 954 paired ratings.~~
+
+Revised:
+
+Supplemental Figure 1. Derivation of the reliability sample and descriptive reviewer-pair comparisons. From the enrolled cohort of 488 participants, 46 were selected for standardized packet review by the same 7 independent reviewers. Agreement estimation used participant-by-reviewer matrices. With 2 reviewer ratings missing, 954 of the 966 possible unique reviewer-pair comparisons were available for descriptive graphics. The 954 comparisons were not treated as independent analysis units.
+
+Revision note: Apply this replacement to the duplicate caption on PDF p. 30. Replace the pooled cross-tabulation in Table 1 (p. 26) and legacy subgroup estimates in Supplemental Table 2 (p. 29) with the locally generated agreement tables.
+
+:::
