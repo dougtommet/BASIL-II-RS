@@ -75,6 +75,49 @@ Rendered files are staged in `RENDER/` and copied to `REPORTS/` with the render
 date in their names. `RENDER/` is scratch output; use `REPORTS/` for dated
 deliverables.
 
+## Analysis2 one-off Word report
+
+The canonical [Analysis2 driver](R/Analysis2/Analysis2_Driver.R) still renders
+HTML. To render the one-off Word version, run:
+
+```r
+source(here::here("R", "Analysis2", "Analysis2_DOCX_Driver.R"))
+```
+
+The [DOCX control](R/Analysis2/Analysis2_DOCX_Control.qmd) is a one-off version
+of the HTML control, using `TEMPLATES/reference_report.docx` and native
+`flextable` tables. It includes
+[manuscript-tables-docx.qmd](R/Analysis2/manuscript-tables-docx.qmd) for Word
+tables and shares the unchanged redlines child with HTML. The DOCX sources do
+not automatically track later edits to their HTML counterparts. The driver reruns the
+analysis (including 2000 bootstrap replicates) and rebuilds the same interim
+files, figures, and table exports. It stages `Analysis2_agreement_oneoff.docx`
+in `RENDER/` and archives `Analysis2_agreement_oneoff_YYYY-MM-DD.docx` in
+`REPORTS/`, leaving HTML reports untouched.
+
+Install `flextable` locally in addition to the canonical analysis packages.
+The driver reuses Analysis1's `002-Word-safe-docx.R` helper. LibreOffice is
+optional; when available it re-saves the archived document for Word, otherwise
+the helper reports that the DOCX is unconverted. Tables use 9-point Arial,
+repeat column headers when they span pages, and retain captions, group labels,
+and notes. CSS-based HTML page breaks do not apply in Word. The DOCX workflow
+writes Markdown table exports; standalone HTML table exports still come from
+the HTML workflow.
+
+The 2026-10-10 trial completed, including both child QMDs, and LibreOffice
+re-saved the archived DOCX. Archive/XML checks found all 4 plot drawings and
+the main report sections, but 0 native Word tables in either the Quarto build
+or the archived document. This prompted the separate flextable renderers in
+the DOCX control and manuscript-table child, leaving the HTML sources intact.
+
+The flextable version was rendered end to end and checked with
+`Rscript R/Analysis2/tests/test-docx-tables.R`. The check compares all 31
+native Word tables (28 technical and 3 manuscript tables) with current
+Markdown exports, including captions, group labels, values, and notes, and
+checks that all 4 figures remain present. It also checks that the DOCX and
+HTML manuscript-table calculation functions are identical. Pagination and
+appearance still require review in Word.
+
 ## Adding or changing analyses
 
 For a new AgentKit-style Quarto analysis, create a sibling folder under `R/`

@@ -1,0 +1,888 @@
+===== PAGE 1 =====
+                                                                                        Word count: 2042
+
+
+    Inter-Rater Reliability of Delirium Severity Ratings Using a Standardized Clinical
+                       Assessment of Delirium in At-Risk Patients
+Running title: Assessment of Delirium Severity
+
+Anna MacKay-Brandt, PhD a,b
+Tammy T. Hshieh, MD, MPH c,d,e
+Kenneth Boockvar, MD, MS f,g
+Edward R. Marcantonio, MD, MSc h,e
+Catherine C. Price, PhD, ABPP i,j
+Rebecca Avila-Rieger, PhD b,k
+Juliana S. Burt, MS i
+Benjamin A. Chapin, MD i,j
+Wingyun Mak, PhD b,l
+Kerry Palihnich, BA h
+Douglas Tommet, MS m
+Richard N. Jones, ScD m
+Tamara G. Fong, MD, PhD d,e,n *
+Sharon K. Inouye, MD, MPH d,e,o *
+for the BASIL II Study Group
+(*=co-senior authors)
+a The Nathan Kline Institute for Psychiatric Research, Clinical Research, Orangeburg, NY, USA
+b The New Jewish Home Research Institute on Aging, New York, NY, USA
+c Division of Aging, Department of Medicine, Brigham and Women’s Hospital, Boston, MA, USA
+d Hinda and Arthur Marcus Institute for Aging Research, Hebrew SeniorLife, Boston, MA, USA
+e Harvard Medical School, Boston, MA, USA
+f Division of Gerontology, Geriatrics, and Palliative Care, University of Alabama, Alabama, USA
+g Geriatrics Research, Education and Clinical Center, Birmingham VA Health Care System,
+Birmingham, Alabama, USA
+h Divisions of General Medicine and Gerontology, Department of Medicine, Beth Israel
+Deaconess Medical Center, Boston, MA, USA
+i Perioperative Cognitive Anesthesia Network (PeCAN) for ADRD, Department of Clinical and
+Health Psychology, Department of Anesthesiology, University of Florida, Gainesville, Florida,
+USA
+j Geriatric Research Education and Clinical Center, Malcom Randall VA, Gainesville, FL, USA
+k Department of Child and Adolescent Psychiatry, Hassenfeld Children’s Hospital/New York
+University Langone Health, New York, NY, USA
+l Geriatrics and Palliative Care, Icahn School of Medicine at Mount Sinai, New York, NY, USA
+m Department of Psychiatry and Human Behavior, Warren Alpert Medical School, Brown
+University, Providence, RI, USA
+n Department of Neurology, Beth Israel Deaconess Medical Center, Boston, MA, USA
+o Department of Medicine, Beth Israel Deaconess Medical Center, Boston, MA, USA
+
+Corresponding Author/Request for Reprints:
+Tamara G. Fong, M.D, Ph.D.
+Aging Brain Center, Institute for Aging Research, Hebrew SeniorLife
+1200 Centre Street; Boston, MA 02131 USA
+Phone: (617) 971-5390; Fax (617) 971-5339
+Email: tfong@bidmc.harvard.edu (not for publication)
+
+
+Keywords: Delirium, severity assessment, dementia, Alzheimer’s Disease, Alzheimer’s type dementia, inter-
+                                                                           rater reliability, psychometrics
+
+===== PAGE 2 =====
+Acknowledgements
+Sponsors Role/Funding: In part by grants from the National Institute on Aging grants no.
+   P01AG031720 (SKI), R33AG071744 (SKI), R01AG044518 (SKI/RNJ). Dr. Marcantonio’s
+   time was supported in part by grants no. K24AG035075 (ERM), R01AG030618 and
+   R01AG051658. Dr. Price’s time was additionally supported in part by grant no.
+   K007AG066813. Dr. Inouye holds the Milton and Shirley F. Levy Family Chair at Hebrew
+   SeniorLife/Harvard Medical School.
+Ethics Approval: The BASIL II study was approved by the Institutional Review Board (IRB) of
+Beth Israel Deaconess Medical Center (BIDMC), Boston, MA (No. 2020P001113). All
+participants provided written informed consent.
+
+
+                                               2
+
+===== PAGE 3 =====
+Abstract (250 words)
+
+
+Objectives: Delirium severity is an important measurement for clinical monitoring,
+
+pathophysiologic studies, and treatment trials. We examined inter-rater reliability of delirium
+
+severity ratings by trained clinical assessors using standardized protocols across different
+
+clinical settings.
+
+Design: Prospective, multisite observational study
+
+Setting: Acute medical inpatient, elective surgical inpatient, and nursing home
+
+Participants: Subsample (n=46) of participant cases for a reliability analysis conducted on 954
+
+paired ratings by 7 clinical assessors across sites. The subsample was selected from older
+
+adults (n=488; 46% delirium, 59% dementia) enrolled in the Better Assessment of Illness
+
+(BASIL) II study.
+
+Measurements: Clinical assessors were provided standardized summaries including cognitive
+
+test results and delirium-specific assessments and used this information to rate delirium severity
+
+on a 0-10 scale. Paired agreement was defined as delirium severity scores within 2 points. Inter-
+
+rater reliability and variability were evaluated before and after a consensus meeting, utilizing a
+
+modified Delphi approach to achieve agreement by prespecified criteria.
+
+Results: Clinical assessors demonstrated high inter-rater agreement in delirium severity ratings
+
+(weighted kappa, κ=0.84), which improved following consensus discussions (κ=0.93). Bland-
+
+Altman analysis showed no evidence of systematic disagreement across the full range of
+
+severity scores (linear trend for differences over average of two rater scores, b=0.03, 95%
+
+confidence interval, -0.13, 0.20).
+
+Conclusions: Trained clinical assessors demonstrated high inter-rater reliability in delirium
+
+severity ratings across a reliability sample that included patients with dementia and a wide
+
+range of delirium severity. These findings support feasibility of structured clinical assessment
+
+
+                                                 3
+
+===== PAGE 4 =====
+approaches for generating reproducible delirium severity measurements in multisite research
+
+studies.
+
+
+                                              4
+
+===== PAGE 5 =====
+INTRODUCTION
+
+       Delirium is a common and serious medical syndrome in older adults. Among patients
+
+with Alzheimer’s Disease and Related Dementias (ADRD), delirium occurs with greater
+
+frequency, severity, and associated morbidity.1-4 Delirium severity, defined as the intensity or
+
+burden of delirium features, has emerged as a clinically meaningful outcome for patient
+
+monitoring, risk stratification, and evaluating response to treatment.5 Graded severity ratings
+
+provide information beyond presence/absence indicators, enabling more precise tracking of
+
+subthreshold symptoms, symptom fluctuation, and degrees of improvement over time.6,7
+
+       Despite growing interest in delirium severity as an outcome, there is limited evidence on
+
+the reliability of delirium severity ratings in research settings across diverse care environments,
+
+and the reliability of such ratings has been questioned given their highly variable manifestations.
+
+High quality studies rely on expert panel adjudication for reference standard delirium and related
+
+diagnoses,7,8 but standardized clinical assessment protocols provide another opportunity for
+
+research standardization that has not been well characterized. This is particularly important for
+
+multisite research studies that depend on reproducible, high-quality data across sites.
+
+       The Better Assessment of Illness (BASIL) II study is a multisite prospective cohort study
+
+designed to develop and validate delirium severity instruments in older adults with and without
+
+ADRD.9 As part of this effort, trained clinical assessors (CAs) conducted standardized delirium
+
+assessments using structured cognitive and functional tools, including the Confusion
+
+Assessment Method (CAM),10 Montreal Cognitive Assessment (MoCA),11 and informant
+
+interviews, across three care settings: acute medical, elective surgical, and post-acute nursing
+
+home. CAs were clinicians and experienced clinical researchers and included at least one
+
+delirium or dementia expert at each site. Our goal in this report was to assess overall agreement
+
+of delirium severity rating among CAs, explore the effect of consensus discussion on inter-rater
+
+reliability, and examine whether agreement varied by level of delirium severity and the presence
+
+of dementia.
+
+
+                                                 5
+
+===== PAGE 6 =====
+METHODS
+
+Study Design and Procedures
+
+       Study Sample. This study was conducted within the Better Assessment of Illness
+
+(BASIL) II study, an NIH-funded prospective cohort study specifically designed to develop and
+
+validate new delirium severity instruments for persons with and without dementia. An important
+
+part of the data collection for the BASIL II study was completed by a team of 7 clinical assessors
+
+across 3 study sites. The present analysis was conducted to evaluate the reliability of data
+
+collection by the clinical assessors, which was essential to assure the validity of the overall
+
+BASIL II study. Participants were enrolled from three clinical settings: (1) acute medical inpatient
+
+units at Beth Israel Deaconess Medical Center (BIDMC), Boston, MA (2) elective surgical
+
+inpatient services at the University of Florida Hospital (UF), Gainesville, FL and (3) nursing
+
+home (long-term and post-acute care) at The New Jewish Home (TNJH), New York City, NY.
+
+After completion of a gold standard rating of delirium severity (described below) a subsample of
+
+46 cases was selected for the reliability sample; this sample size was selected based on the
+
+inclusion of 7 assessors for which the à priori target number of cases to ensure statistically
+
+stable results was estimated to be between 25 and 50 cases.13,14 Cases were selected
+
+sequentially to ensure representation of both delirium positive and negative cases across all
+
+study sites. Each of the 46 cases were rated by 7 clinical assessors resulting in 21 unique
+
+pairwise comparisons; this resulted in 966 paired ratings across 46 participants (Supplemental
+
+Figure 1). Missing ratings from one clinical assessor (for two participants) resulted in loss of 12
+
+pairwise comparisons, yielding a final reliability sample of 954 paired ratings. Gold standard
+
+assessment of delirium for the full BASIL II sample employed an expert panel adjudication
+
+process, described previously.9,12 The gold standard diagnoses were used in the present study.
+
+All study procedures, including informed consent, were approved by the BIDMC Institutional
+
+Review Board with ceded review from UF and TNJH. All participants or their legal
+
+representatives provided informed consent.
+
+
+                                                 6
+
+===== PAGE 7 =====
+       Clinical Assessor Procedures. The Clinical Assessors (CAs) were clinicians and
+
+experienced clinical researchers, including neuropsychologists (n=3), psychologist (n=1),
+
+neurologist (n=1), mental health counselor (n=1), and clinical project manager (n = 1), who had
+
+experience in the diagnosis of delirium and dementia. All CAs underwent centralized training
+
+and standardization procedures, including didactic instruction, observed ratings, weekly case
+
+review with the Site Leader, and bimonthly all-site check in meetings. The CAs conducted
+
+structured interviews and ratings of participants as part of the BASIL II study.9
+
+        For the reliability study, the seven CAs independently reviewed identical packets
+
+containing a uniform set of information, including demographic data, in-person cognitive
+
+performance (MoCA,11 Severe Impairment Battery [SIB-8]15), delirium features/severity (CAM,10
+
+CAM-Severity [CAM-S]16), and informant-based tools (Family Assessment of Delirium [FAM-
+
+CAM],17 Eight-item Informant Interview to Differentiate Aging and Dementia [AD8],18 Delirium
+
+Rating Scale Revised 98 [DRS-R-98]19). Medical record documentation of medical comorbidities
+
+and medications were also reviewed for each of the 46 cases. Delirium severity was rated using
+
+a 0–10 scale, with anchors corresponding to absent (0), subsyndromal (1–3), mild-to-moderate
+
+(4–6), and severe delirium (7–10). Clinical assessors were instructed to base their ratings solely
+
+on the structured assessment materials provided in the case packets. The CA ratings for
+
+delirium severity were compared, and initial agreement was considered achieved according to
+
+the pre-specified threshold of 5 out of 7 clinical assessors agreeing on the presence or absence
+
+of delirium, and no more than a 2-point range of disagreement among delirium severity scores
+
+(scored on a 0-10 point scale). Following initial ratings, 13 cases achieved agreement, and 33
+
+cases without consensus were discussed in consensus meetings. These meetings were
+
+conducted in 11 sessions over 7 months, discussing 2-9 cases at each. See Supplemental
+
+Figure 2 for assessment details and clinical assessor consensus process.
+
+
+                                                 7
+
+===== PAGE 8 =====
+Statistical Analysis
+
+       The analytic plan was pre-specified and implemented independently of the clinical
+
+assessors. We used a multi-method approach to evaluate inter-rater reliability of the clinical
+
+assessor delirium severity ratings.
+
+       We evaluated inter-rater reliability for delirium severity scores (0-10 scale) using all
+
+possible paired combinations of the 7 clinical assessors (n = 954 unique pairs). We examined
+
+both Pearson correlation coefficients and weighted kappa coefficients (with quadratic weights)
+
+to summarize the agreement among pairs and confirmed that both approaches yielded identical
+
+results. We report these statistics as weighted kappa coefficients. These agreement statistics
+
+were calculated before and after the structured consensus discussion to assess its effect on
+
+reliability. For the binary classification of delirium (present/absent), we also calculated kappa (κ)
+
+before and after consensus to assess diagnostic agreement. To address whether reliability
+
+differed by the presence of dementia, we repeated weighted κ and percent agreement analyses
+
+stratified by dementia status (present vs. absent, per gold-standard adjudication). We also
+
+computed mean absolute differences between paired rater scores as a complementary
+
+continuous index of disagreement on the 0-10 severity scale.
+
+       We used Bland-Altman analysis20 to examine agreement between rater pairs across the
+
+full range of severity (0-10). For each plot, we regressed the difference in scores (Rater A –
+
+Rater B) on the pairwise mean score to test whether disagreement varied by severity level. A
+
+slope that is approximately 0 indicates no systematic bias in agreement across the severity
+
+spectrum. To reduce potential sampling bias and improve representativeness, we applied
+
+analytic weights using entropy balancing21 to more closely match the subsample distribution to
+
+the full BASIL II sample on site and delirium severity rating.
+
+       All analyses were conducted using R (version 4.3.2).
+
+
+                                                  8
+
+===== PAGE 9 =====
+RESULTS
+
+       For the 954 paired ratings, delirium severity scores ranged from 0-9 (M = 2.4, SD = 2.6),
+
+representing a wide range of clinical severity. Characteristics of the 46 cases comprising the
+
+reliability sample appear in Supplemental Table 1.
+
+       Figure 1 illustrates the high inter-rater agreement in delirium severity rating prior to and
+
+following the consensus process. The weighted kappa was κ=0.84 (95% confidence interval, CI
+
+0.82, 0.86) indicating strong consistency across assessors. Following the consensus meeting,
+
+the weighted kappa increased to κ=0.93 (95% CI 0.92, 0.94). Table 1 shows a crosstab of
+
+paired delirium presence (clinical assessor diagnosis) before (κ=0.77, 95% CI 0.73, 0.81) and
+
+after consensus (κ=0.81, 95% CI 0.77, 0.85), both indicating excellent agreement.22
+
+       Reliability was also examined separately for patients with and without dementia
+
+(Supplemental Table 2). Inter-rater agreement was high and comparable across both strata.
+
+The weighted kappa was κ=0.85 (95% CI 0.82, 0.88) in cases without dementia and κ= 0.84
+
+(95% CI 0.81, 0.86) in cases with dementia prior to consensus, improving to κ=0.94 and κ=0.93
+
+after consensus. Percent agreement reached 100 in both strata following consensus. Mean
+
+absolute differences between paired rater scores were higher in dementia cases (1.20 pre, 0.77
+
+post) than non-dementia cases (0.84 pre, 0.52 post) but remained within the prespecified 2-
+
+point rater agreement window.
+
+       To evaluate whether rating discrepancies varied as a function of delirium severity, Bland-
+
+Altman analysis was conducted. There was no significant association between the mean
+
+severity score and absolute disagreement across rater pairs before (linear regression
+
+coefficient, b=0.03, 95% CI -0.13, 0.20) and after consensus (b=-0.01, 95% CI -0.13, 0.12)
+
+suggesting that disagreement was not systematically greater at lower or higher ends of the
+
+severity spectrum (Figure 2).
+
+
+                                                 9
+
+===== PAGE 10 =====
+CONCLUSION
+
+       This reliability study embedded in the larger BASIL II cohort shows that trained clinical
+
+assessors can follow standardized protocols to produce highly reliable delirium severity ratings
+
+across diverse care settings. Inter-rater agreement was strong prior to consensus discussion
+
+and improved further after the structured consensus process. Importantly, agreement did not
+
+vary across levels of delirium severity, supporting the consistency of this approach across the
+
+full clinical spectrum. Agreement was also similarly high in cases with and without dementia,
+
+supporting reliability of this approach in the population for whom delirium severity measurement
+
+is most clinically needed and most challenging.
+
+       While expert panel adjudication is considered the reference standard for delirium
+
+diagnosis, it may not be feasible for large-scale studies, or those operating under resource
+
+constraints. The BASIL II study is one of few studies to detail the expert panel adjudication
+
+process.23 To enable rigorous validation of delirium diagnosis and the development of delirium
+
+severity assessment tools, the study team employed a standardized approach to the initial
+
+clinical assessment using a fixed protocol of measures administered by assessors with study-
+
+specific training and weekly meetings across study-sites to discuss ratings. There is limited
+
+evidence on the inter-rater reliability of structured clinical assessments of delirium conducted by
+
+trained clinical assessors who vary in experience and qualifications.9 Our findings extend
+
+previous work by demonstrating the reliability of delirium severity ratings when assessors are
+
+trained and supported with standardized protocols, even in the absence of a consensus
+
+process.
+
+       The strength of this study is the use of structured summaries – including cognitive
+
+testing (e.g., MoCA, SIB-8), standardized delirium assessments (e.g., CAM, CAM-S), informant
+
+interviews – which allowed assessors to rate cases using uniform, high-quality data, and the
+
+availability of expert reference standard diagnoses. This design minimized contextual bias and
+
+
+                                                10
+
+===== PAGE 11 =====
+may extrapolate to real-world scenarios in which site-based clinicians evaluate delirium based
+
+on available assessment tools.
+
+          A few limitations should be noted. First, the reliability study was conducted on
+
+standardized summaries, which were condensed in-person assessments. A bedside clinical
+
+impression was incorporated into the standardized materials for review but remained constant
+
+across each rater. While this approach minimizes contextual biases, it may not fully reflect
+
+clinical variation that may be appreciated at the bedside.24 Second, this relatively small reliability
+
+sample (n=46 cases) is sufficient for inter-rater reliability estimation but not well-suited for
+
+comparisons across study sites. For site and other levels of analysis, see Boockvar et al.’s
+
+report of expert panel ratings using the full BASILII cohort. Third, assessors were part of a
+
+research team with dedicated training and time, limiting generalizability to routine clinical care.
+
+However, the high reliability achieved across independent raters from multiple disciplines
+
+highlights the feasibility of this approach for research studies requiring graded measurement of
+
+delirium severity.
+
+    In conclusion, clinical assessors trained with standardized protocols demonstrated strong
+
+inter-rater reliability of delirium severity ratings across varied settings and clinical profiles. These
+
+findings support the use of structured clinical assessments to generate reproducible data in
+
+geriatric care research and highlight the utility of rater training in multicenter studies. Delirium
+
+severity is increasingly recognized as a robust predictor of clinical outcomes. Future work using
+
+highly reliable, graded measurement of delirium has the potential to capture valuable symptom
+
+information and positively impact clinical monitoring, pathophysiologic studies, and treatment
+
+trials.
+
+
+                                                  11
+
+===== PAGE 12 =====
+Authorship Statement: We affirm that all the co-authors listed contributed significantly to the
+   preparation of this manuscript and approve this final version to be published. We thank the
+   BASIL II study group for their contributions to this work.
+
+Author Contributions: Drs. MacKay-Brandt, Hshieh, Boockvar, Marcantonio, Price, Tommet, and
+   Fong contributed to analysis and interpretation of data and preparation of manuscript. Drs.
+   Jones and Inouye contributed to study concept and design, acquisition of participants and/or
+   data, analysis and interpretation of data, and preparation of manuscript.
+
+
+                                        BASIL II Study Group
+       [Presented in alphabetical order; individuals listed may be part of multiple groups]
+Principal Investigators (Multi-PIs): Sharon K. Inouye, MD, MPH (Multiple PI, HSL, BIDMC,
+   HMS); Richard N. Jones, ScD (Multiple PI, Brown University)
+Co-Investigators: Kenneth S. Boockvar, MD, MS (TNJH, UA, BVA); Tamara Fong, MD, PhD
+   (HSL, BIDMC, HMS); Wingyun Mak, PhD (TNJH, ISM); Edward R. Marcantonio, MD, SM
+   (BIDMC, HMS); Catherine C. Price, PhD, ABPP-CN (UF); Eva M. Schmitt, PhD (HSL)
+Gold Standard Panel: Kenneth S. Boockvar, MD, MS (TNJH, UA, BVA); Tamara Fong, MD,
+   PhD (HSL, BIDMC, HMS); Edward R. Marcantonio, MD, SM (BIDMC, HMS); Eran Metzger,
+   MD (HSL, BIDMC, HMS); Catherine Price, PhD, ABPP-CN (UF)
+Clinical Assessors: Rebecca Avila-Rieger, PhD (TNJH); Juliana Burt, MS (UF); Benjamin
+   Chapin, MD (UF); Rejoice Dhliwayo, BS (BIDMC); Kristin Hamlet, PhD (UF); Yael Koren,
+   PhD, RN (BIDMC, HSL); Anna MacKay-Brandt, PhD (TNJH, NKI); Wingyun Mak, PhD
+   (TNJH, ISM); Mariam Mufti, MD (UF); Kerry Palihnich, BA (BIDMC); Estefania Perera, BA
+   (UF); Catherine Price, PhD, ABPP-CN (UF)
+Research Associates and Study Coordinators: Amina Atef Abdelalim (BIDMC); Sabaina Ahmed
+   (UF); Liliane Fanburg (BIDMC); Erin Formanski (UF); Cole Heine (HSL); Margret Howard
+   (TNJH); Faith Kimmet (UF); Julianna Liu (HSL); Gina Michael (BIDMC); Kathryn Pendleton
+   (UF): Abena Prempeh (TNJH); Emily Quig (HSL); Louis Shaevel (BIDMC); Meghan
+   Shanahan (HSL); Hannah Shanes (HSL); Mackenzie Topper (HSL); Peter Wang (BIDMC);
+   Michelle Ward (BIDMC)
+Data Management and Statistical Analysis Team: Douglas Tommet, MPH (Brown University);
+   Thomas Travison, PhD (HSL, HMS); Guoquan Xu, MD, PhD (HSL)
+
+
+Abbreviations: BIDMC, Beth Israel Deaconess Medical Center; BVA, Birmingham VA Health
+Care System, Birmingham, Alabama; BWH, Brigham and Women’s Hospital; FOI, Florida
+
+
+                                                12
+
+===== PAGE 13 =====
+Orthopedic Institute; HMS, Harvard Medical School; HSL, Hebrew SeniorLife; ISM, Icahn
+School of Medicine at Mount Sinai; NKI, Nathan Kline Institute for Psychiatric Research,
+Orangeburg, NY; PI, principal investigator; TNJH, The New Jewish Home; UA, University of
+Alabama, Birmingham, Alabama; UF, University of Florida; USF, University of South Florida
+
+
+                                              13
+
+===== PAGE 14 =====
+Data Sharing Statement: The data that support the findings of this study are available on
+   request from the corresponding author. The data are not publicly available due to privacy or
+   ethical restrictions.
+Conflict of Interest: The authors report no conflicts with any product mentioned or concept
+   discussed in this article.
+
+
+                                               14
+
+===== PAGE 15 =====
+References
+
+1. Fong TG, Jones RN, Shi P, et al. Delirium accelerates cognitive decline in Alzheimer disease.
+Neurology. 2009;72(18):1570-1575. doi:10.1212/WNL.0b013e3181a4129a
+
+2. Inouye SK, Westendorp RG, Saczynski JS. Delirium in elderly people. Lancet.
+2014;383(9920):911-922. doi:10.1016/S0140-6736(13)60688-1
+
+3. LaHue SC, Douglas VC, Miller BL. The one-two punch of delirium and dementia during the
+COVID-19 pandemic and beyond. Front Neurol. 2020;11:596218.
+doi:10.3389/fneur.2020.596218
+4. Fong TG, Davis D, Growdon ME, Albuquerque A, Inouye SK. The interface between delirium
+and dementia in elderly adults. Lancet Neurol. 2015;14(8):823-832. doi:10.1016/S1474-
+4422(15)00101-5
+5. Vasunilashorn SM, Fong TG, Helfand BKI, et al. Psychometric properties of a delirium
+severity score for older adults and association with hospital and posthospital outcomes. JAMA
+Netw Open. 2022;5(3):e226129. doi:10.1001/jamanetworkopen.2022.6129
+
+6. Vasunilashorn SM, Marcantonio ER, Gou Y, et al. Quantifying the severity of a delirium
+episode throughout hospitalization: the combined importance of intensity and duration. J Gen
+Intern Med. 2016;31(10):1164-1171. doi:10.1007/s11606-016-3671-9
+7. Jones RN, Cizginer S, Pavlech L, et al. Assessment of instruments for measurement of
+delirium severity: a systematic review. JAMA Intern Med. 2019;179(2):231-239.
+doi:10.1001/jamainternmed.2018.6975
+8. Devlin JW, Sieber F, Akeju O, et al. Advancing delirium treatment trials in older adults:
+recommendations for future trials from the Network for Investigation of Delirium: Unifying
+Scientists (NIDUS). Crit Care Med. 2025;53(1):e15-e28. doi:10.1097/CCM.0000000000006514
+
+9. Hshieh TT, Chapin BA, Mak W, et al. Better Assessment of Illness study (BASIL) II for
+delirium severity: study design, variables, and methods. J Geriatr Psychiatry Neurol.
+2026;39(1):79-89. doi:10.1177/08919887251343604
+10. Inouye SK, van Dyck CH, Alessi CA, Balkin S, Siegal AP, Horwitz RI. Clarifying confusion:
+the confusion assessment method. A new method for detection of delirium. Ann Intern Med.
+1990;113(12):941-948.
+11. Nasreddine ZS, Phillips NA, Bedirian V, et al. The Montreal Cognitive Assessment, MoCA: a
+brief screening tool for mild cognitive impairment. J Am Geriatr Soc. 2005;53(4):695-699.
+doi:10.1111/j.1532-5415.2005.53221.x
+12. Boockvar KS, Marcantonio ER, Price CC, et al. Gold standard assessment of delirium
+severity in patients with dementia: evaluation of an expert panel adjudication process. J
+Alzheimers Dis. 2026;110(3):1204-1213. doi:10.1177/13872877261422418.
+13. McHugh ML. Interrater reliability: the kappa statistic. Biochem Med (Zagreb).
+2012;22(3):276-282. doi:10.11613/BM.2012.031
+
+14. Tractenberg RE, Yumoto F, Jin S, Morris JC. Sample size requirements for training to a
+kappa agreement criterion on clinical dementia ratings. Alzheimer Dis Assoc Disord.
+2010;24(3):264-268. doi:10.1097/WAD.0b013e3181d489c6
+
+
+                                               15
+
+===== PAGE 16 =====
+15. Schmitt FA, Saxton J, Ferris SH, Mackell J, Sun Y. Evaluation of an 8-item Severe
+Impairment Battery (SIB-8) vs the full SIB in moderate to severe Alzheimer's disease patients
+participating in a donepezil study. Int J Clin Pract. 2013;67(10):1050-1056.
+doi:10.1111/ijcp.12188
+16. Inouye SK, Kosar CM, Tommet D, et al. The CAM-S: development and validation of a new
+scoring system for delirium severity in 2 cohorts. Ann Intern Med. 2014;160(8):526-533.
+doi:10.7326/M13-1927
+17. Steis MR, Evans L, Hirschman KB, et al. Screening for delirium using family caregivers:
+convergent validity of the Family Confusion Assessment Method and interviewer-rated
+Confusion Assessment Method. J Am Geriatr Soc. 2012;60(11):2121-2126. doi:10.1111/j.1532-
+5415.2012.04200.x
+18. Galvin JE, Roe CM, Powlishta KK, et al. The AD8: a brief informant interview to detect
+dementia. Neurology. 2005;65(4):559-564. doi:10.1212/01.wnl.0000172958.95282.2a
+
+19. Clark CM, Ewbank DC. Performance of the Dementia Severity Rating Scale: a caregiver
+questionnaire for rating severity in Alzheimer disease. Alzheimer Dis Assoc Disord.
+1996;10(1):31-39.
+20. Bland JM, Altman DG. Measuring agreement in method comparison studies. Stat Methods
+Med Res. 1999;8(2):135-160. doi:10.1177/096228029900800204
+21. Hainmueller J. Entropy balancing for causal effects: a multivariate reweighting method to
+produce balanced samples in observational studies. Polit Anal. 2012;20(1):25-46.
+doi:10.1093/pan/mpr025
+22. Fleiss JL, Levin B, Paik MC. The measurement of interrater agreement. In: Statistical
+Methods for Rates and Proportions. 3rd ed. John Wiley & Sons; 2003:598-626.
+23. Oh ES, Rosenberg PB, Wang NY, Sieber FE, Neufeld KJ. Delirium detection
+methodologies: implications for outcome measurement in clinical trials in postoperative delirium.
+Int J Geriatr Psychiatry. 2022;37(3). doi:10.1002/gps.5695
+24. Fick DM, Hodo DM, Lawrence F, Inouye SK. Recognizing delirium superimposed on
+dementia: assessing nurses' knowledge using case vignettes. J Gerontol Nurs. 2007;33(2):40-
+47; quiz 48-49. doi:10.3928/00989134-20070201-09
+
+
+                                               16
+
+===== PAGE 17 =====
+FIGURE CAPTIONS
+
+Figure 1. Agreement of delirium severity rating before (left panel) and after (right panel)
+consensus. Scatterplot of delirium severity rating agreement between rater A (horizontal axis)
+and rater B (vertical axis), shown before (left) and after (right) consensus process. Axis tick
+labels indicate delirium severity (0-10) and the number of ratings is noted in parentheses. The
+weighted kappa (κ) between rater A and rater B delirium severity ratings (0-10) prior to the
+consensus process was 0.84 (95% CI: 0.82, 0.86). After the consensus process, the κ was 0.93
+(95% CI 0.92, 0.94).
+
+Figure 2. Bland Altman plot of variability in agreement as a function of delirium severity
+before (left panel), and after (right panel) consensus process. Differences in agreement (y-
+axis) are shown as a function of average severity ratings, comparing pairs of raters, before (left)
+and after (right) consensus process The linear trend lines show systematic differences in
+agreement. Regression coefficients are not importantly different from 0 in both panels b (95%
+confidence interval) = 0.03 (-0.13, 0.20) before and b = -0.01(-0.13, 0.12) after consensus
+process. This suggests there were no systematic differences in level of agreement across the
+spectrum of delirium severity.
+
+
+                                                17
+
+===== PAGE 18 =====
+Figure 1. Agreement of delirium severity rating before (left panel) and after (right
+panel) consensus. Scatterplot of delirium severity rating agreement between rater A
+(horizontal axis) and rater B (vertical axis), shown before (left) and after (right)
+consensus process. Axis tick labels indicate delirium severity (0-10) and the number of
+ratings is noted in parentheses. The weighted kappa (κ) between rater A and rater B
+delirium severity ratings (0-10) prior to the consensus process was 0.84 (95% CI: 0.82,
+0.86). After the consensus process, the κ was 0.93 (95% CI 0.92, 0.94).
+
+
+                                           18
+
+===== PAGE 19 =====
+Figure 2. Bland Altman plot of variability in agreement as a function of delirium
+severity before (left panel), and after (right panel) consensus process. Differences
+in agreement (y-axis) are shown as a function of average severity ratings, comparing
+pairs of raters, before (left) and after (right) consensus process The linear trend lines
+show systematic differences in agreement. Regression coefficients are not importantly
+different from 0 in both panels b (95% confidence interval) = 0.03 (-0.13, 0.20) before
+and b = -0.01(-0.13, 0.12) after consensus process. This suggests there were no
+systematic differences in level of agreement across the spectrum of delirium severity.
+
+
+                                           19
+
+===== PAGE 20 =====
+Table 1. Cross-tab of paired ratings of delirium presence
+           Initial
+                                          Rater A
+                                    No              Yes            Total
+                          No        587             45             633
+        Rater B
+                        Yes         61              260             321
+                       Total        648             305             954
+               Percent Agreement = 848/954 (88.9%)
+             Percent Disagreement = 106/954 (11.1%)
+                 Kappa (95% CI) = 0.77 (0.73, 0.81)
+
+   After Consensus
+                                         Rater A
+                                    No              Yes            Total
+                          No        582                37           619
+        Rater B
+                        Yes         52              283             335
+                     TOTAL          634             320             954
+               Percent Agreement = 865/954 (90.7%)
+              Percent Disagreement = 89/954 (9.3%)
+                 Kappa (95% CI) = 0.81 (0.77, 0.85)
+Notes: CI, confidence interval. Data are weighted and cell totals are sums of
+weights, and may not add to shown marginals due to rounding.
+
+
+                                                   1
+
+===== PAGE 21 =====
+SUPPLEMENTAL INFORMATION LEGENDS
+
+Supplemental Table 1. Descriptive Statistics
+
+Supplemental Table 2. Agreement statistics by dementia status
+
+Supplemental Figure 1. Derivation of 954 Paired Ratings for Inter-Rater Reliability
+Analysis. The BASIL II study enrolled n=488 participants into the full cohort. From the full
+cohort, a sample of n=46 participants were selected to create a reliability sample. Cases were
+selected sequentially to ensure representation of both delirium positive and negative cases
+across all study sites, with an intended sample size of 25-50 to assure statistical stability.
+ Seven clinical assessors rated delirium severity in each of the participants in the reliability
+sample. For the analysis, this resulted in 21 unique rater pairs [(7 assessors x 6 pairs)/2], with a
+total number of possible pairs 21 rater pairs x 46 participants = 966 paired ratings. Because
+one assessor had missing ratings for two participants, there was a total of 12 missing paired
+ratings. Thus, the analysis sample was 954 paired ratings.
+
+Supplemental Figure 2. Flow Diagram of Clinical Assessor Process. AD8 = 8-item
+Informant Interview to Differentiate Aging and Dementia; ADLs = Activities of Daily Living; CAM
+= Confusion Assessment Method; CAM-S = Confusion Assessment Method – Severity Scale;
+DSI = Abbreviated Delirium Symptom Interview; DSRS = Dementia Severity Rating Scale; FAM-
+CAM = Family Confusion Assessment Method; IADLs = Instrumental Activities of Daily Living;
+MoCA = Montreal Cognitive Assessment; PHQ-9 = 9-item Patient Health Questionnaire; SIB-8 =
+8-item Severe Impairment Battery.
+
+
+                                                 1
+
+===== PAGE 22 =====
+    Supplemental Table 1. Descriptive Statistics
+
+                                                Overall          BIDMC          UF          TNJH
+                                                 N=46             N=10         N=14         N=22
+
+
+    Age, mean years (SD)                        80 (6.2)         80 (7.2)    74 (3.9)      81(6.7)
+    Female, n (%)                               27 (59)           6 (60)      7 (50)       14 (64)
+    Race and ethnicity, n (%)                   15 (33)           2 (20)      1 (7.1)      12 (55)
+            White, n (%)                        31 (67)           8 (80)      13 (93)      10 (45)
+            Black or African-American, n
+                                                 13(28)           2(20)       1 (7.1)      10(45)
+            (%)
+            Asian, n (%)                          0 (0)            0 (0)       0 (0)        0 (0)
+            Hispanic, n (%)                       0 (0)            0 (0)       0 (0)        0 (0)
+            Not reported, n (%)                  2 (4.3)           0 (0)       0 (0)       2 (9.1)
+    Education, mean years (SD)                 14.3 (3.2)       14.5 (2.7)   14.7 (2.6)   14.0 (3.7)
+    English as a second language, n (%)          1 (2.2)           0 (0)       0 (0)       1 (4.5)
+    Married, n (%)                              15 (33)           2 (20)      10 (71)      3 (14)
+    Lives alone, n (%)                           9 (20)           5 (50)      4 (29)        0 (0)
+    Lives in nursing home, n (%)                22 (48)            0 (0)       0 (0)      22 (100)
+    Charlson score (0-7), mean (SD)
+                         0, n (%)               11 (24)           2 (20)      4 (31)       5 (23)
+                         1, n (%)                3 (6.7)          1 (10)      2 (15)        0 (0)
+                         2, n (%)             31 (45.9)          7 (70)      7 (60)      17 (78.1)
+    Hearing impairment, n (%)                   14 (30)           2 (20)      4 (29)       8 (36)
+    Vision impairment, n (%)                    16 (39)           2 (20)      3 (21)       11 (65)
+    Dementia, n (%)                             27 (59)           3 (30)      3 (21)       21 (95)
+    Mild Cognitive Impairment, n (%)             9 (20)           5 (50)      3 (21)       1 (4.5)
+    Delirium, n (%)                              21(46)           6 (60)      6 (43)       9 (41)
+    Delirium Severity (0-10), mean (SD)         2.4 (2.6)        2.7 (2.3)   2.0 (2.6)    2.5 (2.9)
+
+
+Missing data: Education, n=1; Charlson score, n=2; Vision impairment, n=5.
+
+
+                                                           2
+
+===== PAGE 23 =====
+Supplemental Table 2. Agreement statistics by dementia status
+
+                                                                                    Mean          Mean
+                                                        Percent      Percent    absolute      absolute
+                               Kappa    Kappa        agreement    agreement    difference    difference
+Status             N N pairs    (Pre)   (Post)            (Pre)       (Post)         (Pre)        (Post)
+
+
+                                 0.85     0.94
+  No
+              19       393     (0.82,   (0.93,             90         100          0.84          0.52
+  dementia
+                                0.88)    0.95)
+
+
+                                 0.84     0.93
+  Dementia    27       561     (0.81,   (0.92,             87         100          1.20          0.77
+                                0.86)    0.94)
+
+
+                                 0.84     0.93
+  Overall     46       954     (0.82,   (0.92,             88         100          1.05          0.67
+                                0.86)    0.94)
+
+
+                                                 3
+
+===== PAGE 24 =====
+Supplemental Figure 1. Derivation of 954 Paired Ratings for Inter-Rater Reliability
+Analysis. The BASIL II study enrolled n=488 participants into the full cohort. From the full
+cohort, a sample of n=46 participants were selected to create a reliability sample. Cases were
+selected sequentially to ensure representation of both delirium positive and negative cases
+across all study sites, with an intended sample size of 25-50 to assure statistical stability.
+ Seven clinical assessors rated delirium severity in each of the participants in the reliability
+sample. For the analysis, this resulted in 21 unique rater pairs [(7 assessors x 6 pairs)/2], with a
+total number of possible pairs 21 rater pairs x 46 participants = 966 paired ratings. Because
+one assessor had missing ratings for two participants, there was a total of 12 missing paired
+ratings. Thus, the analysis sample was 954 paired ratings.
+
+
+                                                 4
+
+===== PAGE 25 =====
+  Data Available to Clinical Assessor:
+  Demographics
+     Age
+     Gender
+     Education
+     English as first language
+     Vision Impairment
+     Hearing Impairment
+  Baseline Instruments
+     MoCA
+     SIB-8 (Site 3)
+     DSI
+                                                        Independent Review
+     CAM
+     CAM-S
+  Acute Instruments
+     MoCA
+     CAM
+     CAM-S                                                   Inter-rater
+  Functional Measures (self-report)                         Agreement?
+     ADLs                                                                                    Consensus
+                                                                                      yes
+     IADLs
+     Estimated DSRS
+                                                                    no                            (5 of 7)
+     PHQ-9
+  Proxy Measures                                         Group Discussion
+     FAM-CAM
+     AD8
+  Open Chart Review – including
+     history of delirium, dementia, or
+     depression; newly started on
+     antipsychotic
+  Nurse Interview – acute change;
+     newly started antipsychotic or
+     behavioral management
+
+
+Supplemental Figure 2. Flow Diagram of Clinical Assessor Process. AD8 = 8-item
+Informant Interview to Differentiate Aging and Dementia; ADLs = Activities of Daily Living; CAM
+= Confusion Assessment Method; CAM-S = Confusion Assessment Method – Severity Scale;
+DSI = Abbreviated Delirium Symptom Interview; DSRS = Dementia Severity Rating Scale; FAM-
+CAM = Family Confusion Assessment Method; IADLs = Instrumental Activities of Daily Living;
+MoCA = Montreal Cognitive Assessment; PHQ-9 = 9-item Patient Health Questionnaire; SIB-8 =
+8-item Severe Impairment Battery.
+
+
+                                              5
+

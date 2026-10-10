@@ -1,0 +1,19 @@
+{
+  "input_pdf": "/Users/rnj/DWork/GitHub/BASIL-II-RS/REFERENCES/BASIL_CA_combined.pdf",
+  "pages": 25,
+  "decision": "direct",
+  "reason": "sufficient_text_layer",
+  "has_fonts": true,
+  "font_lines": 18,
+  "sampled_pages": 20,
+  "thin_pages_in_sample": 1,
+  "thin_fraction": 0.05,
+  "min_chars_per_page": 200,
+  "thin_fraction_threshold": 0.35,
+  "source_pdf_used_for_extraction": "/Users/rnj/DWork/GitHub/BASIL-II-RS/REFERENCES/BASIL_CA_combined.pdf",
+  "outputs": {
+    "txt": "/Users/rnj/DWork/GitHub/BASIL-II-RS/REFERENCES/llm_out/BASIL_CA_combined.txt",
+    "md": "/Users/rnj/DWork/GitHub/BASIL-II-RS/REFERENCES/llm_out/BASIL_CA_combined.md",
+    "jsonl": "/Users/rnj/DWork/GitHub/BASIL-II-RS/REFERENCES/llm_out/BASIL_CA_combined.jsonl"
+  }
+}
